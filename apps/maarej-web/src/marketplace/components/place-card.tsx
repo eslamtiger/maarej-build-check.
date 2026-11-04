@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import {useState} from 'react';
 import {Building2,DoorOpen,Star,MapPin,UsersRound,LayoutGrid,ArrowLeft} from 'lucide-react';

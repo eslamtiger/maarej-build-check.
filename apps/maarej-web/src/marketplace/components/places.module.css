@@ -139,7 +139,7 @@
  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
  .stickyBar{inset-inline:auto;inset-inline-end:24px;bottom:24px;border:1px solid var(--m-neutral-200);border-radius:var(--m-radius-lg);padding:10px 12px 10px 18px;gap:20px}
 }
-@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
 
 /* ---------- Photo covers and photo-led cards ---------- */
 .coverPhoto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.22);transform-origin:center 55%}
