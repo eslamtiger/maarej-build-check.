@@ -1,0 +1,1019 @@
+[
+  {
+    "id": 1,
+    "name": "أ. سارة أحمد",
+    "subject": "اللغة العربية",
+    "subjectKey": "العربية",
+    "subjects": [
+      "اللغة العربية",
+      "الدراسات الاجتماعية"
+    ],
+    "subjectKeys": [
+      "العربية",
+      "الدراسات"
+    ],
+    "area": "المعادي",
+    "teachingAreas": [
+      "المعادي",
+      "حلوان"
+    ],
+    "system": "مصري",
+    "systems": [
+      "مصري",
+      "لغات"
+    ],
+    "stage": [
+      "ابتدائي",
+      "إعدادي"
+    ],
+    "rating": 4.3,
+    "reviews": 45,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 150
+      },
+      {
+        "label": "حصة فردية",
+        "price": 290
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 2,
+    "name": "أ. آية سمير",
+    "subject": "الرياضيات",
+    "subjectKey": "الرياضيات",
+    "subjects": [
+      "الرياضيات",
+      "العلوم"
+    ],
+    "subjectKeys": [
+      "الرياضيات",
+      "العلوم"
+    ],
+    "area": "مصر الجديدة",
+    "teachingAreas": [
+      "مصر الجديدة",
+      "مدينة نصر",
+      "القاهرة الجديدة"
+    ],
+    "system": "لغات",
+    "systems": [
+      "لغات",
+      "دولي"
+    ],
+    "stage": [
+      "ابتدائي",
+      "إعدادي"
+    ],
+    "rating": 4.4,
+    "reviews": 52,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 120
+      },
+      {
+        "label": "حصة فردية",
+        "price": 250
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-960acc679022.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 3,
+    "name": "أ. هيثم عز الدين",
+    "subject": "العلوم",
+    "subjectKey": "العلوم",
+    "subjects": [
+      "العلوم",
+      "الأحياء"
+    ],
+    "subjectKeys": [
+      "العلوم",
+      "الأحياء"
+    ],
+    "area": "القاهرة الجديدة",
+    "teachingAreas": [
+      "القاهرة الجديدة",
+      "التجمع الخامس"
+    ],
+    "system": "دولي",
+    "systems": [
+      "دولي",
+      "لغات"
+    ],
+    "stage": [
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.5,
+    "reviews": 59,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 90
+      },
+      {
+        "label": "حصة فردية",
+        "price": 210
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-0a677014e493.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 4,
+    "name": "أ. عمر الشاذلي",
+    "subject": "الكيمياء",
+    "subjectKey": "الكيمياء",
+    "subjects": [
+      "الكيمياء",
+      "العلوم"
+    ],
+    "subjectKeys": [
+      "الكيمياء",
+      "العلوم"
+    ],
+    "area": "الرحاب",
+    "teachingAreas": [
+      "الرحاب",
+      "القاهرة الجديدة"
+    ],
+    "system": "مصري",
+    "systems": [
+      "مصري",
+      "دولي"
+    ],
+    "stage": [
+      "ثانوي"
+    ],
+    "rating": 4.6,
+    "reviews": 66,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 160
+      },
+      {
+        "label": "حصة فردية",
+        "price": 270
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-7b50eb7c2b0c.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 5,
+    "name": "أ. ريم خالد",
+    "subject": "اللغة الإنجليزية",
+    "subjectKey": "الإنجليزية",
+    "subjects": [
+      "اللغة الإنجليزية",
+      "اللغة العربية"
+    ],
+    "subjectKeys": [
+      "الإنجليزية",
+      "العربية"
+    ],
+    "area": "الدقي",
+    "teachingAreas": [
+      "الدقي",
+      "المهندسين",
+      "الجيزة"
+    ],
+    "system": "لغات",
+    "systems": [
+      "لغات",
+      "دولي"
+    ],
+    "stage": [
+      "ابتدائي",
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.7,
+    "reviews": 73,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 130
+      },
+      {
+        "label": "حصة فردية",
+        "price": 230
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-06433e13a42a.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 6,
+    "name": "أ. محمود علي",
+    "subject": "الفيزياء",
+    "subjectKey": "الفيزياء",
+    "subjects": [
+      "الفيزياء",
+      "الرياضيات"
+    ],
+    "subjectKeys": [
+      "الفيزياء",
+      "الرياضيات"
+    ],
+    "area": "الشيخ زايد",
+    "teachingAreas": [
+      "الشيخ زايد",
+      "6 أكتوبر"
+    ],
+    "system": "دولي",
+    "systems": [
+      "دولي",
+      "لغات"
+    ],
+    "stage": [
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.8,
+    "reviews": 80,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 100
+      },
+      {
+        "label": "حصة فردية",
+        "price": 190
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-612c5f5dde61.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 7,
+    "name": "أ. كريم سامي",
+    "subject": "الدراسات الاجتماعية",
+    "subjectKey": "الدراسات",
+    "subjects": [
+      "الدراسات الاجتماعية",
+      "اللغة العربية"
+    ],
+    "subjectKeys": [
+      "الدراسات",
+      "العربية"
+    ],
+    "area": "الهرم",
+    "teachingAreas": [
+      "الهرم",
+      "فيصل"
+    ],
+    "system": "مصري",
+    "systems": [
+      "مصري"
+    ],
+    "stage": [
+      "ابتدائي",
+      "إعدادي"
+    ],
+    "rating": 4.9,
+    "reviews": 87,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 170
+      },
+      {
+        "label": "حصة فردية",
+        "price": 250
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 8,
+    "name": "أ. أحمد حسن",
+    "subject": "الأحياء",
+    "subjectKey": "الأحياء",
+    "subjects": [
+      "الأحياء",
+      "الكيمياء"
+    ],
+    "subjectKeys": [
+      "الأحياء",
+      "الكيمياء"
+    ],
+    "area": "الجيزة",
+    "teachingAreas": [
+      "الجيزة",
+      "الدقي"
+    ],
+    "system": "لغات",
+    "systems": [
+      "لغات",
+      "دولي"
+    ],
+    "stage": [
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.2,
+    "reviews": 94,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 140
+      },
+      {
+        "label": "حصة فردية",
+        "price": 210
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-d1168ff737e2.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 9,
+    "name": "أ. محمد محمود",
+    "subject": "اللغة العربية",
+    "subjectKey": "العربية",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "مدينة نصر",
+    "teachingAreas": null,
+    "system": "دولي",
+    "systems": null,
+    "stage": [
+      "ثانوي"
+    ],
+    "rating": 4.3,
+    "reviews": 101,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 110
+      },
+      {
+        "label": "حصة فردية",
+        "price": 250
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-20c491e61308.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 10,
+    "name": "أ. منى عبد الرحمن",
+    "subject": "الرياضيات",
+    "subjectKey": "الرياضيات",
+    "subjects": [
+      "الرياضيات",
+      "العلوم"
+    ],
+    "subjectKeys": [
+      "الرياضيات",
+      "العلوم"
+    ],
+    "area": "حلوان",
+    "teachingAreas": [
+      "حلوان",
+      "المعادي"
+    ],
+    "system": "مصري",
+    "systems": [
+      "مصري",
+      "لغات"
+    ],
+    "stage": [
+      "ابتدائي",
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.4,
+    "reviews": 108,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 80
+      },
+      {
+        "label": "حصة فردية",
+        "price": 210
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-ba7809d274a9.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 11,
+    "name": "أ. يوسف شريف",
+    "subject": "العلوم",
+    "subjectKey": "العلوم",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "التجمع الخامس",
+    "teachingAreas": null,
+    "system": "لغات",
+    "systems": null,
+    "stage": [
+      "ابتدائي"
+    ],
+    "rating": 4.5,
+    "reviews": 115,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 150
+      },
+      {
+        "label": "حصة فردية",
+        "price": 270
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 12,
+    "name": "أ. ندى مصطفى",
+    "subject": "الكيمياء",
+    "subjectKey": "الكيمياء",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "شبرا",
+    "teachingAreas": null,
+    "system": "دولي",
+    "systems": null,
+    "stage": [
+      "ابتدائي",
+      "إعدادي"
+    ],
+    "rating": 4.6,
+    "reviews": 122,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 120
+      },
+      {
+        "label": "حصة فردية",
+        "price": 230
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 13,
+    "name": "أ. شريف عادل",
+    "subject": "اللغة الإنجليزية",
+    "subjectKey": "الإنجليزية",
+    "subjects": [
+      "اللغة الإنجليزية",
+      "الدراسات الاجتماعية"
+    ],
+    "subjectKeys": [
+      "الإنجليزية",
+      "الدراسات"
+    ],
+    "area": "المهندسين",
+    "teachingAreas": [
+      "المهندسين",
+      "الدقي"
+    ],
+    "system": "مصري",
+    "systems": [
+      "مصري",
+      "لغات"
+    ],
+    "stage": [
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.7,
+    "reviews": 129,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 90
+      },
+      {
+        "label": "حصة فردية",
+        "price": 190
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 14,
+    "name": "أ. مريم سمير",
+    "subject": "الفيزياء",
+    "subjectKey": "الفيزياء",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "6 أكتوبر",
+    "teachingAreas": null,
+    "system": "لغات",
+    "systems": null,
+    "stage": [
+      "ثانوي"
+    ],
+    "rating": 4.8,
+    "reviews": 136,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 160
+      },
+      {
+        "label": "حصة فردية",
+        "price": 250
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 15,
+    "name": "أ. علي حسن",
+    "subject": "الدراسات الاجتماعية",
+    "subjectKey": "الدراسات",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "فيصل",
+    "teachingAreas": null,
+    "system": "دولي",
+    "systems": null,
+    "stage": [
+      "ابتدائي",
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.9,
+    "reviews": 143,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 130
+      },
+      {
+        "label": "حصة فردية",
+        "price": 210
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 16,
+    "name": "أ. نورهان مجدي",
+    "subject": "الأحياء",
+    "subjectKey": "الأحياء",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "المعادي",
+    "teachingAreas": null,
+    "system": "مصري",
+    "systems": null,
+    "stage": [
+      "ابتدائي"
+    ],
+    "rating": 4.2,
+    "reviews": 150,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 100
+      },
+      {
+        "label": "حصة فردية",
+        "price": 170
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 17,
+    "name": "أ. خالد طارق",
+    "subject": "اللغة العربية",
+    "subjectKey": "العربية",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "مصر الجديدة",
+    "teachingAreas": null,
+    "system": "لغات",
+    "systems": null,
+    "stage": [
+      "ابتدائي",
+      "إعدادي"
+    ],
+    "rating": 4.3,
+    "reviews": 157,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 170
+      },
+      {
+        "label": "حصة فردية",
+        "price": 310
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 18,
+    "name": "أ. سلمى حمدي",
+    "subject": "الرياضيات",
+    "subjectKey": "الرياضيات",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "القاهرة الجديدة",
+    "teachingAreas": null,
+    "system": "دولي",
+    "systems": null,
+    "stage": [
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.4,
+    "reviews": 164,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 140
+      },
+      {
+        "label": "حصة فردية",
+        "price": 270
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 19,
+    "name": "أ. زياد فؤاد",
+    "subject": "العلوم",
+    "subjectKey": "العلوم",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "الرحاب",
+    "teachingAreas": null,
+    "system": "مصري",
+    "systems": null,
+    "stage": [
+      "ثانوي"
+    ],
+    "rating": 4.5,
+    "reviews": 171,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 110
+      },
+      {
+        "label": "حصة فردية",
+        "price": 230
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-aa343efabfe9.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 20,
+    "name": "أ. هاجر محمود",
+    "subject": "الكيمياء",
+    "subjectKey": "الكيمياء",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "الدقي",
+    "teachingAreas": null,
+    "system": "لغات",
+    "systems": null,
+    "stage": [
+      "ابتدائي",
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.6,
+    "reviews": 178,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 80
+      },
+      {
+        "label": "حصة فردية",
+        "price": 190
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-0464424cf0c7.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 21,
+    "name": "أ. مصطفى وائل",
+    "subject": "اللغة الإنجليزية",
+    "subjectKey": "الإنجليزية",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "الشيخ زايد",
+    "teachingAreas": null,
+    "system": "دولي",
+    "systems": null,
+    "stage": [
+      "ابتدائي"
+    ],
+    "rating": 4.7,
+    "reviews": 185,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 150
+      },
+      {
+        "label": "حصة فردية",
+        "price": 250
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-5f1836f0eeb2.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 22,
+    "name": "أ. رنا أشرف",
+    "subject": "الفيزياء",
+    "subjectKey": "الفيزياء",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "الهرم",
+    "teachingAreas": null,
+    "system": "مصري",
+    "systems": null,
+    "stage": [
+      "ابتدائي",
+      "إعدادي"
+    ],
+    "rating": 4.8,
+    "reviews": 192,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 120
+      },
+      {
+        "label": "حصة فردية",
+        "price": 210
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-442019acfb0c.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 23,
+    "name": "أ. حسام صلاح",
+    "subject": "الدراسات الاجتماعية",
+    "subjectKey": "الدراسات",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "الجيزة",
+    "teachingAreas": null,
+    "system": "لغات",
+    "systems": null,
+    "stage": [
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.9,
+    "reviews": 199,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 90
+      },
+      {
+        "label": "حصة فردية",
+        "price": 170
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-3b4ca5fdc5f5.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 24,
+    "name": "أ. ياسمين رامي",
+    "subject": "الأحياء",
+    "subjectKey": "الأحياء",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "مدينة نصر",
+    "teachingAreas": null,
+    "system": "دولي",
+    "systems": null,
+    "stage": [
+      "ثانوي"
+    ],
+    "rating": 4.2,
+    "reviews": 206,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 160
+      },
+      {
+        "label": "حصة فردية",
+        "price": 230
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 25,
+    "name": "أ. أدهم سامح",
+    "subject": "اللغة العربية",
+    "subjectKey": "العربية",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "حلوان",
+    "teachingAreas": null,
+    "system": "مصري",
+    "systems": null,
+    "stage": [
+      "ابتدائي",
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.3,
+    "reviews": 213,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 130
+      },
+      {
+        "label": "حصة فردية",
+        "price": 270
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 26,
+    "name": "أ. فاطمة عادل",
+    "subject": "الرياضيات",
+    "subjectKey": "الرياضيات",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "التجمع الخامس",
+    "teachingAreas": null,
+    "system": "لغات",
+    "systems": null,
+    "stage": [
+      "ابتدائي"
+    ],
+    "rating": 4.4,
+    "reviews": 220,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 100
+      },
+      {
+        "label": "حصة فردية",
+        "price": 230
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-32ee4eb7424e.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 27,
+    "name": "أ. عمر ناصر",
+    "subject": "العلوم",
+    "subjectKey": "العلوم",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "شبرا",
+    "teachingAreas": null,
+    "system": "دولي",
+    "systems": null,
+    "stage": [
+      "ابتدائي",
+      "إعدادي"
+    ],
+    "rating": 4.5,
+    "reviews": 227,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 170
+      },
+      {
+        "label": "حصة فردية",
+        "price": 290
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-0c6dbd8fed79.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 28,
+    "name": "أ. هنا شريف",
+    "subject": "الكيمياء",
+    "subjectKey": "الكيمياء",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "المهندسين",
+    "teachingAreas": null,
+    "system": "مصري",
+    "systems": null,
+    "stage": [
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.6,
+    "reviews": 234,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 140
+      },
+      {
+        "label": "حصة فردية",
+        "price": 250
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-478ad8f03ccf.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 29,
+    "name": "أ. يوسف أحمد",
+    "subject": "اللغة الإنجليزية",
+    "subjectKey": "الإنجليزية",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "6 أكتوبر",
+    "teachingAreas": null,
+    "system": "لغات",
+    "systems": null,
+    "stage": [
+      "ثانوي"
+    ],
+    "rating": 4.7,
+    "reviews": 241,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 110
+      },
+      {
+        "label": "حصة فردية",
+        "price": 210
+      }
+    ],
+    "image": "/marketplace/teachers/tch-m1-fba9acf05449.jpg",
+    "source": "V6.62 simulated prototype teacher dataset"
+  },
+  {
+    "id": 30,
+    "name": "أ. ملك سامي",
+    "subject": "الفيزياء",
+    "subjectKey": "الفيزياء",
+    "subjects": null,
+    "subjectKeys": null,
+    "area": "فيصل",
+    "teachingAreas": null,
+    "system": "دولي",
+    "systems": null,
+    "stage": [
+      "ابتدائي",
+      "إعدادي",
+      "ثانوي"
+    ],
+    "rating": 4.8,
+    "reviews": 248,
+    "lessonPrices": [
+      {
+        "label": "مجموعة صغيرة",
+        "price": 80
+      },
+      {
+        "label": "حصة فردية",
+        "price": 170
+      }
+    ],
+    "image": null,
+    "source": "V6.62 simulated prototype teacher dataset"
+  }
+]

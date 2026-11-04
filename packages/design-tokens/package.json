@@ -1,0 +1,9 @@
+{
+  "name": "@maarej/design-tokens",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./tokens.css": "./tokens.css",
+    "./motion": "./motion.ts"
+  }
+}

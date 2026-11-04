@@ -1,0 +1,3 @@
+import { studentAchievements, studentRecognitions, studentRewards } from "@/data/student-records";
+import { StudentRecordFrame, RecordLink } from "@/components/student/student-record-details";
+export default function Page(){return <StudentRecordFrame title="المكافآت والإنجازات" active="journey" back="/student/journey"><h2>المكافآت</h2>{studentRewards.map(r=><RecordLink key={r.id} href={r.href} title={r.title} meta={r.status}/>)}<h2>الإنجازات والشارات</h2>{studentAchievements.map(a=><RecordLink key={a.id} href={a.href} title={a.name} meta={a.meta}/>)}<h2>التقدير</h2>{studentRecognitions.map(r=><RecordLink key={r.id} href={r.href} title={r.title} meta={r.meta}/>)}</StudentRecordFrame>;}

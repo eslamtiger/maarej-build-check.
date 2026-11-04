@@ -1,0 +1,15 @@
+import type {SearchFilters,SearchSort,TeacherSearchDTO} from '../types/teacher';
+export const emptyFilters:SearchFilters={q:'',subject:'',governorate:'',area:'',stage:'',system:'',rating:'',minPrice:'',maxPrice:'',sort:'default'};
+export function normalizeArabic(value:string){return value.toLowerCase().normalize('NFKC').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/\s+/g,' ').trim();}
+export function filterTeachers(teachers:readonly TeacherSearchDTO[],f:SearchFilters){
+ const query=normalizeArabic(f.q),min=f.minPrice!==''?Number(f.minPrice):undefined,max=f.maxPrice!==''?Number(f.maxPrice):undefined;
+ const rows=teachers.filter(t=>(!query||normalizeArabic([t.name,...t.subjects,...t.subjectKeys,...t.areas,...t.governorates,...t.systems].join(' ')).includes(query))&&(!f.subject||t.subjectKeys.includes(f.subject))&&(!f.governorate||t.governorates.includes(f.governorate))&&(!f.area||t.areas.includes(f.area))&&(!f.stage||t.stages.includes(f.stage))&&(!f.system||t.systems.includes(f.system))&&(!f.rating||(t.rating!==undefined&&t.rating>Number(f.rating)))&&(min===undefined||!!t.price&&t.price.max>=min)&&(max===undefined||!!t.price&&t.price.min<=max));
+ if(f.sort==='rating')rows.sort((a,b)=>(b.rating??-1)-(a.rating??-1)||(b.reviewCount??0)-(a.reviewCount??0));
+ if(f.sort==='priceAsc')rows.sort((a,b)=>(a.price?.min??Infinity)-(b.price?.min??Infinity));
+ if(f.sort==='priceDesc')rows.sort((a,b)=>(b.price?.max??-1)-(a.price?.max??-1));
+ return rows;
+}
+export function searchOptions(teachers:readonly TeacherSearchDTO[]){const unique=(key:'subjectKeys'|'governorates'|'areas'|'stages'|'systems')=>[...new Set(teachers.flatMap(t=>t[key]))].sort((a,b)=>a.localeCompare(b,'ar'));return {subjects:unique('subjectKeys'),governorates:unique('governorates'),areas:unique('areas'),stages:unique('stages'),systems:unique('systems')};}
+export function parseTeacherQuery(params:URLSearchParams,teachers:readonly TeacherSearchDTO[]){const f={...emptyFilters},options=searchOptions(teachers);f.q=(params.get('q')??'').slice(0,160);for(const [key,allowed] of [['subject',options.subjects],['governorate',options.governorates],['area',options.areas],['stage',options.stages],['system',options.systems],['rating',['2','3','4']]] as const){const v=params.get(key)??'';if(allowed.some(a=>a===v))f[key]=v;}for(const key of ['minPrice','maxPrice'] as const){const v=params.get(key);if(v!==null&&v.trim()!==''&&Number.isFinite(Number(v))&&Number(v)>=0)f[key]=String(Number(v));}const sort=params.get('sort');if(['rating','priceAsc','priceDesc'].includes(sort??''))f.sort=sort as SearchSort;return f;}
+export function serializeTeacherQuery(f:SearchFilters,view:'map'|'list'){const params=new URLSearchParams();for(const [k,v] of Object.entries(f))if(v&&!(k==='sort'&&v==='default'))params.set(k,v);if(view==='list')params.set('view',view);return params.toString();}
+export function activeFilterCount(f:SearchFilters){return Object.entries(f).filter(([k,v])=>k!=='sort'&&!!v.trim()).length;}

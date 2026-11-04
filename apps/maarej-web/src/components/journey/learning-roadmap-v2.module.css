@@ -1,0 +1,134 @@
+.page :global(.v104-app) { padding-bottom:108px; padding-bottom:calc(108px + env(safe-area-inset-bottom,0px)); }
+.journey { color:#242640; max-width:600px; margin-inline:auto; width:100%; }
+.hero { position:relative; isolation:isolate; min-height:280px; padding:18px 20px 54px; overflow:hidden; border-radius:26px 26px 12px 26px; background:linear-gradient(135deg,color-mix(in srgb,var(--identity-secondary) 15%,#f5faff) 0%,#edeaff 60%,color-mix(in srgb,var(--identity-accent) 22%,white) 100%); border:1px solid #ffffff90; animation:heroIn .2s ease-out both; }
+.heroLayer { position:absolute; width:230px; height:230px; left:-70px; top:25px; border:1px solid #ffffff90; border-radius:40px; transform:rotate(-24deg); background:linear-gradient(120deg,#ffffff50,#ffffff05); z-index:-1; }
+.heroCopy { position:relative; z-index:2; width:56%; }
+.hero h1 { margin:0 0 13px; font-size:1rem; font-weight:750; color:#484066; }
+.eyebrow { display:block; font-size:.875rem; color:#6d648e; }
+.hero h2 { margin:1px 0 2px; font-size:2.5rem; line-height:1.2; color:var(--identity-accent); font-weight:850; letter-spacing:-.7px; overflow-wrap:anywhere; }
+.stage { font-size:1rem; font-weight:700; margin:7px 0 9px; }
+.stage small,.direction small { display:block; font-size:.75rem; font-weight:500; color:#746a96; line-height:1.3; }
+.hero h2.unavailableIdentity { font-size:1.5rem; line-height:1.35; letter-spacing:0; }
+.direction { font-size:.8125rem; display:block; color:#746a96; margin-bottom:10px; }
+.health { display:inline-flex; align-items:center; gap:5px; padding:5px 9px; background:#ffffffc9; color:#357d71; font-size:.8125rem; border-radius:20px; }
+.atRisk { color:#946112; background:#fff3df; }
+.character { position:absolute; width:52%; height:255px; left:-5px; top:0; z-index:1; animation:characterIn .25s ease-out both; }
+.character img { display:block; width:100%; height:100%; object-fit:contain; object-position:center top; }
+.emblemFallback { display:grid; place-items:center; padding-bottom:40px; color:var(--identity-accent); }
+.emblemFallback > span { display:grid; place-items:center; width:112px; height:128px; border:2px solid #ffffff90; border-radius:45% 30% 40% 20%; background:color-mix(in srgb,var(--identity-accent) 8%,transparent); }
+.progressHint { position:absolute; bottom:0; right:0; left:0; z-index:3; display:flex; align-items:center; gap:6px; min-height:43px; padding:9px 17px; color:#544784; background:#ffffff6b; border-top:1px solid #ffffff70; font-size:.8125rem; line-height:1.6; }
+.progressHint svg { flex-shrink:0; color:var(--identity-accent); }
+.traits { display:flex; flex-wrap:wrap; gap:7px; padding:13px 2px 17px; }
+.traits > span { display:flex; flex:1; align-items:center; gap:7px; padding:7px 8px; border-radius:15px 15px 5px 15px; font-size:.8125rem; background:linear-gradient(120deg,#e7f5f7,#eeeaff); color:#554887; animation:traitIn .2s ease-out both; animation-delay:calc(var(--trait-order) * 45ms); }
+.traits > span:nth-child(1) { color:#187E96; background:#e2f3f7; }
+.traits > span:nth-child(2) { color:var(--identity-accent); }
+.traits > span:nth-child(3) { color:#278779; background:#e5f4ec; }
+.traits > span > svg { flex-shrink:0; }
+.traits b { display:block; font-size:.75rem; font-weight:700; color:inherit; opacity:.8; }
+.surface { position:relative; isolation:isolate; margin-inline:-16px; padding:14px 16px 0; background:linear-gradient(145deg,#F5F9FC,#F0EEFF); }
+.shapeOne,.shapeTwo { position:absolute; z-index:-1; pointer-events:none; background:var(--identity-accent); opacity:.04; }
+.shapeOne { width:120px; height:120px; right:7%; top:80px; border-radius:24px; transform:rotate(24deg); }
+.shapeTwo { width:160px; height:120px; left:2%; bottom:25px; clip-path:polygon(50% 0,100% 100%,0 100%); transform:rotate(-19deg); }
+.statusRow { padding:0 3px; }
+.statusRow h2 { font-size:1.125rem; font-weight:750; margin:0; }
+.statusRow p { font-size:.8125rem; color:#817793; margin:3px 0 0; }
+.statusRow b { color:var(--identity-accent); font-weight:700; }
+.roadmap { position:relative; width:100%; max-width:360px; margin:6px auto 0; aspect-ratio:360/420; }
+.roadmap > svg { display:block; overflow:hidden; }
+.path { stroke-dasharray:1; stroke-dashoffset:1; animation:drawUp .175s linear forwards; animation-delay:var(--path-delay); }
+.node { transform-box:fill-box; transform-origin:center; animation:nodeIn .2s ease-out both; animation-delay:var(--node-delay); }
+.nodeText text { font-family:inherit; direction:rtl; }
+.here { fill:white; font-size:13px; font-weight:700; }
+.currentLabel { fill:var(--identity-accent); font-size:17px; font-weight:800; }
+.nodeLabel { fill:#5c5475; font-size:14px; font-weight:700; }
+.nodeContext { fill:#827898; font-size:12px; font-weight:500; }
+.mission { position:relative; margin:0; padding:16px; background:white; border:1px solid #e0dcf4; border-top:3px solid var(--identity-accent); border-radius:18px; box-shadow:0 7px 20px #635bdf08; }
+.missionKicker { display:flex; align-items:center; gap:7px; color:var(--identity-accent); font-size:.875rem; font-weight:700; }
+.mission h2 { font-size:1.125rem; line-height:1.5; margin:5px 0 12px; font-weight:750; }
+.missionProgress { display:flex; justify-content:space-between; align-items:center; margin-bottom:7px; gap:8px; }
+.missionProgress span { font-size:.8125rem; color:#8b859c; }
+.missionProgress b { font-size:1rem; color:var(--identity-accent); }
+.mission [role=progressbar] { height:6px; background:#eeebfa; }
+.mission [role=progressbar] > div { background:var(--identity-accent); }
+.nextAction { font-size:.8125rem; line-height:1.6; color:#827b95; margin:11px 0 8px; }
+.reward { display:flex; align-items:center; gap:5px; font-size:.875rem; color:var(--identity-accent); font-weight:700; }
+@keyframes heroIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+@keyframes characterIn { from { opacity:0; transform:scale(.96); } to { opacity:1; transform:scale(1); } }
+@keyframes traitIn { from { opacity:0; transform:translateY(3px); } to { opacity:1; transform:translateY(0); } }
+@keyframes drawUp { to { stroke-dashoffset:0; } }
+@keyframes nodeIn { from { opacity:0; transform:scale(.94); } to { opacity:1; transform:scale(1); } }
+@media(min-width:400px) { .hero { min-height:290px; padding-top:22px; } .character { height:268px; } .hero h2 { font-size:2.75rem; } }
+@media(min-width:1024px) {
+  .page :global(.v104-app) { padding-bottom:0; }
+  .journey { max-width:1050px; display:grid; grid-template-columns:minmax(0,1fr) minmax(360px,1fr); align-items:start; gap:32px; }
+  .identityColumn { position:sticky; top:34px; }
+  .hero { min-height:360px; padding:28px 28px 58px; }
+  .hero h1 { margin-bottom:24px; font-size:1.125rem; }
+  .hero h2 { font-size:3.5rem; }
+  .character { height:335px; }
+  .stage { margin-top:10px; }
+  .surface { margin:0; padding-top:10px; border-radius:22px 22px 0 0; }
+  .traits { padding-top:17px; }
+}
+@media(prefers-reduced-motion:reduce) { .hero,.character,.traits > span,.path,.node { animation:none; opacity:1; transform:none; } .path { stroke-dashoffset:0; } }
+.characterAura { position:absolute; left:2%; top:24px; width:43%; height:205px; border-radius:45% 30% 40% 20%; transform:rotate(-9deg); background:radial-gradient(ellipse at 50% 35%,color-mix(in srgb,var(--identity-secondary) 26%,transparent),color-mix(in srgb,var(--identity-accent) 14%,transparent) 65%,transparent 75%); border:1px solid #ffffff90; z-index:0; }
+.heroEmblem { position:absolute; z-index:3; top:14px; left:15px; display:grid; place-items:center; width:40px; height:44px; background:linear-gradient(150deg,#fff,var(--identity-gold)); clip-path:polygon(50% 0,95% 18%,90% 75%,50% 100%,10% 75%,5% 18%); color:var(--identity-accent); }
+.heroSpark { position:absolute; color:var(--identity-gold); opacity:.65; left:44%; top:23px; transform:rotate(15deg); }
+.hero h2 { text-shadow:0 3px 16px color-mix(in srgb,var(--identity-accent) 15%,transparent); }
+.journey[data-pattern=grid] .heroLayer { border-radius:12px; background:repeating-linear-gradient(0deg,transparent 0 25px,#ffffff35 26px 27px); }
+.journey[data-pattern=orbit] .heroLayer { border-radius:50%; border-width:12px; background:transparent; }
+.surface { background:radial-gradient(ellipse at 18% 45%,#e0f4f560,transparent 55%),linear-gradient(145deg,#F5F9FC,#F0EEFF); }
+.worldLearning { position:absolute; left:7%; top:43%; color:var(--identity-secondary); opacity:.045; transform:rotate(-17deg); }
+.landmarkButton { position:absolute; z-index:3; translate:-50% -50%; border:0; padding:0; background:transparent; cursor:pointer; aspect-ratio:1; min-width:44px; min-height:44px; border-radius:24px; -webkit-tap-highlight-color:transparent; }
+.landmarkButton > svg { display:block; width:100%; height:100%; overflow:visible; }
+.landmarkButton:focus-visible { outline:3px solid var(--identity-secondary); outline-offset:2px; }
+.landmarkButton[data-landmark=locked] { opacity:.7; }
+.rewardMarker { position:absolute; z-index:4; left:7%; top:36%; width:72px; border:0; padding:0; background:transparent; cursor:pointer; display:grid; justify-items:center; gap:3px; color:#9b6810; font-size:.8125rem; }
+.rewardMarker > span { display:grid; place-items:center; width:39px; height:39px; border-radius:14px 14px 7px 14px; background:linear-gradient(145deg,#FFF2BC,var(--identity-gold)); border:2px solid #fff8d8; box-shadow:0 4px 0 #c48d3335; }
+.rewardMarker > b { line-height:18px; white-space:nowrap; padding:2px 5px; border-radius:8px; background:#fff8df; }
+.achievementMarker { position:absolute; z-index:4; right:5%; top:42%; display:grid; justify-items:center; border:0; background:transparent; color:#a9791f; font-size:.75rem; gap:3px; cursor:pointer; }
+.mission::before { content:""; position:absolute; width:2px; height:16px; top:-16px; right:50%; background:linear-gradient(transparent,var(--identity-accent)); }
+.mission { border-top-width:4px; background:linear-gradient(130deg,#ffffff,#f8f6ff); }
+.missionActions { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; }
+.missionCta { display:inline-flex; justify-content:center; align-items:center; min-height:44px; border:0; padding:10px 18px; border-radius:14px 14px 6px 14px; background:var(--identity-accent); color:white; font-size:.875rem; font-weight:750; cursor:pointer; box-shadow:0 3px 0 color-mix(in srgb,var(--identity-accent) 70%,#211752); }
+.missionCta:focus-visible,.rewardMarker:focus-visible,.achievementMarker:focus-visible { outline:3px solid var(--identity-secondary); outline-offset:3px; }
+.achievementMarker,.rewardDetailsAction { min-height:44px; min-width:44px; }
+.detailSheet { max-width:600px; margin-inline:auto; padding:10px 22px calc(24px + env(safe-area-inset-bottom)); color:#292440; }
+.detailSheet [data-slot=drawer-title] { font-size:1.5rem; margin:10px 0 5px; font-weight:800; }
+.detailSheet [data-slot=drawer-description] { font-size:.9375rem; color:#77708c; margin:0 0 14px; }
+.closeSheet { position:absolute; left:18px; top:24px; width:44px; height:44px; border:0; border-radius:50%; background:#f1eef8; color:#6c628e; display:grid; place-items:center; cursor:pointer; }
+.sheetEmblem { display:grid; place-items:center; width:62px; height:68px; background:linear-gradient(145deg,#f1edff,#e3f3f7); color:var(--identity-accent); clip-path:polygon(50% 0,95% 18%,90% 75%,50% 100%,10% 75%,5% 18%); }
+.detailBlock { padding:12px 0; border-top:1px solid #e9e5f2; font-size:.9375rem; line-height:1.8; }
+.detailBlock p { margin:6px 0; color:#6f6880; }
+.detailBlock strong { color:#39304e; }
+.detailSheet > .missionCta { width:100%; margin-top:10px; }
+.detailSheet { animation:sheetEnter .22s ease-out; }
+.rewardDetailsAction { display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:8px 10px; border:0; border-radius:12px; background:#fff8df; color:#9b6810; font:inherit; cursor:pointer; }
+@keyframes sheetEnter { from { opacity:0; translate:0 12px; } to { opacity:1; translate:0 0; } }
+.celebration { position:absolute; z-index:5; top:44%; left:0; right:0; text-align:center; pointer-events:none; }
+.celebration > span { display:inline-flex; align-items:center; gap:6px; padding:9px 14px; background:#e0f6eb; color:#28745c; border-radius:20px; font-size:.875rem; font-weight:700; box-shadow:0 3px 12px #24494215; }
+.celebration i { position:absolute; top:0; left:50%; width:5px; height:9px; border-radius:2px; animation:celebrate .9s ease-out both; }
+@keyframes celebrate { from { opacity:1; transform:translate(0,0) rotate(0); } to { opacity:0; transform:translate(var(--particle-x),-85px) rotate(var(--particle-turn)); } }
+@media(min-width:1024px) { .characterAura { height:285px; } .heroEmblem { left:24px; top:24px; width:47px; height:52px; } }
+@media(prefers-reduced-motion:reduce) { .celebration i { display:none; } .detailSheet { animation:none; } }
+
+/* A data-sized surface preserves readable labels instead of compressing nodes. */
+.roadmap { aspect-ratio:auto; }
+.nodeText[data-state=locked] { opacity:.6; }
+.nodeText[data-state=challenge] .nodeLabel { fill:#a86a20; }
+.achievementMarker { right:auto; width:82px; height:44px; line-height:18px; }
+.rewardMarker { height:64px; min-height:44px; }
+.detailSheet { display:flex; flex-direction:column; overflow:hidden; padding:10px 0 0; }
+.detailSheet > :global(.v102-drawer-handle) { flex-shrink:0; }
+.sheetScroll { overflow-y:auto; min-height:0; padding:0 22px 24px; overscroll-behavior:contain; }
+.sheetEyebrow { display:block; font-size:.8125rem; color:var(--identity-accent); margin-bottom:5px; }
+.identityMetadata { display:flex; flex-wrap:wrap; align-items:center; gap:9px 12px; margin:14px 0; font-size:.8125rem; color:#6f6880; }
+.identityMetadata > span:last-child { max-width:100%; }
+.sheetMission { margin:16px 0; padding:15px; border-radius:18px; background:#f8f6ff; border-inline-start:3px solid var(--identity-accent); }
+.sheetMission .missionKicker { margin-top:16px; }
+.sheetMission h3 { margin:7px 0 4px; font-size:1.0625rem; font-weight:750; }
+.sheetMission p { margin:5px 0 10px; font-size:.875rem; color:#6f6880; line-height:1.7; }
+.sheetMission [role=progressbar] { height:6px; background:#eeebfa; }
+.sheetMission [role=progressbar] > div { background:var(--identity-accent); }
+.sheetFooter { flex-shrink:0; padding:12px 22px calc(18px + env(safe-area-inset-bottom)); background:white; border-top:1px solid #e9e5f2; }
+.sheetFooter .missionCta { width:100%; }

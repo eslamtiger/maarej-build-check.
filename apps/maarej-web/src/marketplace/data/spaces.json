@@ -1,0 +1,782 @@
+[
+ {
+  "id": "spc-01",
+  "legacyId": "1",
+  "name": "Study Yard",
+  "type": "مكتبة",
+  "area": "مصر الجديدة",
+  "governorate": "القاهرة",
+  "rating": 4.1,
+  "reviews": 30,
+  "capacity": 6,
+  "units": 3,
+  "features": [
+   "تكييف",
+   "مخارج كهرباء",
+   "Whiteboard",
+   "Smart Screen",
+   "Video Conference"
+  ],
+  "price": {
+   "min": 125,
+   "max": 275
+  },
+  "lat": 30.0895,
+  "lng": 31.3146,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-02",
+  "legacyId": "2",
+  "name": "Focus Hub",
+  "type": "مساحة صامتة",
+  "area": "التجمع الخامس",
+  "governorate": "القاهرة",
+  "rating": 4.2,
+  "reviews": 35,
+  "capacity": 11,
+  "units": 4,
+  "features": [
+   "مخارج كهرباء",
+   "Whiteboard",
+   "Smart Screen",
+   "Video Conference",
+   "طباعة",
+   "قهوة"
+  ],
+  "price": {
+   "min": 200,
+   "max": 400
+  },
+  "lat": 30.0092,
+  "lng": 31.4913,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-03",
+  "legacyId": "3",
+  "name": "مساحة سكون",
+  "type": "غرفة دراسة فردية",
+  "area": "الدقي",
+  "governorate": "الجيزة",
+  "rating": 4.3,
+  "reviews": 40,
+  "capacity": 16,
+  "units": 2,
+  "features": [
+   "Whiteboard",
+   "Smart Screen",
+   "Video Conference",
+   "طباعة"
+  ],
+  "price": {
+   "min": 100,
+   "max": 350
+  },
+  "lat": 30.0436,
+  "lng": 31.2157,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-04",
+  "legacyId": "4",
+  "name": "Desk & Learn",
+  "type": "غرفة اجتماعات",
+  "area": "6 أكتوبر",
+  "governorate": "الجيزة",
+  "rating": 4.4,
+  "reviews": 45,
+  "capacity": 21,
+  "units": 5,
+  "features": [
+   "Smart Screen",
+   "Video Conference",
+   "طباعة",
+   "قهوة",
+   "هدوء"
+  ],
+  "price": {
+   "min": 175,
+   "max": 475
+  },
+  "lat": 29.9671,
+  "lng": 30.951,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-05",
+  "legacyId": "5",
+  "name": "The Quiet Corner",
+  "type": "غرفة فريق",
+  "area": "الجيزة",
+  "governorate": "الجيزة",
+  "rating": 4.5,
+  "reviews": 50,
+  "capacity": 26,
+  "units": 4,
+  "features": [
+   "Video Conference",
+   "طباعة",
+   "قهوة",
+   "هدوء",
+   "Lockers",
+   "Wi‑Fi"
+  ],
+  "price": {
+   "min": 75,
+   "max": 425
+  },
+  "lat": 30.0114,
+  "lng": 31.2019,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-06",
+  "legacyId": "6",
+  "name": "مساحة نقطة",
+  "type": "قاعة تدريب",
+  "area": "مصر الجديدة",
+  "governorate": "القاهرة",
+  "rating": 4.6,
+  "reviews": 55,
+  "capacity": 31,
+  "units": 3,
+  "features": [
+   "طباعة",
+   "قهوة",
+   "هدوء",
+   "Lockers"
+  ],
+  "price": {
+   "min": 150,
+   "max": 550
+  },
+  "lat": 30.0931,
+  "lng": 31.3146,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-07",
+  "legacyId": "7",
+  "name": "WorkNest",
+  "type": "مكتب خاص",
+  "area": "التجمع الخامس",
+  "governorate": "القاهرة",
+  "rating": 4.7,
+  "reviews": 60,
+  "capacity": 1,
+  "units": 2,
+  "features": [
+   "قهوة",
+   "هدوء",
+   "Lockers",
+   "Wi‑Fi",
+   "تكييف"
+  ],
+  "price": {
+   "min": 50,
+   "max": 150
+  },
+  "lat": 30.0127,
+  "lng": 31.4913,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-08",
+  "legacyId": "8",
+  "name": "Study Lab",
+  "type": "مكتب مشترك",
+  "area": "الدقي",
+  "governorate": "الجيزة",
+  "rating": 4.8,
+  "reviews": 65,
+  "capacity": 6,
+  "units": 4,
+  "features": [
+   "هدوء",
+   "Lockers",
+   "Wi‑Fi",
+   "تكييف",
+   "مخارج كهرباء",
+   "Whiteboard"
+  ],
+  "price": {
+   "min": 125,
+   "max": 275
+  },
+  "lat": 30.0331,
+  "lng": 31.2157,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-09",
+  "legacyId": "9",
+  "name": "مساحة رف",
+  "type": "مساحة إبداعية",
+  "area": "6 أكتوبر",
+  "governorate": "الجيزة",
+  "rating": 4.9,
+  "reviews": 70,
+  "capacity": 11,
+  "units": 3,
+  "features": [
+   "Lockers",
+   "Wi‑Fi",
+   "تكييف",
+   "مخارج كهرباء"
+  ],
+  "price": {
+   "min": 200,
+   "max": 400
+  },
+  "lat": 29.9705,
+  "lng": 30.951,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-10",
+  "legacyId": "10",
+  "name": "Focus Station",
+  "type": "استوديو تصميم",
+  "area": "الجيزة",
+  "governorate": "الجيزة",
+  "rating": 4.0,
+  "reviews": 75,
+  "capacity": 16,
+  "units": 5,
+  "features": [
+   "Wi‑Fi",
+   "تكييف",
+   "مخارج كهرباء",
+   "Whiteboard",
+   "Smart Screen"
+  ],
+  "price": {
+   "min": 100,
+   "max": 350
+  },
+  "lat": 30.0149,
+  "lng": 31.2019,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-11",
+  "legacyId": "11",
+  "name": "CoLearn",
+  "type": "Maker Space",
+  "area": "مصر الجديدة",
+  "governorate": "القاهرة",
+  "rating": 4.1,
+  "reviews": 80,
+  "capacity": 21,
+  "units": 4,
+  "features": [
+   "تكييف",
+   "مخارج كهرباء",
+   "Whiteboard",
+   "Smart Screen",
+   "Video Conference",
+   "طباعة"
+  ],
+  "price": {
+   "min": 175,
+   "max": 475
+  },
+  "lat": 30.0966,
+  "lng": 31.3146,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-12",
+  "legacyId": "12",
+  "name": "المكتب الهادئ",
+  "type": "Media / Podcast",
+  "area": "التجمع الخامس",
+  "governorate": "القاهرة",
+  "rating": 4.2,
+  "reviews": 85,
+  "capacity": 26,
+  "units": 2,
+  "features": [
+   "مخارج كهرباء",
+   "Whiteboard",
+   "Smart Screen",
+   "Video Conference"
+  ],
+  "price": {
+   "min": 75,
+   "max": 425
+  },
+  "lat": 30.0022,
+  "lng": 31.4913,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-13",
+  "legacyId": "13",
+  "name": "Team Yard",
+  "type": "مساحة فعاليات",
+  "area": "الدقي",
+  "governorate": "الجيزة",
+  "rating": 4.3,
+  "reviews": 90,
+  "capacity": 31,
+  "units": 6,
+  "features": [
+   "Whiteboard",
+   "Smart Screen",
+   "Video Conference",
+   "طباعة",
+   "قهوة"
+  ],
+  "price": {
+   "min": 150,
+   "max": 550
+  },
+  "lat": 30.0366,
+  "lng": 31.2157,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-14",
+  "legacyId": "14",
+  "name": "Idea Space",
+  "type": "ورش عمل",
+  "area": "6 أكتوبر",
+  "governorate": "الجيزة",
+  "rating": 4.4,
+  "reviews": 95,
+  "capacity": 1,
+  "units": 3,
+  "features": [
+   "Smart Screen",
+   "Video Conference",
+   "طباعة",
+   "قهوة",
+   "هدوء",
+   "Lockers"
+  ],
+  "price": {
+   "min": 50,
+   "max": 150
+  },
+  "lat": 29.9741,
+  "lng": 30.951,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-15",
+  "legacyId": "15",
+  "name": "مذاكرة Hub",
+  "type": "قاعة متعددة الاستخدام",
+  "area": "الجيزة",
+  "governorate": "الجيزة",
+  "rating": 4.5,
+  "reviews": 100,
+  "capacity": 6,
+  "units": 4,
+  "features": [
+   "Video Conference",
+   "طباعة",
+   "قهوة",
+   "هدوء"
+  ],
+  "price": {
+   "min": 125,
+   "max": 275
+  },
+  "lat": 30.0184,
+  "lng": 31.2019,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-16",
+  "legacyId": "16",
+  "name": "Desk Point",
+  "type": "مكتبة",
+  "area": "مصر الجديدة",
+  "governorate": "القاهرة",
+  "rating": 4.6,
+  "reviews": 105,
+  "capacity": 11,
+  "units": 5,
+  "features": [
+   "طباعة",
+   "قهوة",
+   "هدوء",
+   "Lockers",
+   "Wi‑Fi"
+  ],
+  "price": {
+   "min": 200,
+   "max": 400
+  },
+  "lat": 30.0861,
+  "lng": 31.3146,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-17",
+  "legacyId": "17",
+  "name": "Roomy",
+  "type": "مساحة صامتة",
+  "area": "التجمع الخامس",
+  "governorate": "القاهرة",
+  "rating": 4.7,
+  "reviews": 110,
+  "capacity": 16,
+  "units": 2,
+  "features": [
+   "قهوة",
+   "هدوء",
+   "Lockers",
+   "Wi‑Fi",
+   "تكييف",
+   "مخارج كهرباء"
+  ],
+  "price": {
+   "min": 100,
+   "max": 350
+  },
+  "lat": 30.0056,
+  "lng": 31.4913,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-18",
+  "legacyId": "18",
+  "name": "مساحة تكوين",
+  "type": "غرفة دراسة فردية",
+  "area": "الدقي",
+  "governorate": "الجيزة",
+  "rating": 4.8,
+  "reviews": 115,
+  "capacity": 21,
+  "units": 3,
+  "features": [
+   "هدوء",
+   "Lockers",
+   "Wi‑Fi",
+   "تكييف"
+  ],
+  "price": {
+   "min": 175,
+   "max": 475
+  },
+  "lat": 30.0402,
+  "lng": 31.2157,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-19",
+  "legacyId": "19",
+  "name": "Mind Desk",
+  "type": "غرفة اجتماعات",
+  "area": "6 أكتوبر",
+  "governorate": "الجيزة",
+  "rating": 4.9,
+  "reviews": 120,
+  "capacity": 26,
+  "units": 4,
+  "features": [
+   "Lockers",
+   "Wi‑Fi",
+   "تكييف",
+   "مخارج كهرباء",
+   "Whiteboard"
+  ],
+  "price": {
+   "min": 75,
+   "max": 425
+  },
+  "lat": 29.9776,
+  "lng": 30.951,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-20",
+  "legacyId": "20",
+  "name": "Study Dock",
+  "type": "غرفة فريق",
+  "area": "الجيزة",
+  "governorate": "الجيزة",
+  "rating": 4.0,
+  "reviews": 125,
+  "capacity": 31,
+  "units": 5,
+  "features": [
+   "Wi‑Fi",
+   "تكييف",
+   "مخارج كهرباء",
+   "Whiteboard",
+   "Smart Screen",
+   "Video Conference"
+  ],
+  "price": {
+   "min": 150,
+   "max": 550
+  },
+  "lat": 30.0079,
+  "lng": 31.2019,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-21",
+  "legacyId": "21",
+  "name": "Creative Corner",
+  "type": "قاعة تدريب",
+  "area": "مصر الجديدة",
+  "governorate": "القاهرة",
+  "rating": 4.1,
+  "reviews": 130,
+  "capacity": 1,
+  "units": 3,
+  "features": [
+   "تكييف",
+   "مخارج كهرباء",
+   "Whiteboard",
+   "Smart Screen"
+  ],
+  "price": {
+   "min": 50,
+   "max": 150
+  },
+  "lat": 30.0895,
+  "lng": 31.3146,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-22",
+  "legacyId": "22",
+  "name": "Maker Study",
+  "type": "مكتب خاص",
+  "area": "التجمع الخامس",
+  "governorate": "القاهرة",
+  "rating": 4.2,
+  "reviews": 135,
+  "capacity": 6,
+  "units": 4,
+  "features": [
+   "مخارج كهرباء",
+   "Whiteboard",
+   "Smart Screen",
+   "Video Conference",
+   "طباعة"
+  ],
+  "price": {
+   "min": 125,
+   "max": 275
+  },
+  "lat": 30.0092,
+  "lng": 31.4913,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-23",
+  "legacyId": "23",
+  "name": "Team Base",
+  "type": "مكتب مشترك",
+  "area": "الدقي",
+  "governorate": "الجيزة",
+  "rating": 4.3,
+  "reviews": 140,
+  "capacity": 11,
+  "units": 6,
+  "features": [
+   "Whiteboard",
+   "Smart Screen",
+   "Video Conference",
+   "طباعة",
+   "قهوة",
+   "هدوء"
+  ],
+  "price": {
+   "min": 200,
+   "max": 400
+  },
+  "lat": 30.0436,
+  "lng": 31.2157,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-24",
+  "legacyId": "24",
+  "name": "Focus Room",
+  "type": "مساحة إبداعية",
+  "area": "6 أكتوبر",
+  "governorate": "الجيزة",
+  "rating": 4.4,
+  "reviews": 145,
+  "capacity": 16,
+  "units": 2,
+  "features": [
+   "Smart Screen",
+   "Video Conference",
+   "طباعة",
+   "قهوة"
+  ],
+  "price": {
+   "min": 100,
+   "max": 350
+  },
+  "lat": 29.9671,
+  "lng": 30.951,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-25",
+  "legacyId": "25",
+  "name": "Work & Learn",
+  "type": "استوديو تصميم",
+  "area": "الجيزة",
+  "governorate": "الجيزة",
+  "rating": 4.5,
+  "reviews": 150,
+  "capacity": 21,
+  "units": 5,
+  "features": [
+   "Video Conference",
+   "طباعة",
+   "قهوة",
+   "هدوء",
+   "Lockers"
+  ],
+  "price": {
+   "min": 175,
+   "max": 475
+  },
+  "lat": 30.0114,
+  "lng": 31.2019,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-26",
+  "legacyId": "26",
+  "name": "مساحة إنجاز",
+  "type": "Maker Space",
+  "area": "مصر الجديدة",
+  "governorate": "القاهرة",
+  "rating": 4.6,
+  "reviews": 155,
+  "capacity": 26,
+  "units": 4,
+  "features": [
+   "طباعة",
+   "قهوة",
+   "هدوء",
+   "Lockers",
+   "Wi‑Fi",
+   "تكييف"
+  ],
+  "price": {
+   "min": 75,
+   "max": 425
+  },
+  "lat": 30.0931,
+  "lng": 31.3146,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-27",
+  "legacyId": "27",
+  "name": "Study Loft",
+  "type": "Media / Podcast",
+  "area": "التجمع الخامس",
+  "governorate": "القاهرة",
+  "rating": 4.7,
+  "reviews": 160,
+  "capacity": 31,
+  "units": 3,
+  "features": [
+   "قهوة",
+   "هدوء",
+   "Lockers",
+   "Wi‑Fi"
+  ],
+  "price": {
+   "min": 150,
+   "max": 550
+  },
+  "lat": 30.0127,
+  "lng": 31.4913,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-28",
+  "legacyId": "28",
+  "name": "Deskly",
+  "type": "مساحة فعاليات",
+  "area": "الدقي",
+  "governorate": "الجيزة",
+  "rating": 4.8,
+  "reviews": 165,
+  "capacity": 1,
+  "units": 2,
+  "features": [
+   "هدوء",
+   "Lockers",
+   "Wi‑Fi",
+   "تكييف",
+   "مخارج كهرباء"
+  ],
+  "price": {
+   "min": 50,
+   "max": 150
+  },
+  "lat": 30.0331,
+  "lng": 31.2157,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-29",
+  "legacyId": "29",
+  "name": "مساحة فكرة",
+  "type": "ورش عمل",
+  "area": "6 أكتوبر",
+  "governorate": "الجيزة",
+  "rating": 4.9,
+  "reviews": 170,
+  "capacity": 6,
+  "units": 4,
+  "features": [
+   "Lockers",
+   "Wi‑Fi",
+   "تكييف",
+   "مخارج كهرباء",
+   "Whiteboard",
+   "Smart Screen"
+  ],
+  "price": {
+   "min": 125,
+   "max": 275
+  },
+  "lat": 29.9705,
+  "lng": 30.951,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "spc-30",
+  "legacyId": "30",
+  "name": "The Learning Spot",
+  "type": "قاعة متعددة الاستخدام",
+  "area": "الجيزة",
+  "governorate": "الجيزة",
+  "rating": 4.0,
+  "reviews": 175,
+  "capacity": 11,
+  "units": 5,
+  "features": [
+   "Wi‑Fi",
+   "تكييف",
+   "مخارج كهرباء",
+   "Whiteboard"
+  ],
+  "price": {
+   "min": 200,
+   "max": 400
+  },
+  "lat": 30.0149,
+  "lng": 31.2019,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ }
+]

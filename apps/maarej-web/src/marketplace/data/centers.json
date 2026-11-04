@@ -1,0 +1,3044 @@
+[
+ {
+  "id": "ctr-01",
+  "legacyId": "1",
+  "name": "سنتر خطوة",
+  "type": "سنتر تعليمي",
+  "area": "المعادي",
+  "address": "المعادي، القاهرة",
+  "rating": 4.2,
+  "reviews": 48,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Projector",
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen",
+   "TV"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 25,
+    "price": 275,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 21,
+    "price": 350,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 17,
+    "price": 425,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "1",
+   "2",
+   "7"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 29.9587,
+  "lng": 31.2539,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-02",
+  "legacyId": "2",
+  "name": "سنتر أساس",
+  "type": "سنتر تعليمي",
+  "area": "مدينة نصر",
+  "address": "مدينة نصر، القاهرة",
+  "rating": 4.3,
+  "reviews": 54,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen",
+   "TV"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 32,
+    "price": 200,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 28,
+    "price": 275,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 24,
+    "price": 350,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 20,
+    "price": 425,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "2",
+   "3",
+   "8"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0576,
+  "lng": 31.33,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-03",
+  "legacyId": "3",
+  "name": "أكاديمية النخبة",
+  "type": "سنتر تعليمي",
+  "area": "مصر الجديدة",
+  "address": "مصر الجديدة، القاهرة",
+  "rating": 4.4,
+  "reviews": 60,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Whiteboard",
+   "Smart Screen",
+   "TV",
+   "Microphone",
+   "Wi‑Fi"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 39,
+    "price": 325,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 35,
+    "price": 400,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 31,
+    "price": 475,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 27,
+    "price": 550,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 23,
+    "price": 625,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "3",
+   "4",
+   "9"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0958,
+  "lng": 31.3211,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-04",
+  "legacyId": "4",
+  "name": "مركز كيان التعليمي",
+  "type": "سنتر تعليمي",
+  "area": "حلوان",
+  "address": "حلوان، القاهرة",
+  "rating": 4.5,
+  "reviews": 66,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Smart Screen",
+   "TV",
+   "Microphone",
+   "Wi‑Fi"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 46,
+    "price": 250,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 42,
+    "price": 325,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 38,
+    "price": 400,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 34,
+    "price": 475,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 30,
+    "price": 550,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 6",
+    "seats": 26,
+    "price": 580,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "4",
+   "5",
+   "10"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 29.8369,
+  "lng": 31.3068,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-05",
+  "legacyId": "5",
+  "name": "سنتر رؤية",
+  "type": "سنتر تعليمي",
+  "area": "القاهرة الجديدة",
+  "address": "القاهرة الجديدة، القاهرة",
+  "rating": 4.6,
+  "reviews": 72,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "TV",
+   "Microphone",
+   "Wi‑Fi",
+   "Projector",
+   "تكييف"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 53,
+    "price": 175,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 49,
+    "price": 250,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "5",
+   "6",
+   "11"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0263,
+  "lng": 31.4853,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-06",
+  "legacyId": "6",
+  "name": "مركز البيان",
+  "type": "سنتر تعليمي",
+  "area": "التجمع الخامس",
+  "address": "التجمع الخامس، القاهرة",
+  "rating": 4.7,
+  "reviews": 78,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Microphone",
+   "Wi‑Fi",
+   "Projector",
+   "تكييف"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 60,
+    "price": 300,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 56,
+    "price": 375,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 52,
+    "price": 450,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "6",
+   "7",
+   "12"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0089,
+  "lng": 31.4883,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-07",
+  "legacyId": "7",
+  "name": "أكاديمية مدار",
+  "type": "سنتر تعليمي",
+  "area": "الرحاب",
+  "address": "الرحاب، القاهرة",
+  "rating": 4.8,
+  "reviews": 84,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Wi‑Fi",
+   "Projector",
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 24,
+    "price": 225,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 20,
+    "price": 300,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 16,
+    "price": 375,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 12,
+    "price": 450,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "7",
+   "8",
+   "13"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0681,
+  "lng": 31.4795,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-08",
+  "legacyId": "8",
+  "name": "سنتر القمة",
+  "type": "سنتر تعليمي",
+  "area": "شبرا",
+  "address": "شبرا، القاهرة",
+  "rating": 4.9,
+  "reviews": 90,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Projector",
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 31,
+    "price": 150,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 27,
+    "price": 225,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 23,
+    "price": 280,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 19,
+    "price": 280,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 15,
+    "price": 280,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "8",
+   "9",
+   "14"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.1241,
+  "lng": 31.2471,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-09",
+  "legacyId": "9",
+  "name": "مركز نقطة بداية",
+  "type": "سنتر تعليمي",
+  "area": "الدقي",
+  "address": "الدقي، الجيزة",
+  "rating": 4.1,
+  "reviews": 96,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen",
+   "TV",
+   "Microphone"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 38,
+    "price": 275,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 34,
+    "price": 350,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 30,
+    "price": 425,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 26,
+    "price": 500,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 22,
+    "price": 575,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 6",
+    "seats": 18,
+    "price": 650,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "9",
+   "10",
+   "15"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0369,
+  "lng": 31.2182,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-10",
+  "legacyId": "10",
+  "name": "أكاديمية التفوق",
+  "type": "سنتر تعليمي",
+  "area": "المهندسين",
+  "address": "المهندسين، الجيزة",
+  "rating": 4.2,
+  "reviews": 102,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Whiteboard",
+   "Smart Screen",
+   "TV",
+   "Microphone"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 45,
+    "price": 200,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 41,
+    "price": 275,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "10",
+   "11",
+   "16"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0571,
+  "lng": 31.1941,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-11",
+  "legacyId": "11",
+  "name": "سنتر آفاق",
+  "type": "سنتر تعليمي",
+  "area": "الشيخ زايد",
+  "address": "الشيخ زايد، الجيزة",
+  "rating": 4.3,
+  "reviews": 108,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Smart Screen",
+   "TV",
+   "Microphone",
+   "Wi‑Fi",
+   "Projector"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 52,
+    "price": 325,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 48,
+    "price": 400,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 44,
+    "price": 475,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "11",
+   "12",
+   "17"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0176,
+  "lng": 30.9726,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-12",
+  "legacyId": "12",
+  "name": "مركز البوصلة",
+  "type": "سنتر تعليمي",
+  "area": "6 أكتوبر",
+  "address": "6 أكتوبر، الجيزة",
+  "rating": 4.4,
+  "reviews": 114,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "TV",
+   "Microphone",
+   "Wi‑Fi",
+   "Projector"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 59,
+    "price": 250,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 55,
+    "price": 325,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 51,
+    "price": 400,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 47,
+    "price": 475,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "12",
+   "13",
+   "18"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 29.9678,
+  "lng": 30.944,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-13",
+  "legacyId": "13",
+  "name": "أكاديمية الصفوة",
+  "type": "سنتر تعليمي",
+  "area": "الهرم",
+  "address": "الهرم، الجيزة",
+  "rating": 4.5,
+  "reviews": 120,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Microphone",
+   "Wi‑Fi",
+   "Projector",
+   "تكييف",
+   "Whiteboard"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 23,
+    "price": 175,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 19,
+    "price": 250,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 15,
+    "price": 325,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 11,
+    "price": 355,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 8,
+    "price": 355,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "13",
+   "14",
+   "19"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 29.9855,
+  "lng": 31.1769,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-14",
+  "legacyId": "14",
+  "name": "سنتر المستقبل",
+  "type": "سنتر تعليمي",
+  "area": "فيصل",
+  "address": "فيصل، الجيزة",
+  "rating": 4.6,
+  "reviews": 126,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Wi‑Fi",
+   "Projector",
+   "تكييف",
+   "Whiteboard"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 30,
+    "price": 300,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 26,
+    "price": 375,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 22,
+    "price": 450,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 18,
+    "price": 525,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 14,
+    "price": 600,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 6",
+    "seats": 10,
+    "price": 675,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "14",
+   "15",
+   "20"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0065,
+  "lng": 31.172,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-15",
+  "legacyId": "15",
+  "name": "مركز الإتقان",
+  "type": "سنتر تعليمي",
+  "area": "الجيزة",
+  "address": "الجيزة، الجيزة",
+  "rating": 4.7,
+  "reviews": 132,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Projector",
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen",
+   "TV"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 37,
+    "price": 225,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 33,
+    "price": 300,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "15",
+   "16",
+   "21"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0176,
+  "lng": 31.2029,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-16",
+  "legacyId": "16",
+  "name": "أكاديمية برايم",
+  "type": "سنتر تعليمي",
+  "area": "المعادي",
+  "address": "المعادي، القاهرة",
+  "rating": 4.8,
+  "reviews": 138,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen",
+   "TV"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 44,
+    "price": 150,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 40,
+    "price": 225,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 36,
+    "price": 280,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "16",
+   "17",
+   "22"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 29.9557,
+  "lng": 31.2539,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-17",
+  "legacyId": "17",
+  "name": "سنتر النور",
+  "type": "سنتر تعليمي",
+  "area": "مدينة نصر",
+  "address": "مدينة نصر، القاهرة",
+  "rating": 4.9,
+  "reviews": 144,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Whiteboard",
+   "Smart Screen",
+   "TV",
+   "Microphone",
+   "Wi‑Fi"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 51,
+    "price": 275,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 47,
+    "price": 350,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 43,
+    "price": 425,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 39,
+    "price": 500,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "17",
+   "18",
+   "23"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0546,
+  "lng": 31.33,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-18",
+  "legacyId": "18",
+  "name": "مركز المنارة",
+  "type": "سنتر تعليمي",
+  "area": "مصر الجديدة",
+  "address": "مصر الجديدة، القاهرة",
+  "rating": 4.1,
+  "reviews": 150,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Smart Screen",
+   "TV",
+   "Microphone",
+   "Wi‑Fi"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 58,
+    "price": 200,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 54,
+    "price": 275,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 50,
+    "price": 350,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 46,
+    "price": 425,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 42,
+    "price": 430,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "18",
+   "19",
+   "24"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0928,
+  "lng": 31.3211,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-19",
+  "legacyId": "19",
+  "name": "أكاديمية الرواد",
+  "type": "سنتر تعليمي",
+  "area": "حلوان",
+  "address": "حلوان، القاهرة",
+  "rating": 4.2,
+  "reviews": 156,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "TV",
+   "Microphone",
+   "Wi‑Fi",
+   "Projector",
+   "تكييف"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 22,
+    "price": 325,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 18,
+    "price": 400,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 14,
+    "price": 475,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 10,
+    "price": 550,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 8,
+    "price": 625,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 6",
+    "seats": 8,
+    "price": 700,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "19",
+   "20",
+   "25"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 29.8459,
+  "lng": 31.3068,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-20",
+  "legacyId": "20",
+  "name": "سنتر تارجت",
+  "type": "سنتر تعليمي",
+  "area": "القاهرة الجديدة",
+  "address": "القاهرة الجديدة، القاهرة",
+  "rating": 4.3,
+  "reviews": 162,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Microphone",
+   "Wi‑Fi",
+   "Projector",
+   "تكييف"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 29,
+    "price": 250,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 25,
+    "price": 325,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "20",
+   "21",
+   "26"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0233,
+  "lng": 31.4853,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-21",
+  "legacyId": "21",
+  "name": "مركز النخبة التعليمي",
+  "type": "سنتر تعليمي",
+  "area": "التجمع الخامس",
+  "address": "التجمع الخامس، القاهرة",
+  "rating": 4.4,
+  "reviews": 168,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Wi‑Fi",
+   "Projector",
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 36,
+    "price": 175,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 32,
+    "price": 250,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 28,
+    "price": 325,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "21",
+   "22",
+   "27"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0059,
+  "lng": 31.4883,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-22",
+  "legacyId": "22",
+  "name": "سنتر جيل",
+  "type": "سنتر تعليمي",
+  "area": "الرحاب",
+  "address": "الرحاب، القاهرة",
+  "rating": 4.5,
+  "reviews": 174,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Projector",
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 43,
+    "price": 300,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 39,
+    "price": 375,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 35,
+    "price": 450,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 31,
+    "price": 525,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "22",
+   "23",
+   "28"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0651,
+  "lng": 31.4795,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-23",
+  "legacyId": "23",
+  "name": "أكاديمية سمارت",
+  "type": "سنتر تعليمي",
+  "area": "شبرا",
+  "address": "شبرا، القاهرة",
+  "rating": 4.6,
+  "reviews": 180,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen",
+   "TV",
+   "Microphone"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 50,
+    "price": 225,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 46,
+    "price": 300,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 42,
+    "price": 375,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 38,
+    "price": 450,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 34,
+    "price": 505,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "23",
+   "24",
+   "29"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.1331,
+  "lng": 31.2471,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-24",
+  "legacyId": "24",
+  "name": "مركز خطوة بلس",
+  "type": "سنتر تعليمي",
+  "area": "الدقي",
+  "address": "الدقي، الجيزة",
+  "rating": 4.7,
+  "reviews": 186,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Whiteboard",
+   "Smart Screen",
+   "TV",
+   "Microphone"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 57,
+    "price": 150,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 53,
+    "price": 225,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 49,
+    "price": 280,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 45,
+    "price": 280,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 41,
+    "price": 280,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 6",
+    "seats": 37,
+    "price": 280,
+    "features": [
+     "Whiteboard",
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "24",
+   "25",
+   "30"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0339,
+  "lng": 31.2182,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-25",
+  "legacyId": "25",
+  "name": "سنتر أدفانس",
+  "type": "سنتر تعليمي",
+  "area": "المهندسين",
+  "address": "المهندسين، الجيزة",
+  "rating": 4.8,
+  "reviews": 192,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Smart Screen",
+   "TV",
+   "Microphone",
+   "Wi‑Fi",
+   "Projector"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 21,
+    "price": 275,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 17,
+    "price": 350,
+    "features": [
+     "Smart Screen",
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "25",
+   "26",
+   "1"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0541,
+  "lng": 31.1941,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-26",
+  "legacyId": "26",
+  "name": "أكاديمية فوكس",
+  "type": "سنتر تعليمي",
+  "area": "الشيخ زايد",
+  "address": "الشيخ زايد، الجيزة",
+  "rating": 4.9,
+  "reviews": 198,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "TV",
+   "Microphone",
+   "Wi‑Fi",
+   "Projector"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 28,
+    "price": 200,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 24,
+    "price": 275,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 20,
+    "price": 350,
+    "features": [
+     "TV",
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "26",
+   "27",
+   "2"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0146,
+  "lng": 30.9726,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-27",
+  "legacyId": "27",
+  "name": "مركز المسار",
+  "type": "سنتر تعليمي",
+  "area": "6 أكتوبر",
+  "address": "6 أكتوبر، الجيزة",
+  "rating": 4.1,
+  "reviews": 204,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Microphone",
+   "Wi‑Fi",
+   "Projector",
+   "تكييف",
+   "Whiteboard"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 35,
+    "price": 325,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 31,
+    "price": 400,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 27,
+    "price": 475,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 23,
+    "price": 550,
+    "features": [
+     "Microphone",
+     "Wi‑Fi",
+     "Projector"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "27",
+   "28",
+   "3"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 29.9768,
+  "lng": 30.944,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-28",
+  "legacyId": "28",
+  "name": "سنتر كلاس",
+  "type": "سنتر تعليمي",
+  "area": "الهرم",
+  "address": "الهرم، الجيزة",
+  "rating": 4.2,
+  "reviews": 210,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Wi‑Fi",
+   "Projector",
+   "تكييف",
+   "Whiteboard"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 42,
+    "price": 250,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 38,
+    "price": 325,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 34,
+    "price": 400,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 30,
+    "price": 475,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 26,
+    "price": 550,
+    "features": [
+     "Wi‑Fi",
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "28",
+   "29",
+   "4"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 29.9825,
+  "lng": 31.1769,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-29",
+  "legacyId": "29",
+  "name": "أكاديمية توب",
+  "type": "سنتر تعليمي",
+  "area": "فيصل",
+  "address": "فيصل، الجيزة",
+  "rating": 4.3,
+  "reviews": 216,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "Projector",
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen",
+   "TV"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 49,
+    "price": 175,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 45,
+    "price": 250,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 3",
+    "seats": 41,
+    "price": 325,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   },
+   {
+    "name": "قاعة 4",
+    "seats": 37,
+    "price": 355,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard"
+    ]
+   },
+   {
+    "name": "قاعة 5",
+    "seats": 33,
+    "price": 355,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 6",
+    "seats": 29,
+    "price": 355,
+    "features": [
+     "Projector",
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "29",
+   "30",
+   "5"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0035,
+  "lng": 31.172,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ },
+ {
+  "id": "ctr-30",
+  "legacyId": "30",
+  "name": "مركز أساس بلس",
+  "type": "سنتر تعليمي",
+  "area": "الجيزة",
+  "address": "الجيزة، الجيزة",
+  "rating": 4.4,
+  "reviews": 222,
+  "note": "سنتر تعليمي تجريبي ضمن بيانات Prototype معارج، بقاعات مجهزة للحصص والمراجعات والمجموعات.",
+  "branches": [],
+  "features": [
+   "تكييف",
+   "Whiteboard",
+   "Smart Screen",
+   "TV"
+  ],
+  "rooms": [
+   {
+    "name": "قاعة 1",
+    "seats": 56,
+    "price": 300,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen"
+    ]
+   },
+   {
+    "name": "قاعة 2",
+    "seats": 52,
+    "price": 375,
+    "features": [
+     "تكييف",
+     "Whiteboard",
+     "Smart Screen",
+     "TV"
+    ]
+   }
+  ],
+  "featuredTeachers": [
+   "30",
+   "1",
+   "6"
+  ],
+  "reviewsByRole": {
+   "parents": [
+    {
+     "name": "ولي أمر تجريبي",
+     "rating": 4.8,
+     "text": "تنظيم جيد وتجربة حجز واضحة."
+    }
+   ],
+   "students": [
+    {
+     "name": "طالب تجريبي",
+     "rating": 4.7,
+     "text": "المكان مريح والتجهيزات مناسبة."
+    }
+   ],
+   "teachers": [
+    {
+     "name": "مدرس تجريبي",
+     "rating": 4.8,
+     "text": "القاعات مناسبة للحصص والمراجعات."
+    }
+   ],
+   "centers": [
+    {
+     "name": "مركز شريك",
+     "rating": 4.6,
+     "text": "تعاون منظم في الفعاليات."
+    }
+   ]
+  },
+  "lat": 30.0146,
+  "lng": 31.2029,
+  "source": "Maarej simulated prototype data (Sites V6.62 data.json)"
+ }
+]

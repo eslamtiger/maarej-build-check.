@@ -1,0 +1,14 @@
+{
+  "name": "maarej-new-project",
+  "private": true,
+  "version": "1.4.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "node scripts/preview-dev.mjs",
+    "build": "npm run build -w @maarej/web",
+    "start": "npm run start -w @maarej/web"
+  }
+}

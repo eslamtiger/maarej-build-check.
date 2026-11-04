@@ -1,0 +1,3 @@
+// Explicit migration aliases reuse existing Student subject IDs. No runtime fuzzy matching.
+export const subjectIdentities=[{id:'math',aliases:['الرياضيات'],label:'رياضيات'},{id:'physics',aliases:['الفيزياء'],label:'فيزياء'},{id:'arabic',aliases:['العربية','اللغة العربية'],label:'لغة عربية'},{id:'english',aliases:['الإنجليزية','اللغة الإنجليزية'],label:'إنجليزي'},{id:'science',aliases:['العلوم'],label:'علوم'},{id:'chemistry',aliases:['الكيمياء'],label:'كيمياء'},{id:'biology',aliases:['الأحياء'],label:'أحياء'},{id:'social-studies',aliases:['الدراسات','الدراسات الاجتماعية'],label:'دراسات اجتماعية'}] as const;
+export function subjectIdByAlias(alias:string){return subjectIdentities.find(s=>s.aliases.some(a=>a===alias))?.id;}

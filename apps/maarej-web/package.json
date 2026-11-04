@@ -1,0 +1,31 @@
+{
+  "name": "@maarej/web",
+  "version": "1.4.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@maarej/design-tokens": "*",
+    "@maarej/ui": "*",
+    "lucide-react": "latest",
+    "motion": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@radix-ui/react-avatar": "latest",
+    "@radix-ui/react-progress": "latest",
+    "@radix-ui/react-tabs": "latest",
+    "vaul": "latest",
+    "canvas-confetti": "latest",
+    "@types/canvas-confetti": "latest",
+    "clsx": "latest",
+    "tailwind-merge": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "typescript": "7.0.2"
+  }
+}

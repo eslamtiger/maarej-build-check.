@@ -1,0 +1,110 @@
+:root {
+  color-scheme: light;
+
+  /* Core color system */
+  --m-blue-950: #0c2147;
+  --m-blue-900: #11305f;
+  --m-blue-800: #17417a;
+  --m-blue-700: #1d56a3;
+  --m-blue-600: #2f70d0;
+  --m-blue-500: #4a89e8;
+  --m-blue-100: #eaf2ff;
+  --m-blue-50: #f5f8ff;
+
+  --m-violet-600: #6f5bd6;
+  --m-violet-100: #efecff;
+  --m-mint-600: #209a80;
+  --m-mint-100: #ddf6ef;
+  --m-amber-600: #b97518;
+  --m-amber-100: #fff0d3;
+  --m-rose-600: #b14f78;
+  --m-rose-100: #fde7ef;
+
+  --m-neutral-950: #172033;
+  --m-neutral-800: #303a4e;
+  --m-neutral-600: #667085;
+  --m-neutral-500: #7d879a;
+  --m-neutral-300: #d7ddea;
+  --m-neutral-200: #e7ebf2;
+  --m-neutral-100: #f2f4f8;
+  --m-neutral-50: #f8f9fc;
+  --m-white: #ffffff;
+
+  --m-surface-page: #f6f8fc;
+  --m-surface-card: rgba(255, 255, 255, 0.88);
+  --m-surface-elevated: #ffffff;
+  --m-surface-tint: rgba(234, 242, 255, 0.72);
+  --m-border-soft: rgba(17, 48, 95, 0.10);
+  --m-border-focus: rgba(47, 112, 208, 0.42);
+
+  /* Type scale */
+  --m-font-ar: "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+  --m-text-xs: 0.75rem;
+  --m-text-sm: 0.875rem;
+  --m-text-md: 1rem;
+  --m-text-lg: 1.125rem;
+  --m-text-xl: 1.375rem;
+  --m-text-2xl: 1.75rem;
+  --m-text-3xl: clamp(2rem, 4vw, 3.4rem);
+  --m-leading-tight: 1.3;
+  --m-leading-body: 1.7;
+
+  /* 4px base spacing */
+  --m-space-1: 0.25rem;
+  --m-space-2: 0.5rem;
+  --m-space-3: 0.75rem;
+  --m-space-4: 1rem;
+  --m-space-5: 1.25rem;
+  --m-space-6: 1.5rem;
+  --m-space-8: 2rem;
+  --m-space-10: 2.5rem;
+  --m-space-12: 3rem;
+  --m-space-16: 4rem;
+
+  --m-radius-sm: 0.75rem;
+  --m-radius-md: 1rem;
+  --m-radius-lg: 1.35rem;
+  --m-radius-xl: 1.75rem;
+  --m-radius-pill: 999px;
+
+  --m-shadow-sm: 0 6px 20px rgba(24, 46, 85, 0.06);
+  --m-shadow-md: 0 16px 40px rgba(24, 46, 85, 0.10);
+  --m-shadow-glow: 0 0 0 1px rgba(74, 137, 232, 0.12), 0 16px 42px rgba(74, 137, 232, 0.16);
+
+  --m-icon-sm: 1rem;
+  --m-icon-md: 1.25rem;
+  --m-icon-lg: 1.5rem;
+  --m-icon-xl: 2rem;
+
+  --m-control-sm: 2.25rem;
+  --m-control-md: 2.75rem;
+  --m-control-lg: 3.25rem;
+  --m-touch-min: 2.75rem;
+
+  --m-motion-fast: 140ms;
+  --m-motion-base: 220ms;
+  --m-motion-slow: 420ms;
+  --m-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --m-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Responsive reference tokens (mirrored in media queries) */
+  --m-bp-tablet: 760px;
+  --m-bp-desktop: 1024px;
+
+  /* Image treatment */
+  --m-image-radius: var(--m-radius-xl);
+  --m-image-overlay: linear-gradient(180deg, rgba(12,33,71,0) 42%, rgba(12,33,71,.48) 100%);
+  --m-image-aspect-hero: 16 / 9;
+
+  --m-content-max: 1180px;
+  --m-sidebar-width: 248px;
+  --m-bottom-nav-height: 76px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --m-motion-fast: 1ms;
+    --m-motion-base: 1ms;
+    --m-motion-slow: 1ms;
+  }
+}
