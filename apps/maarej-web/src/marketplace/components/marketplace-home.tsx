@@ -36,7 +36,7 @@ export function MarketplaceHome(){
     <Link href="/teachers" className={h.door} data-tone="teacher" aria-label="ابحث عن مدرس على الخريطة">
      <span className={h.map} aria-hidden="true">
       <svg viewBox="0 0 100 60" preserveAspectRatio="none"><path d="M58 -2 C 52 14, 60 24, 52 34 S 46 52, 54 64" fill="none" stroke="#BFE3F2" strokeWidth="5" strokeLinecap="round"/></svg>
-      {teachers.map((t,i)=><span key={t.id} className={h.pinFace} style={{left:`${teacherPins[i].x}%`,top:`${teacherPins[i].y}%`}}>{t.image&&<img src={t.image} alt="" loading="eager"/>}<b><Star size={10}/>{t.rating.toFixed(1)}</b></span>)}
+      {teachers.map((t,i)=><span key={t.id} className={h.pinFace} style={{left:`${teacherPins[i].x}%`,top:`${teacherPins[i].y}%`}}>{t.image&&<img src={t.image} alt="" loading="eager"/>}{typeof t.rating==="number"&&<b><Star size={10}/>{t.rating.toFixed(1)}</b>}</span>)}
      </span>
      <span className={h.doorBar}><span className={h.doorIcon}><GraduationCap size={24} aria-hidden="true"/></span><span className={h.doorText}><b>ابحث عن مدرس</b><small>بالمادة والمرحلة والمنطقة</small></span><ArrowLeft size={22} className={h.doorGo} aria-hidden="true"/></span>
     </Link>
