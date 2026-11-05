@@ -4,11 +4,12 @@ import type {CenterDTO} from '../types/place';
 import type {TeacherSearchDTO} from '../types/teacher';
 import type {ContactInfo,Review,ReviewRole} from '../components/profile-kit';
 
-const slug=(id:string)=>id.replace(/[^a-z0-9]/gi,'').toLowerCase();
+const slug=(id:string)=>{const x=id.replace(/[^a-z0-9]/gi,'').toLowerCase();return x.startsWith('tch')?`t${x.slice(-5)}`:x;};
+// Placeholder number (not a real line) and reserved example domains.
 export function demoContact(id:string):ContactInfo{
  const s=slug(id);
- return {phone:'0100 000 0000',whatsapp:'0100 000 0000',email:`hello@${s}.example`,website:`https://${s}.example.com`,
-  social:[{emoji:'📘',label:'فيسبوك',href:`https://example.com/facebook/${s}`},{emoji:'📸',label:'إنستجرام',href:`https://example.com/instagram/${s}`},{emoji:'▶️',label:'يوتيوب',href:`https://example.com/youtube/${s}`}]};
+ return {phone:'+201000000000',whatsapp:'201000000000',email:`hello@${s}.example`,website:`https://${s}.example.com`,
+  facebook:`https://example.com/facebook/${s}`,x:`https://example.com/x/${s}`,instagram:`https://example.com/instagram/${s}`,youtube:`https://example.com/youtube/${s}`};
 }
 
 const hash=(s:string)=>[...s].reduce((h,ch)=>(h*31+ch.charCodeAt(0))%9973,7);

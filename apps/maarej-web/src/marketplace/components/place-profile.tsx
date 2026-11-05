@@ -6,7 +6,7 @@ import {PublicMarketplaceShell} from './public-shell';
 import {PlaceCover} from './place-card';
 import {CenterSchedule,CenterTeachers} from './schedule';
 import {Gallery} from './gallery';
-import {Section,QuickActions,Stars,Quote,PhotoGrid,Contact,Reviews,MapEmbed,Stat,Stats} from './profile-kit';
+import {Section,Stars,Quote,ContactBar,InfoList,Chips,Reviews,MapEmbed,SectionTabs} from './profile-kit';
 import {demoBranches,managerNote,demoContact} from '../adapters/profile-demo';
 import {sessionsForCenter} from '../adapters/schedule';
 import k from './profile-kit.module.css';
@@ -35,43 +35,42 @@ function Location({lat,lng,address}:{lat:number;lng:number;address:string}){
  return <section className={styles.section} aria-labelledby="loc-title"><h2 id="loc-title">الموقع</h2><p className={styles.muted}>{address}</p><a className={styles.secondaryCta} href={directionsHref(lat,lng)} target="_blank" rel="noopener noreferrer"><Navigation size={16} aria-hidden="true"/>افتح الاتجاهات في خرائط Google</a></section>;
 }
 
-// Center profile, top to bottom: photos → identity → quick actions → numbers → word from the manager → photos →
-// rooms (gallery, equipment, timetable, booking) → teachers → equipment → contact → reviews by audience → map.
+// Center profile: contact icons → photos + identity → about (manager word, key info, equipment) →
+// rooms (photos, details, timetable, booking) → teachers → reviews → map. Small section tabs at the bottom.
 export function CenterProfile({center:c}:{center:CenterDTO}){
  const branches=demoBranches(c),note=managerNote(c),photos=placePhotos('center',c.id,1000,15);
  const groups=sessionsForCenter(c.id).filter(x=>x.status==='booked'),teachersN=new Set(groups.map(x=>x.teacherId)).size;
  return <PublicMarketplaceShell active="centers"><div className={styles.profile}>
-  <BackToSearch base="/centers" label="السناتر"/>
-  <header className={k.hero}>
-   <div className={k.cover}><Gallery photos={photos.slice(0,5)} size="hero"/></div>
+  <ContactBar info={demoContact(c.id)}/>
+  <header className={k.hero} id="top">
+   <div className={k.cover}><Gallery photos={photos.slice(0,6)} size="hero"/></div>
    <div className={k.idCard}>
     <span className={k.logo} aria-hidden="true">🏫</span>
     <div className={k.idText}>
      <p className={k.kicker}>{c.type}</p>
      <h1><bdi>{c.name}</bdi></h1>
      <p className={k.meta}><Stars value={c.rating} count={c.reviews}/><span>📍 {c.address}</span></p>
-     {branches.length>0&&<p className={k.branches}><span>🏢 فروع تانية</span>{branches.map(b=><em key={b}>{b}</em>)}</p>}
     </div>
    </div>
   </header>
-  <QuickActions items={[{emoji:'📅',label:'احجز قاعة',href:'#rooms',primary:true},{emoji:'🧑‍🏫',label:'المدرسين',href:'#our-t'},{emoji:'☎️',label:'التواصل',href:'#contact'},{emoji:'🧭',label:'الاتجاهات',href:directionsHref(c.lat,c.lng),external:true}]}/>
-  <Stats>
-   <Stat emoji="🚪" label="قاعة" value={c.rooms.length}/>
-   <Stat emoji="👥" label="أكبر قاعة" value={`${c.maxSeats} طالب`}/>
-   <Stat emoji="💰" label="ج.م / ساعة" value={<bdi>{c.price.min} – {c.price.max}</bdi>}/>
-   <Stat emoji="🧑‍🏫" label="مدرس" value={teachersN}/>
-   <Stat emoji="📚" label="مجموعة في الأسبوع" value={groups.length}/>
-  </Stats>
-  <Quote who={note.who} role={note.role} text={note.text} initials="م"/>
-  <Section id="photos-t" emoji="📸" title="صور السنتر"><PhotoGrid photos={photos.slice(0,8)} label={`صور ${c.name}`}/></Section>
+  <Section id="about" emoji="💬" title="التعريف">
+   <Quote who={note.who} role={note.role} text={note.text} initials="م"/>
+   <InfoList rows={[
+    {emoji:'🚪',label:'القاعات',value:c.rooms.length},
+    {emoji:'👥',label:'أكبر قاعة',value:`${c.maxSeats} طالب`},
+    {emoji:'💰',label:'سعر الساعة',value:<><bdi>{c.price.min} – {c.price.max}</bdi> ج.م</>},
+    {emoji:'🧑‍🏫',label:'المدرسين',value:teachersN},
+    {emoji:'📚',label:'المجموعات في الأسبوع',value:groups.length},
+    ...(branches.length?[{emoji:'🏢',label:'فروع تانية',value:branches.join('، ')}]:[]),
+   ]}/>
+   <Chips items={c.features.map(f=>{const l=featureLabel(f);return {emoji:emojiFor(l),label:l};})}/>
+  </Section>
   <CenterSchedule center={c}/>
   <CenterTeachers center={c}/>
-  <Section id="feat-title" emoji="✨" title="تجهيزات السنتر"><ul className={k.feats}>{c.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul></Section>
-  <Section id="contact" emoji="☎️" title="التواصل"><Contact info={demoContact(c.id)}/></Section>
-  <Section id="rev-title" emoji="⭐" title="آراء الناس" aside={<Stars value={c.rating} count={c.reviews}/>}><Reviews byRole={c.reviewsByRole}/></Section>
+  <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={c.reviewsByRole} total={c.rating} count={c.reviews}/></Section>
   <Section id="loc-title" emoji="📍" title="الموقع"><p className={k.addr}>{c.address}</p><MapEmbed query={`${c.lat},${c.lng}`} label={`خريطة ${c.name}`}/></Section>
  </div>
- <div className={styles.stickyBar}><p className={styles.price}><small>القاعة</small><bdi>{c.price.min} – {c.price.max}</bdi> <span>ج.م / ساعة</span></p><a href="#rooms" className={styles.bookCta}>احجز قاعة</a></div>
+ <SectionTabs items={[{id:'sec-about',label:'التعريف',emoji:'💬'},{id:'rooms',label:'المواعيد',emoji:'📅'},{id:'sec-our-t',label:'المدرسين',emoji:'🧑‍🏫'},{id:'sec-rev-title',label:'التقييمات',emoji:'⭐'}]}/>
  </PublicMarketplaceShell>;
 }
 

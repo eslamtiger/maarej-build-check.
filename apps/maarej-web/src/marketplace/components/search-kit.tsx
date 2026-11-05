@@ -124,5 +124,5 @@ export function Empty({onReset}:{onReset:()=>void}){
 
 // Map first: on phones the map sits on top and the results follow; on desktops they sit side by side.
 export function MapFirst({map,list}:{map:ReactNode;list:ReactNode}){
- return <div className={k.split}><aside className={k.mapCol} aria-label="الخريطة">{map}</aside><section className={k.listCol} aria-label="النتايج">{list}</section></div>;
+ return <div className={k.split}><aside className={k.mapCol} id="sec-map" aria-label="الخريطة">{map}</aside><section className={k.listCol} id="sec-results" aria-label="النتايج">{list}</section></div>;
 }

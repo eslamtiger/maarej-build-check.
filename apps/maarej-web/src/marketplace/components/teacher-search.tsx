@@ -7,6 +7,7 @@ import {governorateFromUrl,withGovernorate} from '../adapters/location';
 import {emptyFilters,filterTeachers,searchOptions,activeFilterCount,parseTeacherQuery,serializeTeacherQuery} from '../adapters/search';
 import type {SearchFilters} from '../types/teacher';
 import {PublicMarketplaceShell} from './public-shell';
+import {SectionTabs} from './profile-kit';
 import {TeacherCard,teacherGradient} from './teacher-card';
 import {PlaceMap} from './place-map';
 import type {MapItem} from './place-map';
@@ -82,5 +83,6 @@ export function TeacherSearch(){
   <ChoiceSheet open={sheet==='system'} icon={School} title="النظام" choices={list(options.systems)} value={f.system} onPick={ch=>set({system:ch?.value??''})} onClose={close}/>
   <ChoiceSheet open={sheet==='rating'} icon={Star} title="التقييم" choices={ratings} value={f.rating} onPick={ch=>set({rating:ch?.value??''})} onClose={close}/>
   <ChoiceSheet open={sheet==='sort'} icon={ArrowUpDown} title="الترتيب" choices={sorts} value={f.sort==='default'?'':f.sort} allLabel="الافتراضي" onPick={ch=>set({sort:(ch?.value??'default') as SearchFilters['sort']})} onClose={close}/>
+  <SectionTabs mobileOnly items={[{id:'sec-map',label:'الخريطة',emoji:'🗺️'},{id:'sec-results',label:'النتايج',emoji:'📋'},{id:'sort',label:'الترتيب',emoji:'⇅',onClick:()=>setSheet('sort')}]}/>
  </PublicMarketplaceShell>;
 }

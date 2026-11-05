@@ -120,3 +120,50 @@
 .moreD { display:none; }
 @media (min-width:720px) { .photos button:nth-child(6) { display:none; } .moreD { display:grid; } }
 .video { max-width:760px; }
+
+/* ---------- v3: contact bar, info rows, chips, small review tabs, bottom section tabs ---------- */
+.contactBar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:10px 0 2px; }
+.contactBar ul { display:flex; gap:8px; margin:0; padding:0; list-style:none; flex-wrap:wrap; }
+.contactBar ul a { display:grid; place-items:center; width:42px; height:42px; border-radius:50%; background:#fff; color:var(--brand); border:1.5px solid #E6E2F8; box-shadow:0 2px 0 #ECEAF4; transition:transform .15s, background .15s, color .15s; }
+.contactBar ul a:hover, .contactBar ul a:focus-visible { background:var(--brand); color:#fff; transform:translateY(-2px); outline:none; }
+.site { display:inline-flex; align-items:center; gap:6px; min-height:42px; padding:0 14px; border-radius:999px; background:#F0EEFF; color:#4B3FD6; font-weight:800; font-size:.875rem; text-decoration:none; }
+.contactBar .demo { margin-inline-start:auto; }
+
+.info { display:grid; margin:0; border-radius:20px; background:#fff; border:1.5px solid #ECEAF4; padding:2px 16px; }
+.info > div { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:50px; border-bottom:1px solid #F0EEF6; }
+.info > div:last-child { border-bottom:0; }
+.info dt { display:flex; align-items:center; gap:10px; color:#625F7C; font-weight:600; }
+.info dt span { font-size:1.1rem; }
+.info dd { margin:0; font-weight:800; color:#16133D; text-align:end; }
+
+.chipList { display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; list-style:none; }
+.chipList li { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; background:#EEF3FF; color:#1F4E99; font-weight:700; font-size:.875rem; }
+.chipList[data-tone=green] li { background:#EAF7F1; color:#0E6A4B; }
+
+.rSummary { display:flex; align-items:center; gap:12px; }
+.rSummary > b { font-family:var(--m-font-display); font-size:2.4rem; line-height:1; color:#16133D; }
+.rSummary > span { display:grid; }
+.rStars { color:#F59E0B; font-size:1.15rem; letter-spacing:2px; }
+.rStars i { color:#E2DFEE; font-style:normal; }
+.rSummary small { color:#7D7A98; font-weight:600; }
+.subTabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; border-bottom:1.5px solid #ECEAF4; }
+.subTabs::-webkit-scrollbar { display:none; }
+.subTabs button { flex:none; min-height:40px; padding:0 12px; border:0; border-bottom:3px solid transparent; background:none; color:#625F7C; font:inherit; font-weight:700; font-size:.875rem; cursor:pointer; }
+.subTabs button small { color:#9B98B4; font-weight:700; }
+.subTabs button[aria-selected=true] { color:#4B3FD6; border-bottom-color:#4B3FD6; }
+.rList li { border:0; border-bottom:1px solid #F0EEF6; border-radius:0; padding:12px 2px; background:none; }
+
+.tabs { position:fixed; z-index:60; left:50%; bottom:calc(10px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); display:flex; gap:2px; padding:4px; border-radius:999px; background:rgba(255,255,255,.94); backdrop-filter:blur(10px); border:1.5px solid #E6E2F8; box-shadow:0 10px 30px rgba(22,19,61,.18); max-width:calc(100vw - 20px); }
+.tabs a { display:inline-flex; align-items:center; gap:5px; min-height:40px; padding:0 12px; border-radius:999px; color:#4A4668; font-weight:700; font-size:.8125rem; text-decoration:none; white-space:nowrap; transition:background .2s, color .2s; }
+.tabs a[aria-current=true] { background:#4B3FD6; color:#fff; }
+.tabs a span { font-size:.95rem; }
+@media (min-width:1024px) { .tabs[data-mobile=true] { display:none; } }
+.section { scroll-margin-top:calc(var(--site-header-h,64px) + 12px); }
+.contactBar { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; gap:8px; }
+.contactBar::-webkit-scrollbar { display:none; }
+.contactBar ul { flex-wrap:nowrap; gap:6px; }
+.contactBar ul a { width:38px; height:38px; }
+.site { flex:none; min-height:38px; padding:0 12px; font-size:.8125rem; }
+.site sup { margin-inline-start:4px; padding:1px 6px; border-radius:99px; background:#FFF4E0; color:#7A4A00; font-size:.625rem; font-weight:800; }
+.contactBar { flex-wrap:wrap; overflow:visible; justify-content:space-between; }
+.contactBar ul li { flex:none; }

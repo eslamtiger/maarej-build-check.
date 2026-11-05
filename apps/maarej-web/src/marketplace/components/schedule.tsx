@@ -138,8 +138,12 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
    <div className={s.roomGallery}><Gallery photos={photos} size="hero"/></div>
    <div className={s.roomInfo}>
     <h3>{r.name}</h3>
-    <div className={s.roomStats}><div><span aria-hidden="true">👥</span><b>{r.seats}</b><small>طالب</small></div><div><span aria-hidden="true">💰</span><b><bdi>{r.price}</bdi></b><small>ج.م / ساعة</small></div><div><span aria-hidden="true">📚</span><b>{list.filter(x=>x.status==='booked').length}</b><small>مجموعات في الأسبوع</small></div></div>
-    <ul className={s.roomFeats}>{r.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul>
+    <dl className={s.roomRows}>
+     <div><dt>👥 السعة</dt><dd>{r.seats} طالب</dd></div>
+     <div><dt>💰 سعر الساعة</dt><dd><bdi>{r.price}</bdi> ج.م</dd></div>
+     <div><dt>📚 المجموعات في الأسبوع</dt><dd>{list.filter(x=>x.status==='booked').length}</dd></div>
+    </dl>
+    <ul className={s.roomChips}>{r.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul>
    </div>
   </div>
   <div className={s.calHead}><h3><CalendarDays size={18} aria-hidden="true"/>جدول {r.name}</h3></div>
@@ -159,7 +163,7 @@ export function CenterTeachers({center:c}:{center:CenterDTO}){
  const [more,setMore]=useState(false);
  const visible=more?byTeacher:byTeacher.slice(0,6);
  const t=open?teacherById(open):undefined;
- return <section className={s.section} aria-labelledby="our-t"><div className={s.head}><h2 id="our-t">🧑‍🏫 مدرسينا</h2></div>
+ return <section className={s.section} id="sec-our-t" aria-labelledby="our-t"><div className={s.head}><h2 id="our-t">🧑‍🏫 مدرسينا</h2></div>
   <ul className={s.teachers}>{visible.map(([id,list])=>{const x=teacherById(id);if(!x)return null;return <li key={id}>
    <Link href={`/teachers/${id}`} className={s.tLink}><TeacherPortrait teacher={x} className={s.tPhoto}/><span><b>{x.name}</b><small>{subjectEmoji(x.subjects[0]??'')} {x.subjects[0]}{x.rating!==undefined&&<> · ⭐ {x.rating.toFixed(1)}</>}</small>{x.price&&<small><bdi>{x.price.min} – {x.price.max}</bdi> ج.م</small>}</span></Link>
    <button type="button" className={s.subscribe} onClick={()=>setOpen(id)}>اشترك <em>{list.length}</em></button>
@@ -182,12 +186,12 @@ export function TeacherSchedule({teacherId}:{teacherId:string}){
  const blocks:Block[]=list.map(x=>{const c=centerById(x.centerId);const full=x.enrolled>=x.capacity;return {id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full':'booked',color:swatchFor(x.centerId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:c?.name,meta:`👥 ${x.enrolled}/${x.capacity} · ${x.price} ج.م${full?' · كاملة':''}`,onClick:()=>setJoin(x)};});
  const centers=[...new Set(list.map(x=>x.centerId))].map(id=>({c:centerById(id),n:list.filter(x=>x.centerId===id).length})).filter(x=>x.c);
  return <>
-  <section className={s.section} aria-labelledby="t-sch"><div className={s.head}><h2 id="t-sch"><CalendarDays size={20} aria-hidden="true"/>جدول الحصص</h2></div>
+  <section className={s.section} id="sec-t-sch" aria-labelledby="t-sch"><div className={s.head}><h2 id="t-sch"><CalendarDays size={20} aria-hidden="true"/>جدول الحصص</h2></div>
    <Legend items={order.map(id=>({color:swatchFor(id,order),label:centerById(id)?.name??''}))}/>
    <WeekGrid label="جدول حصص المدرس" blocks={blocks}/>
    <JoinSheet session={join} onClose={closeJoin}/>
   </section>
-  <section className={s.section} aria-labelledby="t-ctr"><div className={s.head}><h2 id="t-ctr">🏫 بيدرّس في</h2></div>
+  <section className={s.section} id="sec-t-ctr" aria-labelledby="t-ctr"><div className={s.head}><h2 id="t-ctr">🏫 بيدرّس في</h2></div>
    <ul className={s.centers}>{centers.map(({c,n})=><li key={c!.id}><Link href={`/centers/${c!.id}`}><img src={placePhotos('center',c!.id,400,1)[0]} alt="" loading="lazy"/><span className={s.cBody}><b>{c!.name}</b><span><MapPin size={14} aria-hidden="true"/>{c!.area} · ⭐ {c!.rating.toFixed(1)}</span><em>{n} مجموعات</em></span></Link></li>)}</ul>
   </section>
  </>;

@@ -1,19 +1,14 @@
 'use client';
-// Shared building blocks for center and teacher profiles, following common profile patterns
-// (Google Business Profile / Airbnb listing / tutor marketplaces): photos first, identity + rating,
-// quick actions, intro, photos, offer (rooms / timetable), people, contact, reviews by audience, map.
-import {useState} from 'react';
-import type {ReactNode} from 'react';
-import {Star,Images,X} from 'lucide-react';
-import {Gallery} from './gallery';
+// Shared building blocks for center and teacher profiles: contact icons on top, hero, sections with
+// info laid out as rows (no big boxes), reviews with small tabs, map, and a small section tab bar at the bottom.
+import {useEffect,useState} from 'react';
+import type {ReactNode,CSSProperties} from 'react';
+import type {LucideIcon} from 'lucide-react';
+import {Star,Phone,Globe,Mail} from 'lucide-react';
 import p from './profile-kit.module.css';
 
 export function Section({id,emoji,title,children,aside}:{id:string;emoji:string;title:string;children:ReactNode;aside?:ReactNode}){
- return <section className={p.section} aria-labelledby={id}><div className={p.sHead}><h2 id={id}><span aria-hidden="true">{emoji}</span>{title}</h2>{aside}</div>{children}</section>;
-}
-
-export function QuickActions({items}:{items:{emoji:string;label:string;href:string;external?:boolean;primary?:boolean}[]}){
- return <nav className={p.actions} aria-label="اختصارات">{items.map(i=><a key={i.label} href={i.href} data-primary={i.primary} {...(i.external?{target:'_blank',rel:'noopener noreferrer'}:{})}><span aria-hidden="true">{i.emoji}</span>{i.label}</a>)}</nav>;
+ return <section className={p.section} id={`sec-${id}`} aria-labelledby={id}><div className={p.sHead}><h2 id={id}><span aria-hidden="true">{emoji}</span>{title}</h2>{aside}</div>{children}</section>;
 }
 
 export function Stars({value,count,size='md'}:{value:number;count?:number;size?:'md'|'lg'}){
@@ -24,49 +19,59 @@ export function Quote({who,role,text,initials}:{who:string;role:string;text:stri
  return <figure className={p.quote}><blockquote>{text}</blockquote><figcaption><span className={p.qAvatar} aria-hidden="true">{initials}</span><span><b>{who}</b><small>{role}</small></span></figcaption></figure>;
 }
 
-// Photo grid → tap opens a full-screen gallery at that photo.
-export function PhotoGrid({photos,label}:{photos:readonly string[];label:string}){
- const [open,setOpen]=useState<number|null>(null);
- const order=open===null?photos:[...photos.slice(open),...photos.slice(0,open)];
- return <>
-  <div className={p.photos}>{photos.slice(0,6).map((src,i)=><button key={src} type="button" onClick={()=>setOpen(i)} aria-label={`${label}: صورة ${i+1}`}><img src={src.replace(/w=\d+/,'w=500')} alt="" loading="lazy"/>{i===5&&photos.length>6&&<span className={`${p.more} ${p.moreM}`}><Images size={18} aria-hidden="true"/>+{photos.length-6}</span>}{i===4&&photos.length>5&&<span className={`${p.more} ${p.moreD}`}><Images size={18} aria-hidden="true"/>+{photos.length-5}</span>}</button>)}</div>
-  {open!==null&&<div className={p.lightbox} role="dialog" aria-modal="true" aria-label={label}>
-   <button type="button" className={p.lbClose} onClick={()=>setOpen(null)} aria-label="إغلاق"><X size={22}/></button>
-   <div className={p.lbStage}><Gallery photos={order.map(s=>s.replace(/w=\d+/,'w=1400'))} size="hero"/></div>
-  </div>}
- </>;
-}
+/* ---------- Contact: icons only; tapping opens the app. Only the website shows its address. ---------- */
+export type ContactInfo={phone:string;whatsapp:string;email:string;website:string;facebook?:string;x?:string;instagram?:string;youtube?:string};
+const svg=(d:ReactNode)=><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">{d}</svg>;
+const WhatsApp=()=>svg(<><path d="M12 2.2a9.7 9.7 0 0 0-8.3 14.8L2.4 21.8l4.9-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.6c-1.5 0-3-.4-4.2-1.2l-.3-.2-2.9.8.8-2.8-.2-.3A7.9 7.9 0 1 1 12 19.8Z"/><path d="M16.4 14.1c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2c0 1.2.9 2.3 1 2.5.1.1 1.7 2.6 4.1 3.6 1.5.7 2.1.7 2.9.6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.4-.2Z"/></>);
+const Facebook=()=>svg(<path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1Z"/>);
+const XLogo=()=>svg(<path d="M17.8 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2.2 3h6.2l4.3 5.8L17.8 3Zm-1 16.2h1.7L7.4 4.7H5.6l11.2 14.5Z"/>);
+const Instagram=()=>svg(<><path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4Zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/><circle cx="17.2" cy="6.8" r="1.1"/><path d="M16.5 2.5h-9a5 5 0 0 0-5 5v9a5 5 0 0 0 5 5h9a5 5 0 0 0 5-5v-9a5 5 0 0 0-5-5Zm3.2 14a3.2 3.2 0 0 1-3.2 3.2h-9a3.2 3.2 0 0 1-3.2-3.2v-9a3.2 3.2 0 0 1 3.2-3.2h9a3.2 3.2 0 0 1 3.2 3.2v9Z"/></>);
+const YouTube=()=>svg(<path d="M21.6 7.2a2.6 2.6 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.6 2.6 0 0 0 2.4 7.2 27 27 0 0 0 2 12a27 27 0 0 0 .4 4.8 2.6 2.6 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.6 2.6 0 0 0 1.8-1.8A27 27 0 0 0 22 12a27 27 0 0 0-.4-4.8ZM10 15V9l5.2 3L10 15Z"/>);
+const Icon=({I}:{I:LucideIcon})=><I size={19} aria-hidden="true"/>;
 
-export type ContactInfo={phone:string;whatsapp:string;email:string;website:string;social:{emoji:string;label:string;href:string}[]};
-// Contact block. Demo values use reserved example domains and a placeholder number, so nothing reaches a real person.
-export function Contact({info}:{info:ContactInfo}){
- return <div className={p.contact}>
-  <ul className={p.cRows}>
-   <li><span aria-hidden="true">📞</span><small>التليفون</small><b dir="ltr">{info.phone}</b></li>
-   <li><span aria-hidden="true">💬</span><small>واتساب</small><b dir="ltr">{info.whatsapp}</b></li>
-   <li><span aria-hidden="true">✉️</span><small>الإيميل</small><a href={`mailto:${info.email}`} dir="ltr">{info.email}</a></li>
-   <li><span aria-hidden="true">🌐</span><small>الموقع</small><a href={info.website} target="_blank" rel="noopener noreferrer" dir="ltr">{info.website.replace(/^https?:\/\//,'')}</a></li>
-  </ul>
-  <div className={p.social}>{info.social.map(s=><a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"><span aria-hidden="true">{s.emoji}</span>{s.label}</a>)}</div>
-  <small className={p.demo}>بيانات تواصل تجريبية</small>
+export function ContactBar({info,demo=true}:{info:ContactInfo;demo?:boolean}){
+ const items:{key:string;label:string;href:string;icon:ReactNode;brand:string;external?:boolean}[]=[
+  {key:'phone',label:'اتصل',href:`tel:${info.phone}`,icon:<Icon I={Phone}/>,brand:'#16133D'},
+  {key:'wa',label:'واتساب',href:`https://wa.me/${info.whatsapp}`,icon:<WhatsApp/>,brand:'#25D366',external:true},
+  {key:'mail',label:'إيميل',href:`mailto:${info.email}`,icon:<Icon I={Mail}/>,brand:'#4B3FD6'},
+  ...(info.facebook?[{key:'fb',label:'فيسبوك',href:info.facebook,icon:<Facebook/>,brand:'#1877F2',external:true}]:[]),
+  ...(info.x?[{key:'x',label:'إكس',href:info.x,icon:<XLogo/>,brand:'#000',external:true}]:[]),
+  ...(info.instagram?[{key:'ig',label:'إنستجرام',href:info.instagram,icon:<Instagram/>,brand:'#E1306C',external:true}]:[]),
+  ...(info.youtube?[{key:'yt',label:'يوتيوب',href:info.youtube,icon:<YouTube/>,brand:'#FF0000',external:true}]:[]),
+ ];
+ return <div className={p.contactBar}>
+  <ul>{items.map(i=><li key={i.key}><a href={i.href} aria-label={i.label} title={i.label} style={{'--brand':i.brand} as CSSProperties} {...(i.external?{target:'_blank',rel:'noopener noreferrer'}:{})}>{i.icon}</a></li>)}</ul>
+  <a className={p.site} href={info.website} target="_blank" rel="noopener noreferrer"><Globe size={16} aria-hidden="true"/><bdi dir="ltr">{info.website.replace(/^https?:\/\//,'')}</bdi>{demo&&<sup>تجريبي</sup>}</a>
  </div>;
 }
 
+/* ---------- Info as rows ---------- */
+export function InfoList({rows}:{rows:{emoji:string;label:string;value:ReactNode}[]}){
+ return <dl className={p.info}>{rows.map(r=><div key={r.label}><dt><span aria-hidden="true">{r.emoji}</span>{r.label}</dt><dd>{r.value}</dd></div>)}</dl>;
+}
+export function Chips({items,tone}:{items:{emoji:string;label:string}[];tone?:'blue'|'green'}){
+ return <ul className={p.chipList} data-tone={tone}>{items.map(i=><li key={i.label}><span aria-hidden="true">{i.emoji}</span>{i.label}</li>)}</ul>;
+}
+
+/* ---------- Reviews: summary + small tabs ---------- */
 export type Review={name:string;rating:number;text:string};
 export type ReviewRole='students'|'parents'|'teachers'|'centers';
-const roleLabel:Record<ReviewRole,{label:string;emoji:string}>={students:{label:'الطلاب',emoji:'🎒'},parents:{label:'أولياء الأمور',emoji:'👨‍👩‍👦'},teachers:{label:'المدرسين',emoji:'🧑‍🏫'},centers:{label:'السناتر',emoji:'🏫'}};
+const roleLabel:Record<ReviewRole,string>={students:'الطلاب',parents:'أولياء الأمور',teachers:'المدرسين',centers:'السناتر'};
 const avg=(l:readonly Review[])=>l.length?l.reduce((s,r)=>s+r.rating,0)/l.length:0;
-// Reviews grouped by who wrote them (students are the main rating).
-export function Reviews({byRole}:{byRole:Partial<Record<ReviewRole,readonly Review[]>>}){
+export function Reviews({byRole,total,count}:{byRole:Partial<Record<ReviewRole,readonly Review[]>>;total:number;count?:number}){
  const roles=(Object.keys(roleLabel) as ReviewRole[]).filter(r=>(byRole[r]?.length??0)>0);
  const [tab,setTab]=useState<ReviewRole|'all'>('all');
+ const [all,setAll]=useState(false);
  if(!roles.length)return null;
  const list=(tab==='all'?roles:[tab]).flatMap(r=>(byRole[r]??[]).map(x=>({...x,role:r})));
- const [all,setAll]=useState(false);
  const shown=all?list:list.slice(0,3);
  return <div className={p.reviews}>
-  <div className={p.rTiles}>{roles.map(r=><button key={r} type="button" aria-pressed={tab===r} onClick={()=>setTab(tab===r?'all':r)}><span aria-hidden="true">{roleLabel[r].emoji}</span><small>{roleLabel[r].label}</small><b>⭐ <bdi>{avg(byRole[r]!).toFixed(1)}</bdi></b></button>)}</div>
-  <ul className={p.rList}>{shown.map((x,i)=><li key={i}><div className={p.rHead}><span className={p.qAvatar} aria-hidden="true">{x.name.trim().charAt(0)}</span><span><b>{x.name}</b><small>{roleLabel[x.role].emoji} {roleLabel[x.role].label}</small></span><em>⭐ <bdi>{x.rating.toFixed(1)}</bdi></em></div><p>{x.text}</p></li>)}</ul>
+  <div className={p.rSummary}><b><bdi>{total.toFixed(1)}</bdi></b><span><span className={p.rStars} aria-hidden="true">{'★★★★★'.slice(0,Math.round(total))}<i>{'★★★★★'.slice(Math.round(total))}</i></span>{count!==undefined&&<small>{count} تقييم</small>}</span></div>
+  <div className={p.subTabs} role="tablist" aria-label="الآراء حسب الفئة">
+   <button type="button" role="tab" aria-selected={tab==='all'} onClick={()=>{setTab('all');setAll(false);}}>الكل</button>
+   {roles.map(r=><button key={r} type="button" role="tab" aria-selected={tab===r} onClick={()=>{setTab(r);setAll(false);}}>{roleLabel[r]} <small>★ <bdi>{avg(byRole[r]!).toFixed(1)}</bdi></small></button>)}
+  </div>
+  <ul className={p.rList}>{shown.map((x,i)=><li key={i}><div className={p.rHead}><span className={p.qAvatar} aria-hidden="true">{x.name.trim().charAt(0)}</span><span><b>{x.name}</b><small>{roleLabel[x.role]}</small></span><em>★ <bdi>{x.rating.toFixed(1)}</bdi></em></div><p>{x.text}</p></li>)}</ul>
   {list.length>3&&<button type="button" className={p.moreBtn} onClick={()=>setAll(v=>!v)}>{all?'أقل':`كل الآراء (${list.length})`}</button>}
  </div>;
 }
@@ -75,11 +80,18 @@ export function Reviews({byRole}:{byRole:Partial<Record<ReviewRole,readonly Revi
 export function MapEmbed({query,label}:{query:string;label:string}){
  return <div className={p.map}>
   <iframe title={label} src={`https://www.google.com/maps?q=${encodeURIComponent(query)}&z=15&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade"/>
-  <a href={`https://www.google.com/maps?q=${encodeURIComponent(query)}`} target="_blank" rel="noopener noreferrer" className={p.mapGo}>🧭 افتح الاتجاهات</a>
+  <a href={`https://www.google.com/maps?q=${encodeURIComponent(query)}`} target="_blank" rel="noopener noreferrer" className={p.mapGo}>🧭 الاتجاهات</a>
  </div>;
 }
 
-export function Stat({emoji,label,value}:{emoji:string;label:string;value:ReactNode}){
- return <div className={p.stat}><span aria-hidden="true">{emoji}</span><b>{value}</b><small>{label}</small></div>;
+/* ---------- Small section tabs fixed at the bottom of the page; highlights the section in view ---------- */
+export type TabItem={id:string;label:string;emoji:string;onClick?:()=>void};
+export function SectionTabs({items,mobileOnly=false}:{items:TabItem[];mobileOnly?:boolean}){
+ const [active,setActive]=useState(items[0]?.id);
+ useEffect(()=>{const els=items.map(i=>document.getElementById(i.id)).filter((e):e is HTMLElement=>!!e);if(!els.length)return;
+  const io=new IntersectionObserver(es=>{const vis=es.filter(e=>e.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);if(vis[0])setActive(vis[0].target.id);},{rootMargin:'-30% 0px -55% 0px'});
+  els.forEach(e=>io.observe(e));return()=>io.disconnect();},[items.map(i=>i.id).join()]); // eslint-disable-line react-hooks/exhaustive-deps
+ return <nav className={p.tabs} data-mobile={mobileOnly} aria-label="أقسام الصفحة">{items.map(i=><a key={i.id} href={`#${i.id}`} aria-current={active===i.id?'true':undefined}
+  onClick={e=>{if(i.onClick){e.preventDefault();i.onClick();return;}e.preventDefault();document.getElementById(i.id)?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});setActive(i.id);}}>
+  <span aria-hidden="true">{i.emoji}</span>{i.label}</a>)}</nav>;
 }
-export function Stats({children}:{children:ReactNode}){return <div className={p.stats}>{children}</div>;}

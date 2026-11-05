@@ -5,6 +5,7 @@ import {marketplaceCenters,marketplaceSpaces,emptyPlaceFilters,filterPlaces,plac
 import {governorateFromUrl,withGovernorate} from '../adapters/location';
 import type {PlaceFilters} from '../types/place';
 import {PublicMarketplaceShell} from './public-shell';
+import {SectionTabs} from './profile-kit';
 import {CenterCard,SpaceCard} from './place-card';
 import {PlaceMap} from './place-map';
 import type {MapItem} from './place-map';
@@ -86,5 +87,6 @@ export function PlaceSearch({kind}:{kind:'centers'|'spaces'}){
   <ChoiceSheet open={sheet==='seats'} icon={UsersRound} title="السعة" choices={seatChoices} value={f.seats} onPick={ch=>set({seats:ch?.value??''})} onClose={close}/>
   <ChoiceSheet open={sheet==='rating'} icon={Star} title="التقييم" choices={ratings} value={f.rating} onPick={ch=>set({rating:ch?.value??''})} onClose={close}/>
   <ChoiceSheet open={sheet==='sort'} icon={ArrowUpDown} title="الترتيب" choices={sorts} value={f.sort==='default'?'':f.sort} allLabel="الافتراضي" onPick={ch=>set({sort:(ch?.value??'default') as PlaceFilters['sort']})} onClose={close}/>
+  <SectionTabs mobileOnly items={[{id:'sec-map',label:'الخريطة',emoji:'🗺️'},{id:'sec-results',label:'النتايج',emoji:'📋'},{id:'sort',label:'الترتيب',emoji:'⇅',onClick:()=>setSheet('sort')}]}/>
  </PublicMarketplaceShell>;
 }

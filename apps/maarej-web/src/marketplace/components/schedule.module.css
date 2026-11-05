@@ -142,3 +142,10 @@
 .centers img { width:76px; height:76px; border-radius:14px; object-fit:cover; background:#EEE; }
 .cBody { display:grid; gap:2px; min-width:0; }
 .moreBtn { justify-self:start; min-height:44px; padding:0 16px; border:2px solid #E2DFEE; border-radius:14px; background:#fff; color:#4B3FD6; font:inherit; font-weight:800; cursor:pointer; }
+.roomRows { display:grid; margin:0; border-radius:18px; background:#fff; border:1.5px solid #ECEAF4; padding:2px 14px; }
+.roomRows div { display:flex; justify-content:space-between; align-items:center; gap:10px; min-height:46px; border-bottom:1px solid #F0EEF6; }
+.roomRows div:last-child { border-bottom:0; }
+.roomRows dt { color:#625F7C; font-weight:600; }
+.roomRows dd { margin:0; font-weight:800; color:#16133D; }
+.roomChips { display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; list-style:none; }
+.roomChips li { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; background:#EEF3FF; color:#1F4E99; font-weight:700; font-size:.875rem; }
