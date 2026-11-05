@@ -1,5 +1,6 @@
 'use client';
-// A real street map (OpenStreetMap data, CARTO "Voyager" tiles) drawn with plain <img> tiles, so no map library is needed.
+// A real street map (OpenStreetMap standard tiles, Arabic street names) drawn with plain <img> tiles, so no map library is needed.
+// OSM tiles are fine for a demo with attribution; a production launch needs a paid tile provider (MapTiler, Mapbox, Google…).
 // Pins are Google-style drops with a photo inside. Drag to move, +/− to zoom, ⌖ to frame all results again.
 // Tapping a pin hands the id to the page, which brings that card to the top of the list.
 import {useEffect,useMemo,useRef,useState} from 'react';
@@ -43,10 +44,9 @@ export function PlaceMap({items,activeId,selectedId,onHover,onSelect,label,shape
  const box=useRef<HTMLDivElement>(null);
  const [size,setSize]=useState({w:360,h:360});
  const [view,setView]=useState<View>({lat:30.03,lng:31.22,z:11});
- const [retina,setRetina]=useState(false);
  const drag=useRef<{x:number;y:number;cx:number;cy:number;moved:boolean}|null>(null);
  const suppress=useRef(false);
- useEffect(()=>{setRetina(devicePixelRatio>1);const el=box.current;if(!el)return;const read=()=>setSize({w:el.clientWidth||360,h:el.clientHeight||360});read();const ro=new ResizeObserver(read);ro.observe(el);return()=>ro.disconnect();},[]);
+ useEffect(()=>{const el=box.current;if(!el)return;const read=()=>setSize({w:el.clientWidth||360,h:el.clientHeight||360});read();const ro=new ResizeObserver(read);ro.observe(el);return()=>ro.disconnect();},[]);
  // Re-frame whenever the results change (a new filter) or the box changes size.
  const key=items.map(i=>i.id).join(',');
  useEffect(()=>{setView(fitView(items,size.w,size.h));},[key,size.w,size.h]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -55,8 +55,8 @@ export function PlaceMap({items,activeId,selectedId,onHover,onSelect,label,shape
  const tiles=useMemo(()=>{const out:{k:string;x:number;y:number;src:string}[]=[];const n=2**z;
   for(let tx=Math.floor(ox/TILE);tx<=Math.floor((ox+size.w)/TILE);tx++)for(let ty=Math.floor(oy/TILE);ty<=Math.floor((oy+size.h)/TILE);ty++){
    if(ty<0||ty>=n)continue;const wx=((tx%n)+n)%n;
-   out.push({k:`${z}/${tx}/${ty}`,x:tx*TILE-ox,y:ty*TILE-oy,src:`https://${'abcd'[(wx+ty)%4]}.basemaps.cartocdn.com/rastertiles/voyager/${z}/${wx}/${ty}${retina?'@2x':''}.png`});}
-  return out;},[z,ox,oy,size.w,size.h,retina]);
+   out.push({k:`${z}/${tx}/${ty}`,x:tx*TILE-ox,y:ty*TILE-oy,src:`https://tile.openstreetmap.org/${z}/${wx}/${ty}.png`});}
+  return out;},[z,ox,oy,size.w,size.h]);
  const pins=spread(items.map(i=>({...i,x:lon2x(i.lng,z)-ox,y:lat2y(i.lat,z)-oy})));
 
  const zoom=(d:number)=>setView(v=>({...v,z:Math.max(MINZ,Math.min(MAXZ,v.z+d))}));
@@ -80,6 +80,6 @@ export function PlaceMap({items,activeId,selectedId,onHover,onSelect,label,shape
    <button type="button" onClick={()=>{setView(fitView(items,size.w,size.h));onSelect(null);}} aria-label="اعرض كل النتايج"><LocateFixed size={17}/></button>
   </div>
   {items.length===0&&<p className={styles.mapEmpty}>مفيش نتايج</p>}
-  <p className={styles.attr}><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a> · <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">© CARTO</a></p>
+  <p className={styles.attr}><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a></p>
  </div>;
 }
