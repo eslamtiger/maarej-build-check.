@@ -76,7 +76,7 @@ export function StudentHome() {
   // Brief §13: momentum shows the current week; the identity itself never drops.
   const momentumLow = baseIdentity.status === "atRisk" || baseIdentity.status === "downgraded";
   const style = { "--home-primary": theme.primaryColor, "--home-secondary": theme.secondaryColor } as CSSProperties;
-  const rise = (i: number) => ({ initial: reduce ? false as const : { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { duration: .32, delay: reduce ? 0 : i * .05, ease: [.16, 1, .3, 1] as const } });
+  const rise = (i: number) => ({ initial: reduce ? false as const : { y: 10 }, animate: { y: 0 }, transition: { duration: .32, delay: reduce ? 0 : i * .05, ease: [.16, 1, .3, 1] as const } });
 
   return <StudentV101Shell active="home"><div className={styles.home} style={style}>
     <motion.section className={styles.hero} {...rise(0)} aria-labelledby="home-next-heading">
@@ -95,7 +95,7 @@ export function StudentHome() {
             <Link href="/student/learning/schedule" className={styles.ghost}><CalendarDays size={17}/>جدول النهارده</Link>
           </div>
         </article>
-        {theme.characterAsset && <motion.img className={styles.character} src={theme.characterAsset.src} alt="" width="1024" height="1536" initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .4, delay: .1 }}/>}
+        {theme.characterAsset && <motion.img className={styles.character} src={theme.characterAsset.src} alt="" width="1024" height="1536" initial={reduce ? false : { y: 12 }} animate={{ y: 0 }} transition={{ duration: .4, delay: .1 }}/>}
       </div>
     </motion.section>
 

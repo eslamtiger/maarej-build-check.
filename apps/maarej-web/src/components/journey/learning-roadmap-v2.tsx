@@ -113,7 +113,7 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
           {distinctNextHint && <p className={styles.v2Hint}>{distinctNextHint}</p>}
           {name && activeIndex >= 0 && <button type="button" className={styles.v2HeroLink} onClick={() => setSelected(nodes[activeIndex].id)}>تفاصيل خطوتك الحالية</button>}
         </div>
-        {theme.characterAsset && <motion.img className={styles.v2Character} src={theme.characterAsset.src} alt="" width={1024} height={1536} initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .35 }}/>}
+        {theme.characterAsset && <motion.img className={styles.v2Character} src={theme.characterAsset.src} alt="" width={1024} height={1536} initial={reduce ? false : { y: 10 }} animate={{ y: 0 }} transition={{ duration: .35 }}/>}
       </section>
       {!!view.traits.length && <section className={styles.traits} aria-label="صفات هويتك">
         {view.traits.slice(0, 3).map((trait, i) => { const Icon = trait.symbol ? traitIcons[trait.symbol] : Sparkles; return <span key={trait.id} style={{ "--trait-order": i } as CSSProperties}>

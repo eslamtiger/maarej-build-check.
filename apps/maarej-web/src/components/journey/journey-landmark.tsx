@@ -20,8 +20,8 @@ export function JourneyLandmark({ state, theme, label, x, y, index, atRisk, onOp
   const Icon = done ? Check : current ? Emblem : state === "challenge" ? Flag : locked ? LockKeyhole : ChevronUp;
   return <motion.button type="button" className={styles.landmarkButton} data-landmark={state} aria-label={`${label} — عرض تفاصيل المرحلة`}
     style={{ left: `${x * 100}%`, top: `${y * 100}%`, width: current ? "29%" : "22%" }}
-    initial={reduce ? false : { opacity: 0, scale: current ? .9 : .94 }}
-    animate={{ opacity: 1, scale: 1 }}
+    initial={reduce ? false : { scale: current ? .9 : .94 }}
+    animate={{ scale: 1 }}
     transition={{ duration: .24, delay: reduce ? 0 : index * .10 }}
     whileTap={reduce ? undefined : { scale: .97 }} onClick={onOpen}>
     <svg viewBox="0 0 100 100" aria-hidden="true" style={{ color }} data-style={theme.landmarkStyle}>
