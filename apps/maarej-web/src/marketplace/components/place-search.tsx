@@ -50,7 +50,7 @@ export function PlaceSearch({kind}:{kind:'centers'|'spaces'}){
 
  return <PublicMarketplaceShell active={kind}>
   <section className={d.searchHead}>
-   <div><span className={d.eyebrow}>{t.eyebrow}</span><h1>{t.title}</h1><p>{t.lead}</p></div>
+   <div><h1>{t.title}</h1><p>{t.lead}</p></div>
    <div className={d.searchBar} role="search">
     <Search size={20} aria-hidden="true"/>
     <label htmlFor={`${kind}-q`} className={styles.srOnly}>{t.search}</label>

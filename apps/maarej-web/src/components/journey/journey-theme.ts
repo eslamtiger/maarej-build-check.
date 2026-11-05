@@ -19,8 +19,8 @@ export function resolveIdentityTheme(
   overrides?: Partial<IdentityTheme>,
 ): IdentityTheme {
   return {
-    primaryColor: visual?.primaryAccent ?? "#635BDF",
-    secondaryColor: visual?.secondaryAccent ?? "#219EBC",
+    primaryColor: visual?.primaryAccent ?? "#4B3FD6",
+    secondaryColor: visual?.secondaryAccent ?? "#8A81F0",
     accentColor: "#E9B64B",
     emblem: visual?.symbol === "compass" ? "compass" : visual?.symbol === "spark" ? "spark" : "shield",
     landmarkStyle: visual?.shapeVariant === "hex" ? "hex" : visual?.shapeVariant === "orb" ? "round" : "crest",

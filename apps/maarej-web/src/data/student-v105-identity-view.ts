@@ -40,14 +40,14 @@ export type StudentIdentityView = {
 };
 
 const visualIndigo: IdentityVisualThemeConfig = {
-  primaryAccent: "#635BDF",
-  secondaryAccent: "#219EBC",
+  primaryAccent: "#4B3FD6",
+  secondaryAccent: "#8A81F0",
   symbol: "spark",
   shapeVariant: "hex",
 };
 const visualBlue: IdentityVisualThemeConfig = {
   primaryAccent: "#167C9C",
-  secondaryAccent: "#635BDF",
+  secondaryAccent: "#4B3FD6",
   symbol: "compass",
   shapeVariant: "orb",
 };

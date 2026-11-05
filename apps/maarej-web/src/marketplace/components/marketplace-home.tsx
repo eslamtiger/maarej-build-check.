@@ -24,13 +24,13 @@ export function MarketplaceHome(){
  const bestSpaces=useMemo(()=>top(marketplaceSpaces,4),[]);
  const bestTeachers=useMemo(()=>top(marketplaceTeachers,4),[]);
  const subjects=useMemo(()=>{const n=new Map<string,number>();for(const t of marketplaceTeachers)for(const s of t.subjects)n.set(s,(n.get(s)??0)+1);return [...n.entries()].sort((a,b)=>b[1]-a[1]).slice(0,4).map(([s])=>s);},[]);
+ const subjectsAll=useMemo(()=>{const n=new Map<string,number>();for(const t of marketplaceTeachers)for(const x of t.subjects)n.set(x,(n.get(x)??0)+1);return [...n.entries()].sort((a,b)=>b[1]-a[1]).slice(0,10).map(([x])=>x);},[]);
  const heroTeacher=marketplaceTeachers.find(t=>t.image)??marketplaceTeachers[0];
  return <PublicMarketplaceShell>
   <section className={d.hero}>
    <div className={d.heroText}>
-    <span className={d.heroTag}>معارج · التعليم في مكان واحد</span>
-    <h1>مدرّس، سنتر،<br/>أو مكان تذاكر فيه.<br/><em>قارن واختار.</em></h1>
-    <p>ابحث في المدرسين والسناتر ومساحات المذاكرة، وشوف الأسعار والتجهيزات والموقع قبل ما تقرر.</p>
+        <h1>ابحث. قارن. اختار.<br/><em>كل تعليمك في مكان واحد.</em></h1>
+    <p>مدرّس مناسب، سنتر قريب، أو مساحة هادية تذاكر فيها. شوف الأسعار والتقييمات والموقع قبل ما تقرر.</p>
     <div className={d.heroSearch}>
      <div className={d.tabs} role="tablist" aria-label="نوع البحث">{tabs.map(({key,label,Icon})=><button key={key} type="button" role="tab" aria-selected={tab===key} onClick={()=>setTab(key)}><Icon size={16} aria-hidden="true"/>{label}</button>)}</div>
      <form action={current.action} className={d.heroForm}>
@@ -54,13 +54,15 @@ export function MarketplaceHome(){
    <Link href="/spaces" className={d.path}><span className={d.pathIcon}><DoorOpen size={22} aria-hidden="true"/></span><h2>مساحات مذاكرة</h2><p>{marketplaceSpaces.length} مساحة: مكتبات، غرف دراسة وقاعات فرق.</p><span className={d.pathGo}>استكشف<ArrowLeft size={16} aria-hidden="true"/></span></Link>
   </section>
 
+  <section className={d.subjects} aria-labelledby="subjects-title"><h2 id="subjects-title">ابدأ من المادة</h2><div>{subjectsAll.map(x=><Link key={x} href={`/teachers?q=${encodeURIComponent(x)}`}>{x}</Link>)}</div></section>
+
   <section className={d.band} aria-labelledby="best-centers"><header><h2 id="best-centers">سناتر بتقييم عالي</h2><Link href="/centers?sort=rating">كل السناتر<ArrowLeft size={15} aria-hidden="true"/></Link></header><div className={d.cards}>{bestCenters.map(c=><CenterCard key={c.id} center={c} returnTo="/centers"/>)}</div></section>
 
   <section className={d.band} aria-labelledby="best-teachers"><header><h2 id="best-teachers">مدرسين مميزين</h2><Link href="/teachers">كل المدرسين<ArrowLeft size={15} aria-hidden="true"/></Link></header><div className={d.cards}>{bestTeachers.map(t=><TeacherCard key={t.id} teacher={t} returnTo="/" idPrefix="home"/>)}</div></section>
 
   <section className={d.band} aria-labelledby="best-spaces"><header><h2 id="best-spaces">مساحات مذاكرة</h2><Link href="/spaces?sort=rating">كل المساحات<ArrowLeft size={15} aria-hidden="true"/></Link></header><div className={d.cards}>{bestSpaces.map(s=><SpaceCard key={s.id} space={s} returnTo="/spaces"/>)}</div></section>
 
-  <section className={d.how} aria-labelledby="how-title"><h2 id="how-title">إزاي معارج بيساعدك تختار</h2>
+  <section className={d.how} aria-labelledby="how-title"><h2 id="how-title">3 خطوات بدل عشر مكالمات</h2>
    <ol>
     <li><ListChecks size={22} aria-hidden="true"/><h3>حدّد اللي محتاجه</h3><p>اختار المادة أو المنطقة أو السعة اللي تناسبك.</p></li>
     <li><Scale size={22} aria-hidden="true"/><h3>قارن بوضوح</h3><p>الأسعار والتجهيزات والتقييمات والموقع في مكان واحد.</p></li>

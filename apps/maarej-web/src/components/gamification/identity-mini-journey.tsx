@@ -15,7 +15,7 @@ export function IdentityMiniJourney({ view }: { view: StudentIdentityView }) {
 
   return <div className="v105-mini-journey" aria-label="موقع الطالب الحالي في رحلة الهوية">
     <svg viewBox="0 0 360 120" role="img" aria-label="ثلاث محطات توضح موقعك الحالي والخطوة التالية">
-      <defs><linearGradient id="miniJourneyGradient" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#635BDF"/><stop offset="100%" stopColor="#219EBC"/></linearGradient></defs>
+      <defs><linearGradient id="miniJourneyGradient" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#4B3FD6"/><stop offset="100%" stopColor="#8A81F0"/></linearGradient></defs>
       <path d={path} fill="none" stroke="rgba(255,255,255,.25)" strokeWidth="6" strokeLinecap="round"/>
       <motion.path d={path} fill="none" stroke="url(#miniJourneyGradient)" strokeWidth="6" strokeLinecap="round" initial={reduce ? { pathLength: fraction } : { pathLength: 0 }} animate={{ pathLength: fraction }} transition={{ duration: reduce ? 0 : .75, ease: [.2,.8,.2,1] }}/>
       {nodes.map((node, index) => {
@@ -24,7 +24,7 @@ export function IdentityMiniJourney({ view }: { view: StudentIdentityView }) {
         const active = node.status === "active" || node.status === "atRisk";
         const done = node.status === "completed";
         return <g key={node.id} transform={`translate(${x} ${y})`}>
-          <motion.circle r={active ? 23 : 18} fill={done ? "#635BDF" : active ? "#fff" : "rgba(255,255,255,.9)"} stroke={active ? (node.status === "atRisk" ? "#DD8A32" : "#635BDF") : "rgba(255,255,255,.45)"} strokeWidth={active ? 4 : 2} initial={reduce || !active ? false : { scale: .9 }} animate={{ scale: 1 }} transition={{ duration: reduce ? 0 : .3 }}/>
+          <motion.circle r={active ? 23 : 18} fill={done ? "#4B3FD6" : active ? "#fff" : "rgba(255,255,255,.9)"} stroke={active ? (node.status === "atRisk" ? "#DD8A32" : "#4B3FD6") : "rgba(255,255,255,.45)"} strokeWidth={active ? 4 : 2} initial={reduce || !active ? false : { scale: .9 }} animate={{ scale: 1 }} transition={{ duration: reduce ? 0 : .3 }}/>
           {done ? <Check x={-9} y={-9} width={18} height={18} color="#fff"/> : node.status === "locked" ? <LockKeyhole x={-8} y={-8} width={16} height={16} color="#687986"/> : null}
           {active ? <text y="-32" textAnchor="middle" className="v105-mini-here">أنت هنا</text> : null}
           <text y={active ? 41 : 34} textAnchor="middle" className="v105-mini-label">{node.label}</text>

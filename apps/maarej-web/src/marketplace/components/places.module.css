@@ -150,3 +150,14 @@
 .card{transition:box-shadow var(--m-motion-fast),border-color var(--m-motion-fast),transform var(--m-motion-fast)}
 .card:hover,.card[data-active=true]{border-color:var(--m-blue-500);box-shadow:var(--m-shadow-md)}
 @media (min-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Maarej Unified: horizontal result cards beside the map on desktop (photo | details). */
+@media (min-width:1024px){
+ .grid{grid-template-columns:1fr}
+ .grid .card{grid-template-columns:minmax(200px,38%) 1fr}
+ .grid .coverLink,.grid .cover{height:100%}
+ .grid .cover{aspect-ratio:auto;min-height:220px}
+}
+.cardHead h3{font-family:var(--m-font-display);font-size:1.125rem}
+.price{font-family:var(--m-font-display)}
+.coverIcon{color:var(--m-blue-700)}

@@ -1,0 +1,23 @@
+/* Maarej Unified: shared public header and footer. */
+.bar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--m-border-soft)}
+.inner{max-width:1220px;margin:auto;display:flex;align-items:center;gap:20px;min-height:64px;padding:8px 16px}
+.brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--m-font-display);font-size:1.25rem;font-weight:800;color:var(--m-blue-950)}
+.mark{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--m-blue-700);color:#fff;font-size:1.05rem;font-weight:800}
+.nav{display:flex;align-items:center;gap:4px;margin-inline-start:12px}
+.nav a{display:inline-flex;align-items:center;gap:7px;min-height:42px;padding:8px 14px;border-radius:var(--m-radius-pill);color:var(--m-neutral-800);font-weight:600;font-size:.9375rem;white-space:nowrap;transition:background var(--m-motion-fast),color var(--m-motion-fast)}
+.nav a:hover{background:var(--m-neutral-100);color:var(--m-blue-950)}
+.nav a[aria-current=page]{background:var(--m-blue-100);color:var(--m-blue-800)}
+.student{margin-inline-start:auto;display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:8px 16px;border-radius:var(--m-radius-pill);background:var(--m-blue-950);color:#fff;font-weight:700;font-size:.9375rem;white-space:nowrap}
+.student:hover{background:var(--m-blue-800)}
+.footer{max-width:1220px;margin:56px auto 0;padding:28px 16px 40px;border-top:1px solid var(--m-border-soft);display:grid;gap:16px;color:var(--m-neutral-600)}
+.footer p{margin:6px 0 0;font-size:.9375rem}
+.footer nav{display:flex;flex-wrap:wrap;gap:6px 18px}
+.footer nav a{color:var(--m-neutral-800);font-weight:600}
+.footer small{font-size:.8125rem}
+@media (max-width:820px){
+ .inner{flex-wrap:wrap;gap:8px 12px;padding-bottom:0}
+ .student span{display:none}
+ .student{padding:8px 11px}
+ .nav{order:3;width:100%;margin:0 -16px;padding:0 12px 8px;overflow-x:auto;scrollbar-width:none}
+ .nav::-webkit-scrollbar{display:none}
+}

@@ -1,44 +1,47 @@
 :root {
   color-scheme: light;
+  /* Maarej Unified design system (V1.11): one indigo brand, amber accent, violet-tinted neutrals.
+     Legacy token names (blue-*) are kept so every screen picks up the new palette. */
 
   /* Core color system */
-  --m-blue-950: #0c2147;
-  --m-blue-900: #11305f;
-  --m-blue-800: #17417a;
-  --m-blue-700: #1d56a3;
-  --m-blue-600: #2f70d0;
-  --m-blue-500: #4a89e8;
-  --m-blue-100: #eaf2ff;
-  --m-blue-50: #f5f8ff;
+  --m-blue-950: #16133d;
+  --m-blue-900: #241e63;
+  --m-blue-800: #3a2fb4;
+  --m-blue-700: #4b3fd6;
+  --m-blue-600: #5f54e6;
+  --m-blue-500: #8a81f0;
+  --m-blue-100: #ebe9ff;
+  --m-blue-50: #f5f4ff;
 
-  --m-violet-600: #6f5bd6;
-  --m-violet-100: #efecff;
+  --m-violet-600: #4b3fd6;
+  --m-violet-100: #ebe9ff;
   --m-mint-600: #209a80;
   --m-mint-100: #ddf6ef;
-  --m-amber-600: #b97518;
-  --m-amber-100: #fff0d3;
+  --m-amber-600: #c27a12;
+  --m-amber-100: #fff1d9;
   --m-rose-600: #b14f78;
   --m-rose-100: #fde7ef;
 
-  --m-neutral-950: #172033;
-  --m-neutral-800: #303a4e;
-  --m-neutral-600: #667085;
-  --m-neutral-500: #7d879a;
-  --m-neutral-300: #d7ddea;
-  --m-neutral-200: #e7ebf2;
-  --m-neutral-100: #f2f4f8;
-  --m-neutral-50: #f8f9fc;
+  --m-neutral-950: #16133d;
+  --m-neutral-800: #36334f;
+  --m-neutral-600: #5f5c78;
+  --m-neutral-500: #7c7994;
+  --m-neutral-300: #d9d7e6;
+  --m-neutral-200: #e8e6f1;
+  --m-neutral-100: #f2f1f8;
+  --m-neutral-50: #f9f8fc;
   --m-white: #ffffff;
 
-  --m-surface-page: #f6f8fc;
-  --m-surface-card: rgba(255, 255, 255, 0.88);
+  --m-surface-page: #f7f6fb;
+  --m-surface-card: #ffffff;
   --m-surface-elevated: #ffffff;
-  --m-surface-tint: rgba(234, 242, 255, 0.72);
-  --m-border-soft: rgba(17, 48, 95, 0.10);
-  --m-border-focus: rgba(47, 112, 208, 0.42);
+  --m-surface-tint: #f5f4ff;
+  --m-border-soft: #e6e4f0;
+  --m-border-focus: rgba(75, 63, 214, 0.40);
 
   /* Type scale */
-  --m-font-ar: "Noto Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+  --m-font-ar: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+  --m-font-display: "Alexandria", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
   --m-text-xs: 0.75rem;
   --m-text-sm: 0.875rem;
   --m-text-md: 1rem;
@@ -61,15 +64,15 @@
   --m-space-12: 3rem;
   --m-space-16: 4rem;
 
-  --m-radius-sm: 0.75rem;
+  --m-radius-sm: 0.625rem;
   --m-radius-md: 1rem;
-  --m-radius-lg: 1.35rem;
-  --m-radius-xl: 1.75rem;
+  --m-radius-lg: 1.25rem;
+  --m-radius-xl: 1.5rem;
   --m-radius-pill: 999px;
 
-  --m-shadow-sm: 0 6px 20px rgba(24, 46, 85, 0.06);
-  --m-shadow-md: 0 16px 40px rgba(24, 46, 85, 0.10);
-  --m-shadow-glow: 0 0 0 1px rgba(74, 137, 232, 0.12), 0 16px 42px rgba(74, 137, 232, 0.16);
+  --m-shadow-sm: 0 1px 2px rgba(22, 19, 61, 0.05), 0 4px 14px rgba(22, 19, 61, 0.05);
+  --m-shadow-md: 0 2px 6px rgba(22, 19, 61, 0.06), 0 14px 36px rgba(22, 19, 61, 0.10);
+  --m-shadow-glow: 0 0 0 1px rgba(75, 63, 214, 0.14), 0 16px 42px rgba(75, 63, 214, 0.16);
 
   --m-icon-sm: 1rem;
   --m-icon-md: 1.25rem;
@@ -93,7 +96,7 @@
 
   /* Image treatment */
   --m-image-radius: var(--m-radius-xl);
-  --m-image-overlay: linear-gradient(180deg, rgba(12,33,71,0) 42%, rgba(12,33,71,.48) 100%);
+  --m-image-overlay: linear-gradient(180deg, rgba(22,19,61,0) 42%, rgba(22,19,61,.5) 100%);
   --m-image-aspect-hero: 16 / 9;
 
   --m-content-max: 1180px;

@@ -27,8 +27,8 @@ export function HistoryChart({ history, label, compact = false }: { history: rea
     <svg viewBox="0 0 360 170" role={compact ? "img" : "group"} aria-label={label}>
       <title>{label}</title><desc>{history.map(p => `${p.label}: ${p.value}%`).join("، ")}</desc>
       {[26,78,130].map(y => <line key={y} x1="24" x2="336" y1={y} y2={y} stroke="#E9E8F3" strokeDasharray="3 5"/>)}
-      <polyline points={coordinates.map(p => `${p.x},${p.y}`).join(" ")} fill="none" stroke="#635BDF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-      {coordinates.map((p,i) => <g key={i}><circle cx={p.x} cy={p.y} r={i===index ? 5 : 3} fill={i===index ? "#219EBC" : "#635BDF"} stroke="white" strokeWidth="2"/>{!compact && <foreignObject x={p.x-27} y={p.y-27} width="54" height="54"><button type="button" className={styles.chartPoint} aria-pressed={i===index} onClick={() => setSelected(i)} aria-label={`${history[i].label}: ${history[i].value}%`}/></foreignObject>}</g>)}
+      <polyline points={coordinates.map(p => `${p.x},${p.y}`).join(" ")} fill="none" stroke="#4B3FD6" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+      {coordinates.map((p,i) => <g key={i}><circle cx={p.x} cy={p.y} r={i===index ? 5 : 3} fill={i===index ? "#8A81F0" : "#4B3FD6"} stroke="white" strokeWidth="2"/>{!compact && <foreignObject x={p.x-27} y={p.y-27} width="54" height="54"><button type="button" className={styles.chartPoint} aria-pressed={i===index} onClick={() => setSelected(i)} aria-label={`${history[i].label}: ${history[i].value}%`}/></foreignObject>}</g>)}
     </svg>
     <div className={styles.chartDates} dir="ltr"><span>{history[0].label}</span><span>{history.at(-1)?.label}</span></div>
     {!compact && <p className={styles.chartValue} aria-live="polite">{history[index].label} · <strong>{history[index].value}%</strong></p>}

@@ -20,12 +20,12 @@
 .characterFallback { display:grid; place-items:center; height:190px; color:var(--home-primary); }
 .heroActions { position:relative; z-index:3; display:flex; align-items:center; gap:10px; margin-top:16px; }
 .primaryAction,.secondaryAction { display:flex; align-items:center; justify-content:center; gap:7px; min-height:44px; border-radius:13px; padding:9px 15px; font-size:.8125rem; font-weight:700; text-decoration:none; }
-.primaryAction { border:0; background:var(--home-primary,#635BDF); color:white; box-shadow:0 3px 0 #4d44942b; }
+.primaryAction { border:0; background:var(--home-primary,#4B3FD6); color:white; box-shadow:0 3px 0 #4d44942b; }
 .heroActions .primaryAction { flex:1; }
 .secondaryAction { color:#625681; background:#ffffff80; border:1px solid #ffffff90; }
 .sectionHeading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
 .sectionHeading h2 { font-size:1rem; font-weight:800; margin:0; }
-.sectionHeading a { display:flex; align-items:center; gap:3px; min-height:44px; font-size:.75rem; color:var(--home-primary,#635BDF); font-weight:700; }
+.sectionHeading a { display:flex; align-items:center; gap:3px; min-height:44px; font-size:.75rem; color:var(--home-primary,#4B3FD6); font-weight:700; }
 .sectionHeading > svg { color:#9184af; }
 .timeline { display:flex; flex-direction:column; }
 .timelineItem { display:flex; align-items:center; gap:10px; padding:12px 0; border:0; background:transparent; text-align:right; color:inherit; min-width:0; }
@@ -54,15 +54,15 @@
 .missionFooter button { display:flex; align-items:center; gap:4px; border:0; background:transparent; color:var(--home-primary); font-size:.8rem; font-weight:800; padding:5px 0; }
 .performanceStrip { display:grid; grid-template-columns:1.1fr 1fr; border-block:1px solid #e2deee; padding:16px 0; }
 .performanceLink { display:block; color:inherit; text-decoration:none; border-radius:10px; }
-.performanceCta { display:flex; align-items:center; gap:3px; font-size:.75rem; color:var(--home-primary,#635BDF); font-weight:700; }
+.performanceCta { display:flex; align-items:center; gap:3px; font-size:.75rem; color:var(--home-primary,#4B3FD6); font-weight:700; }
 .primaryMetric { padding-inline-end:16px; position:relative; }
 .primaryMetric > small { display:block; font-size:.75rem; color:#8b819e; }
 .primaryMetric strong { display:block; font-size:1.9rem; line-height:1.2; color:#403375; text-align:right; margin-top:4px; }
 .primaryMetric p { font-size:.7rem; margin:4px 0 9px; color:#8b819e; }
-.metricIcon { position:absolute; left:14px; top:0; color:var(--home-secondary,#219EBC); opacity:.7; }
+.metricIcon { position:absolute; left:14px; top:0; color:var(--home-secondary,#8A81F0); opacity:.7; }
 .metricNote { font-size:.625rem!important; color:#9a8faf; }
 .trend { display:flex; align-items:center; gap:3px; font-size:.7rem; color:#278A67; }
-.miniChart { width:100%; max-width:160px; height:36px; color:var(--home-secondary,#219EBC); margin-top:3px; }
+.miniChart { width:100%; max-width:160px; height:36px; color:var(--home-secondary,#8A81F0); margin-top:3px; }
 .attendance { border-inline-start:1px solid #e2deee; text-align:center; }
 .attendance > small { font-size:.75rem; color:#8b819e; }
 .attendanceValue { position:relative; width:68px; height:68px; margin:5px auto; display:grid; place-items:center; }
@@ -108,7 +108,7 @@
 .detailRow > span { color:#9385a4; flex-shrink:0; }
 .detailRow b { text-align:left; }
 .drawerClose { position:absolute; top:20px; left:18px; width:44px; height:44px; display:grid; place-items:center; border:0; border-radius:50%; background:#eeeaf5; color:#6c5c82; cursor:pointer; }
-.home button:focus-visible,.home a:focus-visible,.detailBody a:focus-visible { outline:3px solid var(--home-secondary,#219EBC); outline-offset:3px; }
+.home button:focus-visible,.home a:focus-visible,.detailBody a:focus-visible { outline:3px solid var(--home-secondary,#8A81F0); outline-offset:3px; }
 @keyframes homeSheetIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 @media(min-width:400px) { .hero { padding:20px; } .hero h1 { font-size:1.375rem; } .character { height:196px; } }
 @media(min-width:1024px) {

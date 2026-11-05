@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 // No CSS mask, mask-composite, animated background-position, filter, or backdrop-filter.
 export function ShineBorder({
   className,
-  shineColor = ["#7857d8", "#e5b94e", "#4a89e8"],
+  shineColor = ["#7857d8", "#e5b94e", "#5F54E6"],
   borderWidth = 1,
   style,
 }: {
@@ -23,7 +23,7 @@ export function ShineBorder({
       style={{
         "--shine-color-a": colors[0] ?? "#7857d8",
         "--shine-color-b": colors[1] ?? colors[0] ?? "#e5b94e",
-        "--shine-color-c": colors[2] ?? colors[0] ?? "#4a89e8",
+        "--shine-color-c": colors[2] ?? colors[0] ?? "#5F54E6",
         "--shine-width": `${borderWidth}px`,
         ...style,
       } as CSSProperties}
