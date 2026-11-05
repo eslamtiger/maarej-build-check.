@@ -22,11 +22,11 @@ export function TeacherPortrait({teacher:t,className=''}:{teacher:Pick<TeacherSe
 
 export function TeacherCard({teacher:t,returnTo='/teachers',active=false,picked=false,onHover,index=0}:{teacher:TeacherSearchDTO;returnTo?:string;active?:boolean;picked?:boolean;onHover?:(id:string|null)=>void;index?:number}){
  const [failed,setFailed]=useState(false);
- const {hot,setHot,handlers}=useCardMotion();
+ const {hot,setHot,handlers,ref,centered}=useCardMotion();
  const href=`/teachers/${t.id}?returnTo=${encodeURIComponent(returnTo)}`;
  // Name + area, then the subject(s), then stage and system as plain values (no labels).
  const facts:Fact[]=[{emoji:'🎓',value:t.stages.join(' · ')||'—'},{emoji:'🏫',value:t.systems.join(' · ')||'—'}];
- return <article id={`card-${t.id}`} className={c.card} data-active={active} data-picked={picked} data-hot={hot} style={{'--i':index} as CSSProperties} {...handlers}
+ return <article ref={ref} id={`card-${t.id}`} className={c.card} data-active={active} data-picked={picked} data-hot={hot} data-centered={centered} style={{'--i':index} as CSSProperties} {...handlers}
   onMouseEnter={()=>{setHot(true);onHover?.(t.id);}} onMouseLeave={()=>{setHot(false);onHover?.(null);}}>
   <div className={c.media} style={!t.image||failed?{background:teacherGradient(t.id)}:undefined}>
    {t.image&&!failed?<img className={c.photo} src={t.image} alt="" loading="lazy" style={{objectPosition:'center 25%'}} onError={()=>setFailed(true)}/>:<span className={c.fallback} aria-hidden="true">{initialsOf(t.name)}</span>}

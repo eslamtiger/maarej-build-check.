@@ -6,17 +6,17 @@
 @media (min-width:600px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 
 /* Every card has a lavender frame. Hover / long press ("hot") turns it indigo; picked from the map turns it amber. */
-.card { position:relative; display:grid; grid-template-rows:auto 1fr; border-radius:28px; background:#fff; border:2px solid #D6D0F5; box-shadow:0 3px 0 #E4E0F7, 0 14px 30px rgba(22,19,61,.06); color:#16133D; text-decoration:none; scroll-margin-top:calc(var(--site-header-h,64px) + 84px);
+.card { position:relative; display:grid; grid-template-rows:auto 1fr; border-radius:28px; background:#fff; border:3px solid #D6D0F5; box-shadow:0 3px 0 #E4E0F7, 0 14px 30px rgba(22,19,61,.06); color:#16133D; text-decoration:none; scroll-margin-top:calc(var(--site-header-h,64px) + 84px);
   animation:rise .55s cubic-bezier(.16,1,.3,1) backwards; animation-delay:calc(min(var(--i,0),8) * 55ms); transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s, border-color .25s; }
 @keyframes rise { from { transform:translateY(18px) scale(.985); } }
-.card[data-hot=true], .card[data-active=true] { border-color:#4B3FD6; box-shadow:0 4px 0 #3328A8, 0 22px 40px rgba(75,63,214,.22); transform:translateY(-4px); }
+.card[data-hot=true], .card[data-active=true], .card[data-centered=true] { border-color:#4B3FD6; box-shadow:0 4px 0 #3328A8, 0 22px 40px rgba(75,63,214,.22); transform:translateY(-4px); }
 .card[data-hot=true] .photo { transform:scale(1.07); }
 .card[data-picked=true] { border-color:#FFB53D; box-shadow:0 0 0 4px #FFE2A8, 0 4px 0 #D68A16, 0 22px 40px rgba(214,138,22,.25); animation:picked .9s cubic-bezier(.34,1.56,.64,1); }
 @keyframes picked { 0% { transform:scale(.96); } 45% { transform:scale(1.02); } 100% { transform:none; } }
 .card:active { transform:translateY(1px) scale(.995); }
 /* The title link stretches over the whole card */
 .cover { color:inherit; text-decoration:none; }
-.cover::after { content:""; position:absolute; inset:0; z-index:2; border-radius:26px; }
+.cover::after { content:""; position:absolute; inset:0; z-index:2; border-radius:25px; }
 .cover:focus-visible { outline:none; }
 .card:has(.cover:focus-visible) { outline:3px solid #A59CFF; outline-offset:3px; }
 
@@ -39,12 +39,12 @@
 .head { display:flex; align-items:center; gap:10px; min-width:0; }
 .head h3 { flex:1; min-width:0; margin:0; font-family:var(--m-font-display); font-size:1.2rem; font-weight:800; line-height:1.35; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .area { flex:none; display:inline-flex; align-items:center; gap:4px; max-width:50%; padding:5px 11px; border-radius:999px; background:#F0EEFF; color:#4B3FD6; font-weight:800; font-size:.875rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.facts { display:flex; align-items:center; gap:6px 14px; min-width:0; margin:0; padding:0; list-style:none; white-space:nowrap; overflow:hidden; }
-.facts li { display:inline-flex; align-items:baseline; gap:5px; min-width:0; }
-.facts li + li { padding-inline-start:14px; border-inline-start:1px solid #ECEAF4; }
-.facts small { color:#8C88A8; font-size:.8125rem; font-weight:500; }
-.facts b { color:#16133D; font-weight:800; font-size:.9375rem; overflow:hidden; text-overflow:ellipsis; }
-.facts i { font-style:normal; font-size:.95rem; }
+.facts { display:flex; align-items:center; gap:6px 16px; min-width:0; margin:0; padding:2px 0; list-style:none; white-space:nowrap; overflow:hidden; }
+.facts li { display:inline-flex; align-items:center; gap:7px; min-width:0; }
+.facts li + li { padding-inline-start:16px; border-inline-start:2px dotted #DCD8EE; }
+.facts i { display:grid; place-items:center; width:30px; height:30px; flex:none; border-radius:10px; background:#FFF4E0; font-style:normal; font-size:1.05rem; }
+.facts small { color:#8C88A8; font-size:.875rem; font-weight:500; }
+.facts b { color:#16133D; font-family:var(--m-font-display); font-weight:800; font-size:1.075rem; overflow:hidden; text-overflow:ellipsis; }
 
 .tagRow { display:flex; align-items:center; gap:6px; min-width:0; }
 .tags { flex:1; display:flex; flex-wrap:nowrap; gap:6px; min-width:0; margin:0; padding:0; list-style:none; overflow:hidden; -webkit-mask-image:linear-gradient(to left,#000 calc(100% - 14px),transparent); mask-image:linear-gradient(to left,#000 calc(100% - 14px),transparent); }

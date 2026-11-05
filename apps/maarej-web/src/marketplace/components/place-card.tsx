@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import {useRef,useState} from 'react';
+import {useEffect,useRef,useState} from 'react';
 import type {CSSProperties,PointerEvent as ReactPointerEvent,MouseEvent as ReactMouseEvent} from 'react';
 import {Building2,DoorOpen,Star,MapPin} from 'lucide-react';
 import {emojiFor} from '../adapters/emoji';
@@ -42,13 +42,18 @@ export function useCardMotion(){
  const [nudge,setNudge]=useState<{n:number;dir:1|-1}>({n:0,dir:1});
  const sx=useRef<{x:number;t:ReturnType<typeof setTimeout>}|null>(null);
  const swiped=useRef(false);
+ // On touch screens there is no hover: the card that settles in the middle of the screen while scrolling gets the lit frame.
+ const ref=useRef<HTMLElement>(null);
+ const [centered,setCentered]=useState(false);
+ useEffect(()=>{const el=ref.current;if(!el||matchMedia('(hover:hover)').matches)return;
+  const io=new IntersectionObserver(([e])=>setCentered(e.isIntersecting),{rootMargin:'-42% 0px -42% 0px'});io.observe(el);return()=>io.disconnect();},[]);
  const handlers={
   onPointerDown:(e:ReactPointerEvent)=>{if(e.pointerType==='mouse')return;const t=setTimeout(()=>setHot(true),350);sx.current={x:e.clientX,t};},
   onPointerUp:(e:ReactPointerEvent)=>{const d=sx.current;if(!d)return;clearTimeout(d.t);sx.current=null;setHot(false);const dx=e.clientX-d.x;if(Math.abs(dx)>40){swiped.current=true;setNudge(v=>({n:v.n+1,dir:dx<0?1:-1}));}},
   onPointerCancel:()=>{if(sx.current)clearTimeout(sx.current.t);sx.current=null;setHot(false);},
   onClickCapture:(e:ReactMouseEvent)=>{if(swiped.current){e.preventDefault();e.stopPropagation();swiped.current=false;}},
  };
- return {hot,setHot,nudge,handlers};
+ return {hot,setHot,nudge,handlers,ref,centered};
 }
 // One line of tags: three, then +N.
 export function Tags({tags,kind,label}:{tags:{emoji:string;label:string}[];kind:'features'|'zones'|'subjects';label:string}){
@@ -62,8 +67,8 @@ export function CardHead({name,area,href,onFocus,onBlur}:{name:string;area:strin
 
 function PlaceCard({kind,id,href,name,area,rating,reviews,price,unit,facts,tags,tagKind,active,picked,onHover,index=0}:Props){
  const Kind=kind==='center'?Building2:DoorOpen;
- const {hot,setHot,nudge,handlers}=useCardMotion();
- return <article id={`card-${id}`} className={c.card} data-active={active} data-picked={picked} data-hot={hot} style={{'--i':index} as CSSProperties} {...handlers}
+ const {hot,setHot,nudge,handlers,ref,centered}=useCardMotion();
+ return <article ref={ref} id={`card-${id}`} className={c.card} data-active={active} data-picked={picked} data-hot={hot} data-centered={centered} style={{'--i':index} as CSSProperties} {...handlers}
   onMouseEnter={()=>{setHot(true);onHover?.(id);}} onMouseLeave={()=>{setHot(false);onHover?.(null);}}>
   <div className={c.media}>
    <Gallery photos={placePhotos(kind,id)} hot={hot} delay={(index%6)*450} nudge={nudge}/>
