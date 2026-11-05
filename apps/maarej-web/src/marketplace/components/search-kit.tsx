@@ -92,13 +92,13 @@ export function MultiSheet({open,icon,title,choices,values,onChange,onClose,coun
 export function RangeSheet({open,icon,title,bounds,step,value,onChange,onClose,count,unit,money}:{open:boolean;icon:IconT;title:string;bounds:[number,number];step:number;value:[number,number];onChange:(v:[number,number])=>void;onClose:()=>void;count:number;unit:string;money:string}){
  const [lo,hi]=value,[min,max]=bounds,pct=(v:number)=>((v-min)/(max-min))*100;
  return <Sheet open={open} icon={icon} title={title} onClose={onClose} footer={<ShowButton count={count} unit={unit} onClose={onClose} onClear={()=>onChange([min,max])} canClear={lo>min||hi<max}/>}>
-  <div className={k.rangeVals}><span><small>من</small><b><bdi dir="ltr">{lo}</bdi></b></span><i aria-hidden="true"/><span><small>إلى</small><b><bdi dir="ltr">{hi}{hi>=max?'+':''}</bdi></b></span><em>{money}</em></div>
-  <div className={k.range} dir="ltr" style={{'--a':`${pct(lo)}%`,'--b':`${pct(hi)}%`} as CSSProperties}>
+  <div className={k.rangeVals}><span><small>من</small><b><bdi>{lo}</bdi></b></span><i aria-hidden="true"/><span><small>إلى</small><b><bdi>{hi>=max?'+':''}{hi}</bdi></b></span><em>{money}</em></div>
+  <div className={k.range} dir="rtl" style={{'--a':`${pct(lo)}%`,'--b':`${pct(hi)}%`} as CSSProperties}>
    <span className={k.track} aria-hidden="true"/>
    <input type="range" min={min} max={max} step={step} value={lo} aria-label="أقل سعر" onChange={e=>onChange([Math.min(Number(e.target.value),hi-step),hi])}/>
    <input type="range" min={min} max={max} step={step} value={hi} aria-label="أعلى سعر" onChange={e=>onChange([lo,Math.max(Number(e.target.value),lo+step)])}/>
   </div>
-  <div className={k.rangeEnds} dir="ltr" aria-hidden="true"><span>{min}</span><span>{max}+</span></div>
+  <div className={k.rangeEnds} aria-hidden="true"><span>{min}</span><span>+{max}</span></div>
  </Sheet>;
 }
 

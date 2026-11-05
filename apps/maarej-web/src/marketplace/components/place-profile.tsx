@@ -74,6 +74,6 @@ export function SpaceProfile({space:s}:{space:SpaceDTO}){
   <section className={styles.section} aria-labelledby="feat-title"><h2 id="feat-title">التجهيزات</h2><ul className={styles.checkList}>{s.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul></section>
   <Location lat={s.lat} lng={s.lng} address={`${s.area}، ${s.governorate}`}/>
  </div>
- <div className={styles.stickyBar}><p className={styles.price}><small>نطاق السعر</small><bdi dir="ltr">{s.price.min} – {s.price.max}</bdi> <span>ج.م</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>
+ <div className={styles.stickyBar}><p className={styles.price}><small>نطاق السعر</small><bdi dir="rtl">{s.price.min} – {s.price.max}</bdi> <span>ج.م</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>
  </PublicMarketplaceShell>;
 }

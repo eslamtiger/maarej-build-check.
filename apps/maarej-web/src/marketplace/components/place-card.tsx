@@ -33,7 +33,7 @@ export function Facts({facts}:{facts:Fact[]}){
 }
 // Price range on the photo: lowest – highest.
 export function PriceTag({price,unit}:{price:{min:number;max:number};unit:string}){
- return <span className={c.price}><b><bdi dir="ltr">{price.min===price.max?price.min:`${price.min} – ${price.max}`}</bdi></b><small>{unit}</small></span>;
+ return <span className={c.price}><b><bdi dir="rtl">{price.min===price.max?price.min:`${price.min} – ${price.max}`}</bdi></b><small>{unit}</small></span>;
 }
 // Shared card frame: the title link covers the whole card; gallery buttons sit above it.
 // Hover or a long press makes the card "hot": the border lights up and the gallery flips.
@@ -71,7 +71,7 @@ function PlaceCard({kind,id,href,name,area,rating,reviews,price,unit,facts,tags,
  return <article ref={ref} id={`card-${id}`} className={c.card} data-active={active} data-picked={picked} data-hot={hot} data-centered={centered} style={{'--i':index} as CSSProperties} {...handlers}
   onMouseEnter={()=>{setHot(true);onHover?.(id);}} onMouseLeave={()=>{setHot(false);onHover?.(null);}}>
   <div className={c.media}>
-   <Gallery photos={placePhotos(kind,id)} hot={hot} delay={(index%6)*450} nudge={nudge}/>
+   <Gallery photos={placePhotos(kind,id)} hot={hot||centered} delay={(index%6)*450} nudge={nudge}/>
    <span className={c.rate}><Star aria-hidden="true"/><bdi>{rating.toFixed(1)}</bdi><small>({reviews})</small></span>
    <span className={c.kind} aria-hidden="true"><Kind size={18}/></span>
    <PriceTag price={price} unit={unit}/>

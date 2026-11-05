@@ -105,7 +105,7 @@
 .rangeVals i { width:14px; height:2px; background:#CFCAE6; }
 .rangeVals em { font-style:normal; color:#7D7A98; font-weight:700; font-size:.875rem; }
 .range { position:relative; height:44px; margin:8px 6px 0; }
-.track { position:absolute; inset-inline:0; top:50%; height:8px; margin-top:-4px; border-radius:99px; background:linear-gradient(90deg,#E7E5F1 var(--a),#4B3FD6 var(--a),#6F63FF var(--b),#E7E5F1 var(--b)); }
+.track { position:absolute; inset-inline:0; top:50%; height:8px; margin-top:-4px; border-radius:99px; background:linear-gradient(270deg,#E7E5F1 var(--a),#4B3FD6 var(--a),#6F63FF var(--b),#E7E5F1 var(--b)); }
 .range input { position:absolute; inset:0; width:100%; height:44px; margin:0; background:none; pointer-events:none; -webkit-appearance:none; appearance:none; }
 .range input::-webkit-slider-thumb { -webkit-appearance:none; pointer-events:auto; width:30px; height:30px; border-radius:50%; background:#fff; border:3px solid #4B3FD6; box-shadow:0 3px 0 #3328A8, 0 6px 14px rgba(75,63,214,.3); cursor:grab; }
 .range input::-moz-range-thumb { pointer-events:auto; width:26px; height:26px; border-radius:50%; background:#fff; border:3px solid #4B3FD6; box-shadow:0 3px 0 #3328A8; cursor:grab; }
