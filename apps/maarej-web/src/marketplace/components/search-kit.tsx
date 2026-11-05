@@ -50,7 +50,7 @@ function useSheet(open:boolean,onClose:()=>void){
  return box;
 }
 
-function Sheet({open,icon:Icon,title,onClose,children,footer}:{open:boolean;icon:IconT;title:string;onClose:()=>void;children:ReactNode;footer?:ReactNode}){
+export function Sheet({open,icon:Icon,title,onClose,children,footer}:{open:boolean;icon:IconT;title:string;onClose:()=>void;children:ReactNode;footer?:ReactNode}){
  const box=useSheet(open,onClose);
  if(!open)return null;
  return <>

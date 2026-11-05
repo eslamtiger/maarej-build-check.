@@ -169,3 +169,5 @@
 .coverHero{border-radius:28px;aspect-ratio:16/9}
 .profileHead .coverHero{box-shadow:0 18px 40px rgba(22,19,61,.12)}
 .facts dt svg{color:#4B3FD6}
+.bookCta{display:inline-flex;align-items:center;min-height:46px;padding:0 20px;border-radius:14px;background:#4B3FD6;color:#fff;font-weight:800;text-decoration:none;box-shadow:0 4px 0 #3328A8;white-space:nowrap}
+.bookCta:active{transform:translateY(3px);box-shadow:0 1px 0 #3328A8}

@@ -1,12 +1,10 @@
-import Link from 'next/link';
 import {Star,MapPin,UsersRound,LayoutGrid,Navigation,Banknote} from 'lucide-react';
 import type {CenterDTO,SpaceDTO,CenterReviewRole} from '../types/place';
 import {featureLabel,directionsHref} from '../adapters/places';
 import {emojiFor} from '../adapters/emoji';
-import {marketplaceTeachers} from '../adapters/teachers';
 import {PublicMarketplaceShell} from './public-shell';
 import {PlaceCover} from './place-card';
-import {TeacherPortrait} from './teacher-card';
+import {CenterSchedule,CenterTeachers} from './schedule';
 import {BackToSearch} from './back-to-search';
 import styles from './places.module.css';
 
@@ -33,7 +31,6 @@ function Location({lat,lng,address}:{lat:number;lng:number;address:string}){
 }
 
 export function CenterProfile({center:c}:{center:CenterDTO}){
- const teachers=c.featuredTeachers.map(id=>marketplaceTeachers.find(t=>t.legacyId===id)).filter(t=>t!==undefined);
  const reviewRoles=(Object.keys(roleLabels) as CenterReviewRole[]).filter(r=>(c.reviewsByRole[r]?.length??0)>0);
  return <PublicMarketplaceShell active="centers"><div className={styles.profile}>
   <BackToSearch base="/centers" label="السناتر"/>
@@ -41,19 +38,20 @@ export function CenterProfile({center:c}:{center:CenterDTO}){
   <Facts items={[{icon:LayoutGrid,label:'القاعات',value:String(c.rooms.length)},{icon:UsersRound,label:'أكبر قاعة',value:`${c.maxSeats} طالب`},{icon:Banknote,label:'سعر الساعة (ج.م)',value:`${c.price.min} – ${c.price.max}`}]}/>
   {c.branches.length>0&&<p className={styles.muted}>فروع أخرى: {c.branches.join('، ')}</p>}
 
+  <CenterSchedule center={c}/>
+
   <section className={styles.section} aria-labelledby="rooms-title"><h2 id="rooms-title">القاعات</h2>
    <ul className={styles.rooms}>{c.rooms.map(r=><li key={r.name}>
-    <div className={styles.roomHead}><h3>{r.name}</h3><p className={styles.price}><bdi dir="ltr">{r.price}</bdi> <span>ج.م / ساعة</span></p></div>
+    <div className={styles.roomHead}><h3>{r.name}</h3><p className={styles.price}><bdi>{r.price}</bdi> <span>ج.م / ساعة</span></p></div>
     <p className={styles.muted}><UsersRound size={14} aria-hidden="true"/> حتى {r.seats} طالب</p>
-    <ul className={styles.features}>{r.features.map(f=><li key={f}>{featureLabel(f)}</li>)}</ul>
+    <ul className={styles.features}>{r.features.map(f=><li key={f}>{emojiFor(featureLabel(f))} {featureLabel(f)}</li>)}</ul>
    </li>)}</ul>
   </section>
 
+  <CenterTeachers center={c}/>
+
   <section className={styles.section} aria-labelledby="feat-title"><h2 id="feat-title">تجهيزات السنتر</h2><ul className={styles.checkList}>{c.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul></section>
 
-  {teachers.length>0&&<section className={styles.section} aria-labelledby="tch-title"><h2 id="tch-title">مدرسون بيدرّسوا هنا</h2>
-   <ul className={styles.teacherList}>{teachers.map(t=><li key={t.id}><Link href={`/teachers/${t.id}`}><TeacherPortrait teacher={t} className={styles.teacherThumb}/><span><strong>{t.name}</strong><small>{t.subjects.slice(0,2).join('، ')}</small></span></Link></li>)}</ul>
-  </section>}
 
   {reviewRoles.length>0&&<section className={styles.section} aria-labelledby="rev-title"><h2 id="rev-title">آراء المستخدمين</h2>
    <div className={styles.reviews}>{reviewRoles.map(role=>c.reviewsByRole[role]!.map((r,i)=><figure key={`${role}-${i}`}><blockquote>{r.text}</blockquote><figcaption><span>{roleLabels[role]}</span><span className={styles.rating}><Star size={13} aria-hidden="true"/><bdi>{r.rating.toFixed(1)}</bdi></span></figcaption></figure>))}</div>
@@ -61,7 +59,7 @@ export function CenterProfile({center:c}:{center:CenterDTO}){
 
   <Location lat={c.lat} lng={c.lng} address={c.address}/>
  </div>
- <div className={styles.stickyBar}><p className={styles.price}><small>القاعة من</small><bdi dir="ltr">{c.price.min}</bdi> <span>ج.م / ساعة</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>
+ <div className={styles.stickyBar}><p className={styles.price}><small>القاعة</small><bdi>{c.price.min} – {c.price.max}</bdi> <span>ج.م / ساعة</span></p><a href="#sch-title" className={styles.bookCta}>احجز قاعة</a></div>
  </PublicMarketplaceShell>;
 }
 

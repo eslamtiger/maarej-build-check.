@@ -1,11 +1,10 @@
-import Link from 'next/link';
-import {Star,MapPin,BadgeCheck,GraduationCap,BookOpen,Building2,Clock3} from 'lucide-react';
+import {Star,MapPin,BadgeCheck,GraduationCap,BookOpen,Clock3} from 'lucide-react';
 import profiles from '../data/teacher-profiles.json';
 import type {TeacherSearchDTO} from '../types/teacher';
-import {marketplaceCenters} from '../adapters/places';
 import {PublicMarketplaceShell} from './public-shell';
 import {TeacherPortrait} from './teacher-card';
 import {BackToSearch} from './back-to-search';
+import {TeacherSchedule} from './schedule';
 import styles from './places.module.css';
 
 type Profile={bio:string;experience:string;lessons:number;verified:boolean;mode:string;lessonPrices:{label:string;price:number}[]};
@@ -14,7 +13,6 @@ const profileFor=(legacyId:string)=>(profiles as Record<string,Profile>)[legacyI
 // Full public profile built from the V6 teacher record (bio, experience, lesson prices).
 export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
  const p=profileFor(t.legacyId);
- const centers=marketplaceCenters.filter(c=>c.featuredTeachers.includes(t.legacyId));
  return <PublicMarketplaceShell active="teachers"><div className={styles.profile}>
   <BackToSearch base="/teachers" label="العودة للمدرسين"/>
   <header className={styles.teacherHead}>
@@ -35,13 +33,11 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
   {p&&<section className={styles.section} aria-labelledby="bio-title"><h2 id="bio-title">نبذة</h2><p className={styles.lead}>{p.bio}</p><p className={styles.muted}>طريقة التدريس: {p.mode} · الأنظمة: {t.systems.join('، ')}</p></section>}
 
   {p&&p.lessonPrices.length>0&&<section className={styles.section} aria-labelledby="price-title"><h2 id="price-title">أسعار الحصص</h2>
-   <ul className={styles.rooms}>{p.lessonPrices.map(x=><li key={x.label}><div className={styles.roomHead}><h3>{x.label}</h3><p className={styles.price}><bdi dir="ltr">{x.price}</bdi> <span>ج.م / حصة</span></p></div></li>)}</ul>
+   <ul className={styles.rooms}>{p.lessonPrices.map(x=><li key={x.label}><div className={styles.roomHead}><h3>{x.label}</h3><p className={styles.price}><bdi>{x.price}</bdi> <span>ج.م / حصة</span></p></div></li>)}</ul>
   </section>}
 
-  {centers.length>0&&<section className={styles.section} aria-labelledby="ctr-title"><h2 id="ctr-title">بيدرّس في</h2>
-   <ul className={styles.teacherList}>{centers.map(c=><li key={c.id}><Link href={`/centers/${c.id}`}><span className={styles.centerDot}><Building2 size={18} aria-hidden="true"/></span><span><strong>{c.name}</strong><small>{c.area}</small></span></Link></li>)}</ul>
-  </section>}
+  <TeacherSchedule teacherId={t.id}/>
  </div>
- {t.price&&<div className={styles.stickyBar}><p className={styles.price}><small>الحصة من</small><bdi dir="ltr">{t.price.min}</bdi> <span>ج.م</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>}
+ {t.price&&<div className={styles.stickyBar}><p className={styles.price}><small>الحصة</small><bdi>{t.price.min} – {t.price.max}</bdi> <span>ج.م</span></p><a href="#t-sch" className={styles.bookCta}>المواعيد</a></div>}
  </PublicMarketplaceShell>;
 }
