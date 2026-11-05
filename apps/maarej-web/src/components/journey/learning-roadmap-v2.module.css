@@ -132,3 +132,51 @@
 .sheetMission [role=progressbar] > div { background:var(--identity-accent); }
 .sheetFooter { flex-shrink:0; padding:12px 22px calc(18px + env(safe-area-inset-bottom)); background:white; border-top:1px solid #e9e5f2; }
 .sheetFooter .missionCta { width:100%; }
+
+/* ===== Student V2 look: same cards, type and colours as Home ===== */
+.v2Hero { position:relative; overflow:hidden; display:grid; grid-template-columns:minmax(0,1fr) 112px; align-items:end; gap:8px; padding:18px 18px 0; border-radius:26px; border:1px solid #E6E2FA;
+  background:radial-gradient(120% 90% at 100% 0%,#E4E0FF 0%,transparent 60%),radial-gradient(80% 70% at 0% 100%,#FFF1D6 0%,transparent 65%),#F3F1FF; }
+.v2Hero::after { content:""; position:absolute; inset:0; background-image:radial-gradient(#4B3FD6 1px,transparent 1.4px); background-size:28px 28px; opacity:.06; pointer-events:none; }
+.v2HeroText { position:relative; z-index:1; display:grid; gap:6px; align-content:start; padding-bottom:18px; min-width:0; }
+.v2HeroText h1 { margin:0; font-family:var(--m-font-display); font-size:1rem; font-weight:700; color:#625F7C; }
+.v2HeroText small { color:#625F7C; font-size:.8125rem; font-weight:600; }
+.v2HeroText h2 { margin:0; font-family:var(--m-font-display); font-size:clamp(2rem,9vw,2.6rem); line-height:1.15; font-weight:800; color:var(--identity-accent,#4B3FD6); }
+.v2Chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+.v2Stage, .v2Momentum { display:inline-flex; align-items:center; gap:6px; min-height:34px; padding:0 12px; border-radius:999px; font-size:.8125rem; font-weight:700; }
+.v2Stage { background:#fff; border:1px solid #E3DFF8; color:#16133D; }
+.v2Stage svg { color:#B26A00; }
+.v2Momentum { background:#E7F6EF; color:#12704F; }
+.v2Momentum i { width:8px; height:8px; border-radius:50%; background:currentColor; }
+.v2Momentum[data-low=true] { background:#FFF1D6; color:#8A5300; }
+.v2Hint { margin:4px 0 0; color:#3E3A5C; font-size:.875rem; line-height:1.7; }
+.v2HeroLink { justify-self:start; margin-top:4px; min-height:40px; padding:0 14px; border:0; border-radius:12px; background:#fff; color:#4B3FD6; font:inherit; font-weight:700; font-size:.875rem; cursor:pointer; box-shadow:0 3px 0 #E2DFEE; }
+.v2HeroLink:active { transform:translateY(2px); box-shadow:0 1px 0 #E2DFEE; }
+.v2Character { position:relative; z-index:1; width:112px; height:auto; align-self:end; filter:drop-shadow(0 14px 18px rgba(54,40,160,.16)); }
+@media (min-width:640px) { .v2Hero { grid-template-columns:minmax(0,1fr) 150px; padding:24px 24px 0; } .v2Character { width:150px; } }
+
+/* Traits as small white cards */
+.traits { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; padding:12px 0 0; }
+.traits > span, .traits > span:nth-child(1), .traits > span:nth-child(2), .traits > span:nth-child(3) { flex:none; padding:10px; border-radius:16px; background:#fff; border:1px solid #E7E5F1; color:#16133D; }
+.traits > span > svg { color:var(--identity-accent,#4B3FD6); }
+
+/* Map card */
+.surface { border-radius:22px !important; border:1px solid #E7E5F1 !important; background:#fff !important; box-shadow:none !important; }
+.statusRow h2 { font-family:var(--m-font-display); font-size:1.1rem; font-weight:700; color:#16133D; }
+
+/* Mission: same saturated card as Home */
+.mission { border:0 !important; border-radius:22px !important; background:linear-gradient(150deg,#3A2FB4,#5F54E6) !important; color:#fff !important; box-shadow:0 14px 30px rgba(75,63,214,.22) !important; }
+.mission::before, .mission::after { display:none !important; }
+.mission h2 { color:#fff !important; font-family:var(--m-font-display); }
+.mission .missionKicker, .mission .missionProgress, .mission .missionProgress span, .mission .nextAction { color:#DAD6FF !important; }
+.mission .missionProgress b { color:#fff !important; }
+.mission [role=progressbar] { background:rgba(255,255,255,.2) !important; }
+.mission [role=progressbar] > * { background:#FFB53D !important; }
+.mission .reward { background:rgba(255,255,255,.16) !important; color:#fff !important; }
+.mission .missionCta { background:#FFB53D !important; color:#4A2E00 !important; box-shadow:0 4px 0 #D68A16 !important; }
+
+/* Buttons */
+.missionCta { border-radius:14px !important; font-weight:700 !important; box-shadow:0 4px 0 #3328A8; }
+.journey > .missionCta { display:flex; align-items:center; justify-content:center; min-height:52px; background:#fff !important; color:#4B3FD6 !important; border:1px solid #E7E5F1 !important; box-shadow:0 3px 0 #E2DFEE !important; }
+.surface { margin-inline:0 !important; margin-top:14px; overflow:hidden; }
+.mission { border-top:0 !important; margin-top:14px !important; }
+.journey > .missionCta { margin-top:14px; }

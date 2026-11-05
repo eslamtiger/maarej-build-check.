@@ -44,6 +44,6 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
 
   <p className={styles.notice}><Info size={16} aria-hidden="true"/>بيانات مدرس توضيحية. الحجز والتواصل المباشر هيتفعّلوا في المرحلة الجاية.</p>
  </div>
- {t.price&&<div className={styles.stickyBar}><p className={styles.price}><small>الحصة من</small><bdi dir="ltr">{t.price.min}</bdi> <span>ج.م</span></p><button type="button" disabled>الحجز قريبًا</button></div>}
+ {t.price&&<div className={styles.stickyBar}><p className={styles.price}><small>الحصة من</small><bdi dir="ltr">{t.price.min}</bdi> <span>ج.م</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>}
  </PublicMarketplaceShell>;
 }

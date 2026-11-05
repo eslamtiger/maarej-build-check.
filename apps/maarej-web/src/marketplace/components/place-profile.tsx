@@ -63,7 +63,7 @@ export function CenterProfile({center:c}:{center:CenterDTO}){
   <Location lat={c.lat} lng={c.lng} address={c.address}/>
   <DemoNotice what="السنتر والقاعات والأسعار والتقييمات"/>
  </div>
- <div className={styles.stickyBar}><p className={styles.price}><small>القاعة من</small><bdi dir="ltr">{c.price.min}</bdi> <span>ج.م / ساعة</span></p><button type="button" disabled>الحجز قريبًا</button></div>
+ <div className={styles.stickyBar}><p className={styles.price}><small>القاعة من</small><bdi dir="ltr">{c.price.min}</bdi> <span>ج.م / ساعة</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>
  </PublicMarketplaceShell>;
 }
 
@@ -76,6 +76,6 @@ export function SpaceProfile({space:s}:{space:SpaceDTO}){
   <Location lat={s.lat} lng={s.lng} address={`${s.area}، ${s.governorate}`}/>
   <DemoNotice what="المساحة والأسعار والتقييمات"/>
  </div>
- <div className={styles.stickyBar}><p className={styles.price}><small>نطاق السعر</small><bdi dir="ltr">{s.price.min} – {s.price.max}</bdi> <span>ج.م</span></p><button type="button" disabled>الحجز قريبًا</button></div>
+ <div className={styles.stickyBar}><p className={styles.price}><small>نطاق السعر</small><bdi dir="ltr">{s.price.min} – {s.price.max}</bdi> <span>ج.م</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>
  </PublicMarketplaceShell>;
 }

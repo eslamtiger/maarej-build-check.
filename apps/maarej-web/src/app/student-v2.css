@@ -153,3 +153,8 @@ a.s2-ring:hover{background:#F7F6FC}
 /* ---------- Finance & guards ---------- */
 .s2 .v104-balance-card{background:linear-gradient(150deg,#3A2FB4,#5F54E6);box-shadow:0 14px 30px rgba(75,63,214,.22)}
 .s2 .v104-content{overflow-x:clip}
+.s2 .s2-finance-actions{grid-template-columns:repeat(3,minmax(0,1fr));max-width:none}
+.s2 .s2-finance-actions button{min-height:54px;border:1px solid var(--s2-line);border-radius:16px;background:#fff;color:var(--s2-brand);font-size:.9375rem;font-weight:700;box-shadow:0 3px 0 #E2DFEE;cursor:pointer}
+.s2 .s2-finance-actions button:active{transform:translateY(2px);box-shadow:0 1px 0 #E2DFEE}
+.s2 .s2-finance-note{margin:-4px 0 0;color:var(--s2-muted);font-size:.8125rem;text-align:center}
+.s2 .v108-finance-tabs{margin-block:0}

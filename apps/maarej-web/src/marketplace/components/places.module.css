@@ -161,3 +161,4 @@
 .cardHead h3{font-family:var(--m-font-display);font-size:1.125rem}
 .price{font-family:var(--m-font-display)}
 .coverIcon{color:var(--m-blue-700)}
+.soonTag{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;background:#FFF4E0;color:#7A4A00;font-weight:700;font-size:.875rem;white-space:nowrap}

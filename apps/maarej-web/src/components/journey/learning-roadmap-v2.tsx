@@ -63,7 +63,6 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
   const reward = missionReward ?? actionData.rewards.find(record => view.journeyNodes.some(node => node.relatedRewardId === record.id));
   const name = view.currentIdentity?.name;
   const stage = view.currentStage;
-  const direction = view.currentDirection;
   // Brief §13: an earned identity never drops. A weak week only lowers momentum.
   const atRisk = view.status === "atRisk" || view.status === "downgraded";
   const nodes = view.journeyNodes;
@@ -103,20 +102,18 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
   } as CSSProperties;
   return <div className={styles.journey} style={accentStyle} data-pattern={theme.surfacePattern}>
     <div className={styles.identityColumn}>
-      <section className={styles.hero} aria-label="هويتك" data-testid="journey-identity-hero">
-        <span className={styles.heroLayer} aria-hidden="true"/><span className={styles.characterAura} aria-hidden="true"/>
-        <div className={styles.heroEmblem} aria-hidden="true"><IdentityEmblem theme={theme}/></div>
-        <Sparkles className={styles.heroSpark} size={24} aria-hidden="true"/>
-        <div className={styles.heroCopy} role={name && activeIndex >= 0 ? "button" : undefined} tabIndex={name && activeIndex >= 0 ? 0 : undefined} aria-label={name ? `عرض تفاصيل هوية ${name}` : undefined} style={name && activeIndex >= 0 ? { cursor: "pointer" } : undefined} onClick={() => { if (name && activeIndex >= 0) setSelected(nodes[activeIndex].id); }} onKeyDown={event => { if (name && activeIndex >= 0 && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); setSelected(nodes[activeIndex].id); } }}>
-          <h1>رحلتي</h1>{name && <><span className={styles.eyebrow}>هويتك</span><h2>{name}</h2></>}
-          {stage && <p className={styles.stage}><small>المرحلة</small>{stage}</p>}
-          {direction && <span className={styles.direction}><small>التوجه</small>{direction}</span>}
-          {view.currentIdentity && <span className={`${styles.health} ${atRisk ? styles.atRisk : ""}`}>{atRisk ? <TriangleAlert size={15}/> : <ShieldCheck size={15}/>} زخمك {atRisk ? "محتاج دفعة" : "قوي"}</span>}
+      <section className={styles.v2Hero} aria-label="هويتك" data-testid="journey-identity-hero">
+        <div className={styles.v2HeroText}>
+          <h1>رحلتي</h1>
+          {name && <><small>هويتك</small><h2>{name}</h2></>}
+          <div className={styles.v2Chips}>
+            {stage && <span className={styles.v2Stage}><IdentityEmblem theme={theme} size={15}/>مرحلة {stage}</span>}
+            {view.currentIdentity && <span className={styles.v2Momentum} data-low={atRisk}><i aria-hidden="true"/>{atRisk ? "زخمك محتاج دفعة" : "زخمك قوي"}</span>}
+          </div>
+          {distinctNextHint && <p className={styles.v2Hint}>{distinctNextHint}</p>}
+          {name && activeIndex >= 0 && <button type="button" className={styles.v2HeroLink} onClick={() => setSelected(nodes[activeIndex].id)}>تفاصيل مرحلتك</button>}
         </div>
-        <motion.div className={`${styles.character} ${!theme.characterAsset ? styles.emblemFallback : ""}`} initial={reduce ? false : { opacity: 0, x: -7, scale: .96 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .25 }}>
-          {theme.characterAsset ? <img src={theme.characterAsset.src} alt={theme.characterAsset.alt} width={1024} height={1536}/> : <span role="img" aria-label="شعار هويتك"><IdentityEmblem theme={theme} size={88}/></span>}
-        </motion.div>
-        {distinctNextHint && <div className={styles.progressHint}><ChevronUp size={16} aria-hidden="true"/><span>{distinctNextHint}</span></div>}
+        {theme.characterAsset && <motion.img className={styles.v2Character} src={theme.characterAsset.src} alt="" width={1024} height={1536} initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .35 }}/>}
       </section>
       {!!view.traits.length && <section className={styles.traits} aria-label="صفات هويتك">
         {view.traits.slice(0, 3).map((trait, i) => { const Icon = trait.symbol ? traitIcons[trait.symbol] : Sparkles; return <span key={trait.id} style={{ "--trait-order": i } as CSSProperties}>
