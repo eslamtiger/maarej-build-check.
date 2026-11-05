@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import "./student-v2.css";
 
 export const metadata: Metadata = {
   title: "معارج | مدرسين وسناتر ومساحات مذاكرة",
