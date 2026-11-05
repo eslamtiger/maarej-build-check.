@@ -49,7 +49,7 @@ const visualIndigo: IdentityVisualThemeConfig = {
 const baseNodes: JourneyNodeSource[] = [
   { id: "journey-older", type: "milestone", label: "انطلاقة منظمة", subtitle: "خطة دراسية", state: "completed", stageId: "demo-start", identityId: "identity-current", achievedAt: "2026-09-18", evidence: ["سجّلت خطتك وتابعت أول واجب."] },
   { id: "journey-previous", type: "milestone", label: "تعلّم مستمر", subtitle: "متابعة الواجبات", state: "completed", stageId: "demo-learning", identityId: "identity-current", achievedAt: "2026-09-25", relatedAchievementId: "ملتزم", evidence: ["خلّصت واجباتك وتابعت دروس المجموعة."] },
-  { id: "journey-current", type: "identity", label: "ثبات أسبوعي", subtitle: "حضور منتظم", state: "current", stageId: "demo-consistency", identityId: "identity-current", relatedMissionId: "current-mission", achievedAt: "2026-09-28" },
+  { id: "journey-current", type: "identity", label: "أسبوع منتظم", subtitle: "حضور كل الحصص", state: "current", stageId: "demo-consistency", identityId: "identity-current", relatedMissionId: "current-mission", achievedAt: "2026-09-28" },
   { id: "journey-transition", type: "mission", label: "المشاركة بثقة", subtitle: "تحدّي المجموعة", state: "challenge", stageId: "demo-participation", identityId: "identity-current", relatedMissionId: "current-mission", relatedRewardId: "attendance", relatedAchievementId: "مبادر", requirements: ["احضر الحصة الجاية في مجموعة التفوق، وبعدها شارك في نشاط المجموعة."] },
   { id: "journey-next", type: "next", label: "مراجعة بإتقان", subtitle: "تثبيت الفهم", state: "next", stageId: "demo-review", identityId: "identity-current", requirements: ["بعد نشاط المشاركة، حل ورقة المراجعة مع المجموعة."] },
   { id: "journey-locked", type: "next", label: "مبادرة بالتعلّم", subtitle: "محطة مستقبلية", state: "locked", stageId: "demo-initiative", identityId: "identity-current" },
@@ -64,19 +64,19 @@ const demoTraits = [
 // and progression formulas stay configurable and are not product rules.
 export const identityDemoViews: Record<"active" | "atRisk" | "downgraded", JourneyIdentitySource> = {
   active: {
-    currentIdentity: { id: "identity-current", name: "ملتزم", visualTheme: visualIndigo, traits: demoTraits },
-    highestAchievedIdentity: { id: "identity-current", name: "ملتزم", visualTheme: visualIndigo },
+    currentIdentity: { id: "identity-current", name: "المنظّم", visualTheme: visualIndigo, traits: demoTraits },
+    highestAchievedIdentity: { id: "identity-current", name: "المنظّم", visualTheme: visualIndigo },
     currentDirection: "تعلّم بالممارسة",
-    currentStage: "ثبات أسبوعي",
+    currentStage: "الممارسة",
     status: "active",
     nextMilestone: "كمّل مهمتك الحالية عشان تفتح خطوتك الجاية",
     journeyNodes: baseNodes,
   },
   atRisk: {
-    currentIdentity: { id: "identity-current", name: "ملتزم", visualTheme: visualIndigo, traits: demoTraits },
-    highestAchievedIdentity: { id: "identity-current", name: "ملتزم", visualTheme: visualIndigo },
+    currentIdentity: { id: "identity-current", name: "المنظّم", visualTheme: visualIndigo, traits: demoTraits },
+    highestAchievedIdentity: { id: "identity-current", name: "المنظّم", visualTheme: visualIndigo },
     currentDirection: "تعلّم بالممارسة",
-    currentStage: "ثبات أسبوعي",
+    currentStage: "الممارسة",
     status: "atRisk",
     nextMilestone: "أسبوع هادي؟ حضور الحصة الجاية وتسليم واجب واحد يرجّعوا زخمك",
     recoveryRequirements: [],
@@ -84,10 +84,10 @@ export const identityDemoViews: Record<"active" | "atRisk" | "downgraded", Journ
   },
   // Brief §13: identity never drops. This QA mode keeps the identity and only shows low momentum.
   downgraded: {
-    currentIdentity: { id: "identity-current", name: "ملتزم", visualTheme: visualIndigo, traits: demoTraits },
-    highestAchievedIdentity: { id: "identity-current", name: "ملتزم", visualTheme: visualIndigo },
+    currentIdentity: { id: "identity-current", name: "المنظّم", visualTheme: visualIndigo, traits: demoTraits },
+    highestAchievedIdentity: { id: "identity-current", name: "المنظّم", visualTheme: visualIndigo },
     currentDirection: "تعلّم بالممارسة",
-    currentStage: "ثبات أسبوعي",
+    currentStage: "الممارسة",
     status: "downgraded",
     nextMilestone: "زخمك قلّ الفترة دي، وهويتك زي ما هي. ابدأ بخطوة واحدة النهارده",
     recoveryRequirements: [],

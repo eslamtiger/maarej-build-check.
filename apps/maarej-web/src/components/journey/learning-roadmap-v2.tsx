@@ -19,6 +19,7 @@ import { journeyActionData } from "./journey-action-data";
 import { resolveMissionReward, resolveMissionSource, type JourneyActionData, type MissionRecord, type SourceRecord } from "./journey-actions";
 import { journeyLayout, journeyContours } from "./journey-layout";
 import { formatArabicDate } from "@/lib/arabic-date";
+import { IdentityLadder } from "./identity-ladder";
 import styles from "./learning-roadmap-v2.module.css";
 
 const traitIcons = { learning: BookOpenCheck, commitment: ShieldCheck, cooperation: Handshake };
@@ -122,12 +123,13 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
           <Icon size={19} aria-hidden="true"/><span>{trait.label}<b>{trait.value}</b></span>
         </span>; })}
       </section>}
+      <IdentityLadder identityName={name} stageName={stage}/>
     </div>
     <div className={styles.progressColumn}>
       <section className={styles.surface} aria-labelledby="journey-progress-heading">
         <span className={styles.shapeOne} aria-hidden="true"/><span className={styles.shapeTwo} aria-hidden="true"/>
         <BookOpenCheck className={styles.worldLearning} size={54} aria-hidden="true"/>
-        <header className={styles.statusRow}><h2 id="journey-progress-heading">مسار التقدم</h2>{nodes.length > 0 && <p><b>{completed} من {nodes.length}</b> مراحل مكتملة</p>}</header>
+        <header className={styles.statusRow}><h2 id="journey-progress-heading">خطوات مرحلتك</h2>{nodes.length > 0 && <p><b>{completed} من {nodes.length}</b> خطوات خلصت</p>}</header>
         {nodes.length > 0 ? <div className={styles.roadmap} style={{ aspectRatio: `360 / ${roadmapHeight}` }} data-testid="learning-roadmap-v2">
           <svg viewBox={`0 0 360 ${roadmapHeight}`} width="100%" height="auto" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
             <defs><linearGradient id="journeyAscendingGradient" x1="0" y1="1" x2="1" y2="0"><stop stopColor={theme.primaryColor}/><stop offset="1" stopColor={theme.secondaryColor}/></linearGradient></defs>

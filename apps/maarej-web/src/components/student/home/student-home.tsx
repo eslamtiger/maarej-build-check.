@@ -81,7 +81,7 @@ export function StudentHome() {
     <motion.section className={styles.hero} {...rise(0)} aria-labelledby="home-next-heading">
       <div className={styles.heroHead}>
         <h1>{greeting} يا {firstName}</h1>
-        {identity.currentIdentity?.name && <Link className={styles.identity} href="/student/journey"><span className={styles.identityEmblem}><IdentityEmblem theme={theme} size={15}/></span><span>{identity.currentIdentity.name}{identity.currentStage && <small> · {identity.currentStage}</small>}</span></Link>}
+        {identity.currentIdentity?.name && <Link className={styles.identity} href="/student/journey"><span className={styles.identityEmblem}><IdentityEmblem theme={theme} size={15}/></span><span>{identity.currentIdentity.name}{identity.currentStage && <small> · مرحلة {identity.currentStage}</small>}</span></Link>}
         <span className={styles.momentum} data-low={momentumLow}><i aria-hidden="true"/>{momentumLow ? "زخمك محتاج دفعة" : "زخمك قوي"}</span>
       </div>
       <div className={styles.heroBody}>
