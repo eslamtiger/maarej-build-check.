@@ -66,10 +66,10 @@ export function PlaceSearch({kind}:{kind:'centers'|'spaces'}){
    {active>0&&<ResetPill onReset={()=>set({...emptyPlaceFilters,q:f.q,governorate:f.governorate,sort:f.sort})}/>}
    <FilterPill icon={MapIcon} label={f.governorate?'المحافظة':'كل المحافظات'} value={f.governorate} onOpen={()=>setSheet('gov')}/>
    <FilterPill icon={MapPin} label="المنطقة" value={f.area} onOpen={()=>setSheet('area')} onClear={()=>set({area:''})}/>
-   <FilterPill icon={Banknote} label="السعر" value={priceLabel} onOpen={()=>setSheet('price')} onClear={()=>set({minPrice:'',maxPrice:''})}/>
-   <StarToggle pressed={f.rating==='4'} onToggle={()=>set({rating:f.rating==='4'?'':'4'})}/>
-   <FilterPill icon={Sparkles} label="التجهيزات" value={featureValue} onOpen={()=>setSheet('feature')} onClear={()=>set({feature:''})}/>
    <FilterPill icon={UsersRound} label="السعة" value={f.seats?`${f.seats}+ ${t.seatUnit}`:''} onOpen={()=>setSheet('seats')} onClear={()=>set({seats:''})}/>
+   <FilterPill icon={Sparkles} label="التجهيزات" value={featureValue} onOpen={()=>setSheet('feature')} onClear={()=>set({feature:''})}/>
+   <FilterPill icon={Banknote} label="السعر" value={priceLabel} onOpen={()=>setSheet('price')} onClear={()=>set({minPrice:'',maxPrice:''})}/>
+   {(['3','4'] as const).map(level=>{const on=f.rating.split(',').includes(level);return <StarToggle key={level} level={level} pressed={on} onToggle={()=>set({rating:(on?f.rating.split(',').filter(x=>x&&x!==level):[...f.rating.split(',').filter(Boolean),level]).sort().join(',')})}/>;})}
   </Toolbar>
 
   <MapFirst

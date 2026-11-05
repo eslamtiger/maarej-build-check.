@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import {Star,MapPin,UsersRound,LayoutGrid,Navigation,Check,Banknote,Trees} from 'lucide-react';
+import {Star,MapPin,UsersRound,LayoutGrid,Navigation,Banknote} from 'lucide-react';
 import type {CenterDTO,SpaceDTO,CenterReviewRole} from '../types/place';
 import {featureLabel,directionsHref} from '../adapters/places';
+import {emojiFor} from '../adapters/emoji';
 import {marketplaceTeachers} from '../adapters/teachers';
 import {PublicMarketplaceShell} from './public-shell';
 import {PlaceCover} from './place-card';
@@ -48,7 +49,7 @@ export function CenterProfile({center:c}:{center:CenterDTO}){
    </li>)}</ul>
   </section>
 
-  <section className={styles.section} aria-labelledby="feat-title"><h2 id="feat-title">تجهيزات السنتر</h2><ul className={styles.checkList}>{c.features.map(f=><li key={f}><Check size={15} aria-hidden="true"/>{featureLabel(f)}</li>)}</ul></section>
+  <section className={styles.section} aria-labelledby="feat-title"><h2 id="feat-title">تجهيزات السنتر</h2><ul className={styles.checkList}>{c.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul></section>
 
   {teachers.length>0&&<section className={styles.section} aria-labelledby="tch-title"><h2 id="tch-title">مدرسون بيدرّسوا هنا</h2>
    <ul className={styles.teacherList}>{teachers.map(t=><li key={t.id}><Link href={`/teachers/${t.id}`}><TeacherPortrait teacher={t} className={styles.teacherThumb}/><span><strong>{t.name}</strong><small>{t.subjects.slice(0,2).join('، ')}</small></span></Link></li>)}</ul>
@@ -69,8 +70,8 @@ export function SpaceProfile({space:s}:{space:SpaceDTO}){
   <BackToSearch base="/spaces" label="مساحات المذاكرة"/>
   <ProfileHead kind="space" id={s.id} name={s.name} area={s.area} type={s.type} rating={s.rating} reviews={s.reviews} address={`${s.area}، ${s.governorate}`}/>
   <Facts items={[{icon:UsersRound,label:'السعة',value:s.capacity===1?'فرد واحد':`حتى ${s.capacity} أفراد`},{icon:LayoutGrid,label:'الوحدات المتاحة',value:String(s.units)},{icon:Banknote,label:'نطاق السعر (ج.م)',value:`${s.price.min} – ${s.price.max}`}]}/>
-  {s.zones.length>0&&<section className={styles.section} aria-labelledby="zones-title"><h2 id="zones-title">الأماكن</h2><ul className={styles.checkList}>{s.zones.map(z=><li key={z}><Trees size={15} aria-hidden="true"/>{z}</li>)}</ul></section>}
-  <section className={styles.section} aria-labelledby="feat-title"><h2 id="feat-title">التجهيزات</h2><ul className={styles.checkList}>{s.features.map(f=><li key={f}><Check size={15} aria-hidden="true"/>{featureLabel(f)}</li>)}</ul></section>
+  {s.zones.length>0&&<section className={styles.section} aria-labelledby="zones-title"><h2 id="zones-title">الأماكن</h2><ul className={styles.checkList}>{s.zones.map(z=><li key={z}><span aria-hidden="true">{emojiFor(z)}</span>{z}</li>)}</ul></section>}
+  <section className={styles.section} aria-labelledby="feat-title"><h2 id="feat-title">التجهيزات</h2><ul className={styles.checkList}>{s.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul></section>
   <Location lat={s.lat} lng={s.lng} address={`${s.area}، ${s.governorate}`}/>
  </div>
  <div className={styles.stickyBar}><p className={styles.price}><small>نطاق السعر</small><bdi dir="ltr">{s.price.min} – {s.price.max}</bdi> <span>ج.م</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>

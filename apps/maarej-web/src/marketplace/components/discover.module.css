@@ -193,3 +193,19 @@
 .photoPin>b svg{color:#F59E0B;fill:#F59E0B}
 .photoPin:focus-visible{outline:none}.photoPin:focus-visible>img,.photoPin:focus-visible>span{outline:3px solid #A59CFF;outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.photoPin{animation:none;transition:none}}
+/* Real map (tiles) + Google-style drop pins */
+.realMap{position:relative;overflow:hidden;border-radius:28px;border:1px solid #E7E5F1;background:#EDEAE2;isolation:isolate;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.realMap:active{cursor:grabbing}
+.tiles{position:absolute;inset:0;z-index:0}
+.tiles img{position:absolute;width:256px;height:256px;max-width:none;pointer-events:none}
+.dropPin{position:absolute;z-index:1;width:46px;height:57px;padding:0;border:0;background:none;cursor:pointer;transform:translate(-50%,-100%);transform-origin:50% 100%;transition:transform .22s cubic-bezier(.34,1.56,.64,1);animation:dropIn .5s cubic-bezier(.34,1.56,.64,1) backwards;filter:drop-shadow(0 6px 8px rgba(22,19,61,.32))}
+@keyframes dropIn{from{transform:translate(-50%,-140%)}}
+.drop{position:absolute;top:0;left:0;display:block;width:46px;height:46px;padding:3px;box-sizing:border-box;border-radius:50% 50% 50% 0;background:#4B3FD6;transform:rotate(-45deg)}
+.drop img,.drop i{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;object-fit:cover;transform:rotate(45deg);background:#E4E0FF;color:#fff;font-style:normal;font-family:var(--m-font-display);font-weight:800;font-size:.75rem;pointer-events:none}
+.dropPin[data-shape=square] .drop{background:#FF9A3D}
+.dropPin[data-on=true]{z-index:3;transform:translate(-50%,-100%) scale(1.25)}
+.dropPin[data-on=true] .drop{background:#16133D}
+.dropPin:focus-visible{outline:none}.dropPin:focus-visible .drop{box-shadow:0 0 0 3px #A59CFF}
+.attr{position:absolute;z-index:4;inset-inline-start:8px;bottom:6px;margin:0;padding:1px 7px;border-radius:6px;background:rgba(255,255,255,.85);font-size:.625rem;color:#4A4668}
+.attr a{color:inherit;text-decoration:none}
+@media (prefers-reduced-motion:reduce){.dropPin{animation:none;transition:none}}

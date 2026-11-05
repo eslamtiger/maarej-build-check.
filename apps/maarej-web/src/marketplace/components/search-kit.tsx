@@ -31,8 +31,9 @@ export function FilterPill({icon:Icon,label,value,onOpen,onClear}:{icon:IconT;la
  </span>;
 }
 
-export function StarToggle({pressed,onToggle}:{pressed:boolean;onToggle:()=>void}){
- return <span className={k.pill} data-on={pressed}><button type="button" className={k.pillMain} aria-pressed={pressed} onClick={onToggle} aria-label="تقييم 4 فأكثر"><Star size={15} aria-hidden="true" className={k.star}/><span><bdi dir="ltr">4+</bdi></span></button></span>;
+// Rating chips (3+ and 4+). Both can be on together.
+export function StarToggle({level,pressed,onToggle}:{level:string;pressed:boolean;onToggle:()=>void}){
+ return <span className={k.pill} data-on={pressed}><button type="button" className={k.pillMain} aria-pressed={pressed} onClick={onToggle} aria-label={`تقييم ${level} فأكثر`}><Star size={15} aria-hidden="true" className={k.star}/><span><bdi dir="ltr">{level}+</bdi></span></button></span>;
 }
 
 export function ResetPill({onReset}:{onReset:()=>void}){

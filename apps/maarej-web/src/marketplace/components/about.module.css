@@ -22,3 +22,7 @@
 .values li { display:flex; gap:10px; align-items:flex-start; line-height:1.75; }
 .values li svg { flex:none; margin-top:4px; color:#12865F; }
 .note { margin:24px 0 0; text-align:center; color:#625F7C; font-size:.875rem; }
+/* Parents section: warm amber band so it reads as its own audience */
+.parents { padding:22px 18px; border-radius:28px; background:radial-gradient(90% 90% at 100% 0%,#FFE9C2 0%,transparent 60%),#FFF7E8; border:1px solid #F6E2BC; }
+.parents .icon { background:#FFB53D; color:#3B2400; box-shadow:0 3px 0 #D68A16; }
+.parents .card { border-color:#F3E2C2; }

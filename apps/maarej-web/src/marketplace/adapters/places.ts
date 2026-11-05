@@ -37,7 +37,7 @@ export function filterPlaces<T extends CenterDTO|SpaceDTO>(places:readonly T[],f
   (!q||normalizeArabic([p.name,p.type,p.area,p.governorate,...p.features.map(featureLabel)].join(' ')).includes(q))&&
   (!f.governorate||p.governorate===f.governorate)&&(!f.area||p.area===f.area)&&
   (!seats||capacityOf(p)>=seats)&&(!f.feature||f.feature.split(',').every(x=>p.features.includes(x)))&&
-  (!f.rating||p.rating>=Number(f.rating))&&
+  (!f.rating||p.rating>=Math.min(...f.rating.split(',').map(Number)))&&
   (min===undefined||p.price.max>=min)&&(max===undefined||p.price.min<=max));
  const sorters:Record<PlaceSort,((a:T,b:T)=>number)|undefined>={default:undefined,rating:(a,b)=>b.rating-a.rating||b.reviews-a.reviews,priceAsc:(a,b)=>a.price.min-b.price.min,priceDesc:(a,b)=>b.price.max-a.price.max};
  const sorter=sorters[f.sort];return sorter?[...rows].sort(sorter):rows;
@@ -52,8 +52,9 @@ export function activePlaceFilters(f:PlaceFilters){return Object.entries(f).filt
 
 export function parsePlaceQuery(params:URLSearchParams,places:readonly Place[]):PlaceFilters{
  const f={...emptyPlaceFilters},o=placeOptions(places);f.q=(params.get('q')??'').slice(0,160);
+ f.rating=(params.get('rating')??'').split(',').filter(v=>v==='3'||v==='4').join(',');
  f.feature=(params.get('feature')??'').split(',').filter(v=>o.features.includes(v)).join(',');
- for(const [key,allowed] of [['governorate',o.governorates],['area',o.areas],['rating',['3','4']],['seats',['5','10','20','30']]] as const){const v=params.get(key)??'';if((allowed as readonly string[]).includes(v))f[key]=v;}
+ for(const [key,allowed] of [['governorate',o.governorates],['area',o.areas],['seats',['5','10','20','30']]] as const){const v=params.get(key)??'';if((allowed as readonly string[]).includes(v))f[key]=v;}
  for(const key of ['minPrice','maxPrice'] as const){const v=params.get(key);if(v!==null&&v.trim()!==''&&Number.isFinite(Number(v))&&Number(v)>=0)f[key]=String(Number(v));}
  const sort=params.get('sort');if(sort==='rating'||sort==='priceAsc'||sort==='priceDesc')f.sort=sort;return f;
 }

@@ -58,13 +58,13 @@ export function TeacherSearch(){
 
   <Toolbar>
    {active>0&&<ResetPill onReset={()=>set({...emptyFilters,q:f.q,governorate:f.governorate,sort:f.sort})}/>}
-   <FilterPill icon={BookOpen} label="المادة" value={subjects.length?(subjects.length===1?subjects[0]:`${subjects[0]} +${subjects.length-1}`):''} onOpen={()=>setSheet('subject')} onClear={()=>set({subject:''})}/>
-   <FilterPill icon={GraduationCap} label="المرحلة" value={f.stage} onOpen={()=>setSheet('stage')} onClear={()=>set({stage:''})}/>
    <FilterPill icon={MapIcon} label={f.governorate?'المحافظة':'كل المحافظات'} value={f.governorate} onOpen={()=>setSheet('gov')}/>
    <FilterPill icon={MapPin} label="المنطقة" value={f.area} onOpen={()=>setSheet('area')} onClear={()=>set({area:''})}/>
-   <FilterPill icon={Banknote} label="السعر" value={priceLabel} onOpen={()=>setSheet('price')} onClear={()=>set({minPrice:'',maxPrice:''})}/>
-   <StarToggle pressed={f.rating==='4'} onToggle={()=>set({rating:f.rating==='4'?'':'4'})}/>
    <FilterPill icon={School} label="النظام" value={f.system} onOpen={()=>setSheet('system')} onClear={()=>set({system:''})}/>
+   <FilterPill icon={GraduationCap} label="المرحلة" value={f.stage} onOpen={()=>setSheet('stage')} onClear={()=>set({stage:''})}/>
+   <FilterPill icon={BookOpen} label="المادة" value={subjects.length?(subjects.length===1?subjects[0]:`${subjects[0]} +${subjects.length-1}`):''} onOpen={()=>setSheet('subject')} onClear={()=>set({subject:''})}/>
+   <FilterPill icon={Banknote} label="السعر" value={priceLabel} onOpen={()=>setSheet('price')} onClear={()=>set({minPrice:'',maxPrice:''})}/>
+   {(['3','4'] as const).map(level=>{const on=f.rating.split(',').includes(level);return <StarToggle key={level} level={level} pressed={on} onToggle={()=>set({rating:(on?f.rating.split(',').filter(x=>x&&x!==level):[...f.rating.split(',').filter(Boolean),level]).sort().join(',')})}/>;})}
   </Toolbar>
 
   <MapFirst

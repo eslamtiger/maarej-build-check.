@@ -2,8 +2,9 @@
 import {useState} from 'react';
 import type {CSSProperties} from 'react';
 import Link from 'next/link';
-import {Star,MapPin,ArrowLeft,GraduationCap,School} from 'lucide-react';
-import {Facts} from './place-card';
+import {Star} from 'lucide-react';
+import {Facts,Tags,CardHead} from './place-card';
+import {subjectEmoji} from '../adapters/emoji';
 import type {Fact} from './place-card';
 import type {TeacherSearchDTO} from '../types/teacher';
 import c from './cards.module.css';
@@ -23,17 +24,19 @@ export function TeacherPortrait({teacher:t,className=''}:{teacher:Pick<TeacherSe
 export function TeacherCard({teacher:t,returnTo='/teachers',active=false,picked=false,onHover,index=0}:{teacher:TeacherSearchDTO;returnTo?:string;active?:boolean;picked?:boolean;onHover?:(id:string|null)=>void;index?:number}){
  const [failed,setFailed]=useState(false);
  const href=`/teachers/${t.id}?returnTo=${encodeURIComponent(returnTo)}`;
- const facts:Fact[]=[{icon:MapPin,label:'المنطقة',value:t.areas[0]??'—'},{icon:GraduationCap,label:'المرحلة',value:t.stages.join(' · ')||'—'},{icon:School,label:'النظام',value:t.systems.join(' · ')||'—'}];
+ const short=(l:readonly string[])=>l.length?(l.length>1?`${l[0]} +${l.length-1}`:l[0]):'—';
+ const facts:Fact[]=[{emoji:'🎓',label:'المرحلة',value:short(t.stages)},{emoji:'🏫',label:'النظام',value:short(t.systems)}];
  return <Link href={href} id={`card-${t.id}`} className={c.card} data-active={active} data-picked={picked} style={{'--i':index} as CSSProperties}
   onMouseEnter={()=>onHover?.(t.id)} onMouseLeave={()=>onHover?.(null)} onFocus={()=>onHover?.(t.id)} onBlur={()=>onHover?.(null)}>
   <div className={c.media} style={!t.image||failed?{background:teacherGradient(t.id)}:undefined}>
    {t.image&&!failed?<img className={c.photo} src={t.image} alt="" loading="lazy" style={{objectPosition:'center 25%'}} onError={()=>setFailed(true)}/>:<span className={c.fallback} aria-hidden="true">{initialsOf(t.name)}</span>}
-   {t.rating!==undefined&&<span className={c.rate}><Star size={20} aria-hidden="true"/><bdi>{t.rating.toFixed(1)}</bdi>{t.reviewCount!==undefined&&<small>({t.reviewCount})</small>}</span>}
+   {t.rating!==undefined&&<span className={c.rate}><Star aria-hidden="true"/><bdi>{t.rating.toFixed(1)}</bdi>{t.reviewCount!==undefined&&<small>({t.reviewCount})</small>}</span>}
    {t.price&&<span className={c.price}><small>من</small><b><bdi dir="ltr">{t.price.min}</bdi></b><small>ج.م / حصة</small></span>}
   </div>
   <div className={c.body}>
-   <div className={c.head}><div><h3>{t.name}</h3>{t.subjects.length>0&&<p>{t.subjects.join(' · ')}</p>}</div><span className={c.go} aria-hidden="true"><ArrowLeft size={20}/></span></div>
+   <CardHead name={t.name} area={t.areas[0]??'—'}/>
    <Facts facts={facts}/>
+   <Tags tags={t.subjects.map(s=>({emoji:subjectEmoji(s),label:s}))} kind="subjects" label="المواد"/>
   </div>
  </Link>;
 }
