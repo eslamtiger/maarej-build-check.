@@ -9,7 +9,9 @@ import {days,OPEN,CLOSE,sessionsForCenter,sessionsForTeacher,centerById,teacherB
 import type {Session} from '../adapters/schedule';
 import {useDemoRequests,addDemoRequest,newId} from '../adapters/demo-requests';
 import type {RoomRequest} from '../adapters/demo-requests';
-import {featureLabel} from '../adapters/places';
+import {featureLabel,placePhotos} from '../adapters/places';
+import {swatchFor} from '../adapters/profile-demo';
+import {Gallery} from './gallery';
 import {emojiFor,subjectEmoji} from '../adapters/emoji';
 import type {CenterDTO} from '../types/place';
 import {Sheet} from './search-kit';
@@ -17,7 +19,8 @@ import {TeacherPortrait} from './teacher-card';
 import s from './schedule.module.css';
 
 const allHours=Array.from({length:CLOSE-OPEN},(_,i)=>OPEN+i);
-type Block={id:string;day:number;start:number;dur:number;tone:'booked'|'request'|'mine'|'full';title:string;sub?:string;meta?:string;onClick?:()=>void};
+type Swatch={bg:string;fg:string;bd:string};
+type Block={id:string;day:number;start:number;dur:number;tone:'booked'|'request'|'mine'|'full';title:string;sub?:string;meta?:string;color?:Swatch;onClick?:()=>void};
 
 // Without free slots to book, only the hours that have sessions are shown (one hour of margin each side).
 export function WeekGrid({blocks,onFree,label}:{blocks:Block[];onFree?:(day:number,hour:number)=>void;label:string}){
@@ -35,15 +38,15 @@ export function WeekGrid({blocks,onFree,label}:{blocks:Block[];onFree?:(day:numb
     return <div key={d} className={s.row} style={{gridColumn:`1 / -1`,gridTemplateColumns:'subgrid'}}>
      <span className={s.day}>{d}</span>
      {onFree&&hours.filter(h=>!taken.has(h)).map(h=><button key={h} type="button" className={s.free} style={{gridColumn:`${h-from+2} / span 1`}} onClick={()=>onFree(di,h)} aria-label={`احجز ${d} ${hourLabel(h)}`}><Plus size={14} aria-hidden="true"/></button>)}
-     {row.map(b=>{const inner=<><b>{b.title}</b>{b.sub&&<span>{b.sub}</span>}{b.meta&&<small>{b.meta}</small>}</>,style={gridColumn:`${b.start-from+2} / span ${b.dur}`};
+     {row.map(b=>{const inner=<><b>{b.title}</b>{b.sub&&<span>{b.sub}</span>}{b.meta&&<small>{b.meta}</small>}</>,style={gridColumn:`${b.start-from+2} / span ${b.dur}`,...(b.color?{background:b.color.bg,color:b.color.fg,boxShadow:`inset 0 0 0 1.5px ${b.color.bd}`}:{})};
       return b.onClick?<button key={b.id} type="button" className={s.block} data-tone={b.tone} style={style} onClick={b.onClick}>{inner}</button>:<div key={b.id} className={s.block} data-tone={b.tone} style={style}>{inner}</div>;})}
     </div>;})}
   </div>
  </div>;
 }
 
-export function Legend({items}:{items:{tone:Block['tone'];label:string}[]}){
- return <ul className={s.legend}>{items.map(i=><li key={i.tone}><i data-tone={i.tone} aria-hidden="true"/>{i.label}</li>)}</ul>;
+export function Legend({items}:{items:{tone?:Block['tone'];color?:Swatch;label:string}[]}){
+ return <ul className={s.legend}>{items.map(i=><li key={i.label}><i data-tone={i.tone} style={i.color?{background:i.color.bg,boxShadow:`inset 0 0 0 1.5px ${i.color.bd}`}:undefined} aria-hidden="true"/>{i.label}</li>)}</ul>;
 }
 
 function Done({title,children,onClose}:{title:string;children:ReactNode;onClose:()=>void}){
@@ -111,25 +114,37 @@ export function RoomSheet({center:c,init,onClose}:{center:CenterDTO;init:{room:n
 }
 
 /* ---------- Center: rooms timetable + teachers ---------- */
+// Rooms: the tabs on top switch everything below together — photos, details, equipment and the week timetable.
 export function CenterSchedule({center:c}:{center:CenterDTO}){
  const [room,setRoom]=useState(0);
  const [booking,setBooking]=useState<{room:number;day:number;hour:number}|null>(null);
  const [join,setJoin]=useState<Session|null>(null);
  const requests=useDemoRequests();
  const list=sessionsForCenter(c.id).filter(x=>x.room===room);
+ const order=[...new Set(list.filter(x=>x.status==='booked').map(x=>x.teacherId))];
  const mine=requests.filter((r):r is RoomRequest=>r.kind==='room'&&r.centerId===c.id&&r.room===room);
  const blocks:Block[]=[
   ...list.map(x=>{const t=teacherById(x.teacherId);const full=x.enrolled>=x.capacity;
    return x.status==='request'?{id:x.id,day:x.day,start:x.start,dur:x.dur,tone:'request' as const,title:'طلب حجز',sub:t?.name}
-   :{id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full' as const:'booked' as const,title:`${subjectEmoji(x.subject)} ${x.subject}`,sub:t?.name,meta:`👥 ${x.enrolled}/${x.capacity}`,onClick:()=>setJoin(x)};}),
+   :{id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full' as const:'booked' as const,color:swatchFor(x.teacherId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:t?.name,meta:full?`👥 ${x.enrolled}/${x.capacity} · كاملة`:`👥 ${x.enrolled}/${x.capacity}`,onClick:()=>setJoin(x)};}),
   ...mine.flatMap(r=>r.days.map(d=>({id:`${r.id}-${d}`,day:d,start:r.start,dur:r.end-r.start,tone:'mine' as const,title:'طلبك',sub:'مستني الموافقة'}))),
  ];
+ const r=c.rooms[room],all=placePhotos('center',c.id,1000,15),photos=[0,1,2,3].map(k=>all[(room*3+k)%all.length]);
  const close=useCallback(()=>setBooking(null),[]),closeJoin=useCallback(()=>setJoin(null),[]);
- return <section className={s.section} aria-labelledby="sch-title">
-  <div className={s.head}><h2 id="sch-title"><CalendarDays size={20} aria-hidden="true"/>جدول القاعات</h2><button type="button" className={s.primary} onClick={()=>setBooking({room,day:0,hour:16})}><Plus size={18} aria-hidden="true"/>احجز قاعة</button></div>
-  <div className={s.roomTabs} role="tablist">{c.rooms.map((r,i)=><button key={r.name} type="button" role="tab" aria-selected={i===room} onClick={()=>setRoom(i)}><b>{r.name}</b><span>👥 {r.seats} · <bdi>{r.price}</bdi> ج.م</span></button>)}</div>
-  <Legend items={[{tone:'booked',label:'حصة شغالة'},{tone:'full',label:'كاملة'},{tone:'request',label:'طلب حجز'},{tone:'mine',label:'طلبك'}]}/>
-  <WeekGrid key={room} label={`جدول ${c.rooms[room].name}`} blocks={blocks} onFree={(day,hour)=>setBooking({room,day,hour})}/>
+ return <section className={s.section} aria-labelledby="sch-title" id="rooms">
+  <div className={s.head}><h2 id="sch-title">🚪 القاعات</h2><button type="button" className={s.primary} onClick={()=>setBooking({room,day:0,hour:16})}><Plus size={18} aria-hidden="true"/>احجز قاعة</button></div>
+  <div className={s.roomTabs} role="tablist" aria-label="القاعات">{c.rooms.map((x,i)=><button key={x.name} type="button" role="tab" aria-selected={i===room} onClick={()=>setRoom(i)}><b>{x.name}</b><span>👥 {x.seats} · <bdi>{x.price}</bdi> ج.م</span></button>)}</div>
+  <div className={s.roomPanel} key={room}>
+   <div className={s.roomGallery}><Gallery photos={photos} size="hero"/></div>
+   <div className={s.roomInfo}>
+    <h3>{r.name}</h3>
+    <div className={s.roomStats}><div><span aria-hidden="true">👥</span><b>{r.seats}</b><small>طالب</small></div><div><span aria-hidden="true">💰</span><b><bdi>{r.price}</bdi></b><small>ج.م / ساعة</small></div><div><span aria-hidden="true">📚</span><b>{list.filter(x=>x.status==='booked').length}</b><small>مجموعات في الأسبوع</small></div></div>
+    <ul className={s.roomFeats}>{r.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul>
+   </div>
+  </div>
+  <div className={s.calHead}><h3><CalendarDays size={18} aria-hidden="true"/>جدول {r.name}</h3></div>
+  <Legend items={[...order.map(id=>({color:swatchFor(id,order),label:teacherById(id)?.name??''})),{tone:'request' as const,label:'طلب حجز'},{tone:'mine' as const,label:'طلبك'}]}/>
+  <WeekGrid key={room} label={`جدول ${r.name}`} blocks={blocks} onFree={(day,hour)=>setBooking({room,day,hour})}/>
   <RoomSheet key={booking?`${booking.room}-${booking.day}-${booking.hour}`:'none'} center={c} init={booking} onClose={close}/>
   <JoinSheet session={join} onClose={closeJoin}/>
  </section>;
@@ -141,12 +156,15 @@ export function CenterTeachers({center:c}:{center:CenterDTO}){
  const byTeacher=useMemo(()=>{const m=new Map<string,Session[]>();for(const x of sessionsForCenter(c.id))if(x.status==='booked')m.set(x.teacherId,[...(m.get(x.teacherId)??[]),x]);return [...m.entries()];},[c.id]);
  if(!byTeacher.length)return null;
  const groups=open?byTeacher.find(([id])=>id===open)?.[1]??[]:[];
+ const [more,setMore]=useState(false);
+ const visible=more?byTeacher:byTeacher.slice(0,6);
  const t=open?teacherById(open):undefined;
  return <section className={s.section} aria-labelledby="our-t"><div className={s.head}><h2 id="our-t">🧑‍🏫 مدرسينا</h2></div>
-  <ul className={s.teachers}>{byTeacher.map(([id,list])=>{const x=teacherById(id);if(!x)return null;return <li key={id}>
+  <ul className={s.teachers}>{visible.map(([id,list])=>{const x=teacherById(id);if(!x)return null;return <li key={id}>
    <Link href={`/teachers/${id}`} className={s.tLink}><TeacherPortrait teacher={x} className={s.tPhoto}/><span><b>{x.name}</b><small>{subjectEmoji(x.subjects[0]??'')} {x.subjects[0]}{x.rating!==undefined&&<> · ⭐ {x.rating.toFixed(1)}</>}</small>{x.price&&<small><bdi>{x.price.min} – {x.price.max}</bdi> ج.م</small>}</span></Link>
    <button type="button" className={s.subscribe} onClick={()=>setOpen(id)}>اشترك <em>{list.length}</em></button>
   </li>;})}</ul>
+  {byTeacher.length>6&&<button type="button" className={s.moreBtn} onClick={()=>setMore(v=>!v)}>{more?'أقل':`كل المدرسين (${byTeacher.length})`}</button>}
   <Sheet open={!!open&&!join} icon={UsersRound} title={t?`مجموعات ${t.name}`:''} onClose={()=>setOpen(null)}>
    <ul className={s.groups}>{groups.map(x=>{const left=x.capacity-x.enrolled;return <li key={x.id}><div><b>{days[x.day]} · {timeRange(x.start,x.dur)}</b><span>{subjectEmoji(x.subject)} {x.subject} · {x.stage}</span></div><div className={s.gSide}><b><bdi>{x.price}</bdi> ج.م</b>{left>0?<em className={s.left}>باقي {left}</em>:<em className={s.fullTag}>كاملة</em>}</div>{left>0&&<button type="button" className={s.subscribe} onClick={()=>setJoin(x)}>انضم</button>}</li>;})}</ul>
   </Sheet>
@@ -160,16 +178,17 @@ export function TeacherSchedule({teacherId}:{teacherId:string}){
  const list=sessionsForTeacher(teacherId);
  const closeJoin=useCallback(()=>setJoin(null),[]);
  if(!list.length)return null;
- const blocks:Block[]=list.map(x=>{const c=centerById(x.centerId);const full=x.enrolled>=x.capacity;return {id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full':'booked',title:`${subjectEmoji(x.subject)} ${x.stage}`,sub:c?.name,meta:`👥 ${x.enrolled}/${x.capacity} · ${x.price} ج.م`,onClick:()=>setJoin(x)};});
+ const order=[...new Set(list.map(x=>x.centerId))];
+ const blocks:Block[]=list.map(x=>{const c=centerById(x.centerId);const full=x.enrolled>=x.capacity;return {id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full':'booked',color:swatchFor(x.centerId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:c?.name,meta:`👥 ${x.enrolled}/${x.capacity} · ${x.price} ج.م${full?' · كاملة':''}`,onClick:()=>setJoin(x)};});
  const centers=[...new Set(list.map(x=>x.centerId))].map(id=>({c:centerById(id),n:list.filter(x=>x.centerId===id).length})).filter(x=>x.c);
  return <>
   <section className={s.section} aria-labelledby="t-sch"><div className={s.head}><h2 id="t-sch"><CalendarDays size={20} aria-hidden="true"/>جدول الحصص</h2></div>
-   <Legend items={[{tone:'booked',label:'فيها أماكن'},{tone:'full',label:'كاملة'}]}/>
+   <Legend items={order.map(id=>({color:swatchFor(id,order),label:centerById(id)?.name??''}))}/>
    <WeekGrid label="جدول حصص المدرس" blocks={blocks}/>
    <JoinSheet session={join} onClose={closeJoin}/>
   </section>
   <section className={s.section} aria-labelledby="t-ctr"><div className={s.head}><h2 id="t-ctr">🏫 بيدرّس في</h2></div>
-   <ul className={s.centers}>{centers.map(({c,n})=><li key={c!.id}><Link href={`/centers/${c!.id}`}><b>{c!.name}</b><span><MapPin size={14} aria-hidden="true"/>{c!.area}</span><em>{n} مجموعات</em></Link></li>)}</ul>
+   <ul className={s.centers}>{centers.map(({c,n})=><li key={c!.id}><Link href={`/centers/${c!.id}`}><img src={placePhotos('center',c!.id,400,1)[0]} alt="" loading="lazy"/><span className={s.cBody}><b>{c!.name}</b><span><MapPin size={14} aria-hidden="true"/>{c!.area} · ⭐ {c!.rating.toFixed(1)}</span><em>{n} مجموعات</em></span></Link></li>)}</ul>
   </section>
  </>;
 }

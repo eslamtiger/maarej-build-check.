@@ -33,10 +33,13 @@ function build(){
   }
  }
  // Make sure every room has a few groups: fill with teachers from the same governorate.
- for(const c of marketplaceCenters){const r=rng(c.id+'fill'),local=marketplaceTeachers.filter(t=>t.governorates.includes(c.governorate));if(!local.length)continue;
+ // A teacher works with a handful of centers at most (≤4) and ≤8 groups a week.
+ const centersOf=(id:string)=>new Set(all.filter(x=>x.teacherId===id).map(x=>x.centerId));
+ const canTake=(id:string,center:string)=>{const cs=centersOf(id);return all.filter(x=>x.teacherId===id).length<8&&(cs.has(center)||cs.size<4);};
+ for(const c of marketplaceCenters){const r=rng(c.id+'fill'),near=marketplaceTeachers.filter(t=>t.areas.includes(c.area)),local=near.length>=3?near:marketplaceTeachers.filter(t=>t.governorates.includes(c.governorate));if(!local.length)continue;
   c.rooms.forEach((rm,room)=>{let n=all.filter(x=>x.centerId===c.id&&x.room===room).length;
-   for(let attempt=0;attempt<40&&n<4;attempt++){const t=local[Math.floor(r()*local.length)],day=Math.floor(r()*6),dur=2,start=r()<.75?14+Math.floor(r()*(CLOSE-14-dur+1)):OPEN+Math.floor(r()*(CLOSE-OPEN-dur+1));
-    if(!free(c.id,room,day,start,dur)||[...Array(dur)].some((_,k)=>teacherBusy.has(`${t.id}:${day}:${start+k}`)))continue;
+   for(let attempt=0;attempt<60&&n<3;attempt++){const t=local[Math.floor(r()*local.length)],day=Math.floor(r()*6),dur=2,start=r()<.75?14+Math.floor(r()*(CLOSE-14-dur+1)):OPEN+Math.floor(r()*(CLOSE-OPEN-dur+1));
+    if(!canTake(t.id,c.id)||!free(c.id,room,day,start,dur)||[...Array(dur)].some((_,k)=>teacherBusy.has(`${t.id}:${day}:${start+k}`)))continue;
     take(c.id,room,day,start,dur);for(let k=0;k<dur;k++)teacherBusy.add(`${t.id}:${day}:${start+k}`);
     const capacity=rm.seats,lo=t.price?.min??100,hi=t.price?.max??lo,g=all.filter(x=>x.teacherId===t.id).length;
     all.push({id:`${t.id}-${c.id}-${room}-${n}`,centerId:c.id,room,day,start,dur,teacherId:t.id,subject:t.subjects[g%Math.max(1,t.subjects.length)]??'',stage:t.stages[g%Math.max(1,t.stages.length)]??'',enrolled:Math.min(capacity,Math.max(3,Math.round(capacity*(.45+r()*.55)))),capacity,price:Math.round((lo+(hi-lo)*r())/10)*10,status:'booked'});n++;}

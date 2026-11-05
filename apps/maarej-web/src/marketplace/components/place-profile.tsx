@@ -1,10 +1,15 @@
 import {Star,MapPin,UsersRound,LayoutGrid,Navigation,Banknote} from 'lucide-react';
 import type {CenterDTO,SpaceDTO,CenterReviewRole} from '../types/place';
-import {featureLabel,directionsHref} from '../adapters/places';
+import {featureLabel,directionsHref,placePhotos} from '../adapters/places';
 import {emojiFor} from '../adapters/emoji';
 import {PublicMarketplaceShell} from './public-shell';
 import {PlaceCover} from './place-card';
 import {CenterSchedule,CenterTeachers} from './schedule';
+import {Gallery} from './gallery';
+import {Section,QuickActions,Stars,Quote,PhotoGrid,Contact,Reviews,MapEmbed,Stat,Stats} from './profile-kit';
+import {demoBranches,managerNote,demoContact} from '../adapters/profile-demo';
+import {sessionsForCenter} from '../adapters/schedule';
+import k from './profile-kit.module.css';
 import {BackToSearch} from './back-to-search';
 import styles from './places.module.css';
 
@@ -30,36 +35,43 @@ function Location({lat,lng,address}:{lat:number;lng:number;address:string}){
  return <section className={styles.section} aria-labelledby="loc-title"><h2 id="loc-title">الموقع</h2><p className={styles.muted}>{address}</p><a className={styles.secondaryCta} href={directionsHref(lat,lng)} target="_blank" rel="noopener noreferrer"><Navigation size={16} aria-hidden="true"/>افتح الاتجاهات في خرائط Google</a></section>;
 }
 
+// Center profile, top to bottom: photos → identity → quick actions → numbers → word from the manager → photos →
+// rooms (gallery, equipment, timetable, booking) → teachers → equipment → contact → reviews by audience → map.
 export function CenterProfile({center:c}:{center:CenterDTO}){
- const reviewRoles=(Object.keys(roleLabels) as CenterReviewRole[]).filter(r=>(c.reviewsByRole[r]?.length??0)>0);
+ const branches=demoBranches(c),note=managerNote(c),photos=placePhotos('center',c.id,1000,15);
+ const groups=sessionsForCenter(c.id).filter(x=>x.status==='booked'),teachersN=new Set(groups.map(x=>x.teacherId)).size;
  return <PublicMarketplaceShell active="centers"><div className={styles.profile}>
   <BackToSearch base="/centers" label="السناتر"/>
-  <ProfileHead kind="center" id={c.id} name={c.name} area={c.area} type={c.type} rating={c.rating} reviews={c.reviews} address={c.address}/>
-  <Facts items={[{icon:LayoutGrid,label:'القاعات',value:String(c.rooms.length)},{icon:UsersRound,label:'أكبر قاعة',value:`${c.maxSeats} طالب`},{icon:Banknote,label:'سعر الساعة (ج.م)',value:`${c.price.min} – ${c.price.max}`}]}/>
-  {c.branches.length>0&&<p className={styles.muted}>فروع أخرى: {c.branches.join('، ')}</p>}
-
+  <header className={k.hero}>
+   <div className={k.cover}><Gallery photos={photos.slice(0,5)} size="hero"/></div>
+   <div className={k.idCard}>
+    <span className={k.logo} aria-hidden="true">🏫</span>
+    <div className={k.idText}>
+     <p className={k.kicker}>{c.type}</p>
+     <h1><bdi>{c.name}</bdi></h1>
+     <p className={k.meta}><Stars value={c.rating} count={c.reviews}/><span>📍 {c.address}</span></p>
+     {branches.length>0&&<p className={k.branches}><span>🏢 فروع تانية</span>{branches.map(b=><em key={b}>{b}</em>)}</p>}
+    </div>
+   </div>
+  </header>
+  <QuickActions items={[{emoji:'📅',label:'احجز قاعة',href:'#rooms',primary:true},{emoji:'🧑‍🏫',label:'المدرسين',href:'#our-t'},{emoji:'☎️',label:'التواصل',href:'#contact'},{emoji:'🧭',label:'الاتجاهات',href:directionsHref(c.lat,c.lng),external:true}]}/>
+  <Stats>
+   <Stat emoji="🚪" label="قاعة" value={c.rooms.length}/>
+   <Stat emoji="👥" label="أكبر قاعة" value={`${c.maxSeats} طالب`}/>
+   <Stat emoji="💰" label="ج.م / ساعة" value={<bdi>{c.price.min} – {c.price.max}</bdi>}/>
+   <Stat emoji="🧑‍🏫" label="مدرس" value={teachersN}/>
+   <Stat emoji="📚" label="مجموعة في الأسبوع" value={groups.length}/>
+  </Stats>
+  <Quote who={note.who} role={note.role} text={note.text} initials="م"/>
+  <Section id="photos-t" emoji="📸" title="صور السنتر"><PhotoGrid photos={photos.slice(0,8)} label={`صور ${c.name}`}/></Section>
   <CenterSchedule center={c}/>
-
-  <section className={styles.section} aria-labelledby="rooms-title"><h2 id="rooms-title">القاعات</h2>
-   <ul className={styles.rooms}>{c.rooms.map(r=><li key={r.name}>
-    <div className={styles.roomHead}><h3>{r.name}</h3><p className={styles.price}><bdi>{r.price}</bdi> <span>ج.م / ساعة</span></p></div>
-    <p className={styles.muted}><UsersRound size={14} aria-hidden="true"/> حتى {r.seats} طالب</p>
-    <ul className={styles.features}>{r.features.map(f=><li key={f}>{emojiFor(featureLabel(f))} {featureLabel(f)}</li>)}</ul>
-   </li>)}</ul>
-  </section>
-
   <CenterTeachers center={c}/>
-
-  <section className={styles.section} aria-labelledby="feat-title"><h2 id="feat-title">تجهيزات السنتر</h2><ul className={styles.checkList}>{c.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul></section>
-
-
-  {reviewRoles.length>0&&<section className={styles.section} aria-labelledby="rev-title"><h2 id="rev-title">آراء المستخدمين</h2>
-   <div className={styles.reviews}>{reviewRoles.map(role=>c.reviewsByRole[role]!.map((r,i)=><figure key={`${role}-${i}`}><blockquote>{r.text}</blockquote><figcaption><span>{roleLabels[role]}</span><span className={styles.rating}><Star size={13} aria-hidden="true"/><bdi>{r.rating.toFixed(1)}</bdi></span></figcaption></figure>))}</div>
-  </section>}
-
-  <Location lat={c.lat} lng={c.lng} address={c.address}/>
+  <Section id="feat-title" emoji="✨" title="تجهيزات السنتر"><ul className={k.feats}>{c.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul></Section>
+  <Section id="contact" emoji="☎️" title="التواصل"><Contact info={demoContact(c.id)}/></Section>
+  <Section id="rev-title" emoji="⭐" title="آراء الناس" aside={<Stars value={c.rating} count={c.reviews}/>}><Reviews byRole={c.reviewsByRole}/></Section>
+  <Section id="loc-title" emoji="📍" title="الموقع"><p className={k.addr}>{c.address}</p><MapEmbed query={`${c.lat},${c.lng}`} label={`خريطة ${c.name}`}/></Section>
  </div>
- <div className={styles.stickyBar}><p className={styles.price}><small>القاعة</small><bdi>{c.price.min} – {c.price.max}</bdi> <span>ج.م / ساعة</span></p><a href="#sch-title" className={styles.bookCta}>احجز قاعة</a></div>
+ <div className={styles.stickyBar}><p className={styles.price}><small>القاعة</small><bdi>{c.price.min} – {c.price.max}</bdi> <span>ج.م / ساعة</span></p><a href="#rooms" className={styles.bookCta}>احجز قاعة</a></div>
  </PublicMarketplaceShell>;
 }
 
