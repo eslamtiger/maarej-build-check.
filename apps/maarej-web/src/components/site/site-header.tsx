@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Bell, Building2, ChevronDown, DoorOpen, GraduationCap, Info, LogOut, PenLine, Route, Settings, BookOpenCheck, House } from "lucide-react";
+import { Bell, Building2, ChevronDown, DoorOpen, GraduationCap, Info, LogOut, PenLine, Settings } from "lucide-react";
 import { studentNotifications } from "@/data/student-records";
 import { useStudentAppState } from "@/lib/student-app-state";
 import { useStudentProfile } from "@/lib/student-profile";
@@ -17,10 +17,8 @@ const sections = [
   { href: "/about", label: "عن معارج", Icon: Info },
 ] as const;
 
+// Inside the student space the avatar opens a small menu; everywhere else it goes straight to the space.
 const menu = [
-  { href: "/student", label: "مساحتي", Icon: House },
-  { href: "/student/learning", label: "تعلّمي", Icon: BookOpenCheck },
-  { href: "/student/journey", label: "رحلتي", Icon: Route },
   { href: "/student/profile", label: "تعديل ملفي", Icon: PenLine },
   { href: "/student/account", label: "الإعدادات", Icon: Settings },
 ] as const;
@@ -37,6 +35,13 @@ export function SiteHeader() {
   const box = useRef<HTMLDivElement>(null);
   const unread = app.preferences.notifications && studentNotifications.some(n => n.readState === "unread" && !app.readNotifications.includes(n.id));
   useEffect(() => { setOpen(false); }, [path]);
+  const bar = useRef<HTMLElement>(null);
+  // Publish the real header height so sticky bars (filters, maps) sit right under it.
+  useEffect(() => {
+    const el = bar.current; if (!el) return;
+    const set = () => document.documentElement.style.setProperty("--site-header-h", `${Math.round(el.getBoundingClientRect().height)}px`);
+    set(); const ro = new ResizeObserver(set); ro.observe(el); return () => ro.disconnect();
+  }, []);
   useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent | TouchEvent) => { if (box.current && !box.current.contains(e.target as Node)) setOpen(false); };
@@ -44,9 +49,10 @@ export function SiteHeader() {
     document.addEventListener("mousedown", onDown); document.addEventListener("touchstart", onDown); document.addEventListener("keydown", onKey);
     return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("touchstart", onDown); document.removeEventListener("keydown", onKey); };
   }, [open]);
+  const inStudent = path.startsWith("/student");
   const isActive = (href: string) => path === href || path.startsWith(href + "/");
 
-  return <header className={styles.header} dir="rtl">
+  return <header ref={bar} className={styles.header} dir="rtl">
     <span className={styles.accent} aria-hidden="true"/>
     <div className={styles.inner}>
       <Link href="/" className={styles.brand} aria-label="معارج، الصفحة الرئيسية"><MaarejMark size={40}/><span className={styles.word}><b>معارج</b><small>تعليمك كله في مكان واحد</small></span></Link>
@@ -55,13 +61,16 @@ export function SiteHeader() {
       </nav>
       <div className={styles.user} ref={box}>
         <Link href="/student/notifications" className={styles.bell} aria-label={unread ? "الإشعارات، فيه جديد" : "الإشعارات"} aria-current={path === "/student/notifications" ? "page" : undefined}><Bell size={20} aria-hidden="true"/>{unread && <i aria-hidden="true"/>}</Link>
-        <button type="button" className={styles.me} aria-haspopup="menu" aria-expanded={open} aria-controls="site-user-menu" onClick={() => setOpen(v => !v)}>
+        {inStudent ? <button type="button" className={styles.me} aria-haspopup="menu" aria-expanded={open} aria-controls="site-user-menu" onClick={() => setOpen(v => !v)}>
           <SiteAvatar name={profile.name} color={profile.avatarColor}/>
           <span className={styles.meName}>{profile.name.split(" ")[0]}</span>
           <ChevronDown size={16} aria-hidden="true" className={styles.chev}/>
           <span className={styles.srOnly}>حسابي: {profile.name}</span>
-        </button>
-        {open && <div id="site-user-menu" className={styles.menu} role="menu" aria-label="حسابي">
+        </button> : <Link href="/student" className={styles.me} aria-label={`مساحتي: ${profile.name}`}>
+          <SiteAvatar name={profile.name} color={profile.avatarColor}/>
+          <span className={styles.meName}>مساحتي</span>
+        </Link>}
+        {inStudent && open && <div id="site-user-menu" className={styles.menu} role="menu" aria-label="حسابي">
           <div className={styles.card}>
             <SiteAvatar name={profile.name} color={profile.avatarColor} size={56}/>
             <div><b>{profile.name}</b><small>{profile.stage}</small>{profile.identityName && <span className={styles.identity}>{profile.identityName}{profile.identityStage ? ` · مرحلة ${profile.identityStage}` : ""}</span>}</div>

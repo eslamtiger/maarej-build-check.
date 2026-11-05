@@ -153,3 +153,6 @@ a.s2-ring:hover{background:#F7F6FC}
   .s2 .s2-side{position:sticky!important;top:76px!important;inset-block:auto!important;right:auto!important;height:calc(100vh - 76px);grid-column:1;grid-row:2;width:auto!important;padding-top:20px}
   .s2 .v104-content{grid-column:2;grid-row:2;width:min(100%,1180px);padding:20px 30px 50px}
 }
+/* Height of the shared site header, for sticky bars that sit under it. */
+:root{--site-header-h:119px}
+@media (min-width:900px){:root{--site-header-h:77px}}

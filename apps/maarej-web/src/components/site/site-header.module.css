@@ -1,6 +1,6 @@
 /* Site header: brand on the right, page links in a soft pill group, the student's account on the far left.
    A thin indigo-to-amber line on top carries the brand (the climb toward a goal). */
-.header { position:sticky; top:0; z-index:70; background:rgba(255,255,255,.97); border-bottom:1px solid #ECEAF4; color:#16133D; font-family:var(--m-font-ar); box-shadow:0 6px 24px rgba(22,19,61,.04); }
+.header { position:sticky; top:0; z-index:70; background:#fff; border-bottom:1px solid #ECEAF4; color:#16133D; font-family:var(--m-font-ar); box-shadow:0 6px 24px rgba(22,19,61,.04); }
 .accent { display:block; height:3px; background:linear-gradient(270deg,#4B3FD6 0%,#6F63FF 55%,#FFB53D 100%); }
 .inner { display:grid; grid-template-columns:auto 1fr auto; grid-template-areas:"brand . user" "nav nav nav"; align-items:center; gap:6px 12px; max-width:1240px; margin:auto; padding:8px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px)); }
 .brand { grid-area:brand; display:inline-flex; align-items:center; gap:10px; min-height:44px; color:#16133D; text-decoration:none; }
@@ -48,3 +48,4 @@
   .meName { display:inline; }
 }
 @media (prefers-reduced-motion:reduce) { .menu { animation:none; } .chev, .nav a { transition:none; } }
+.me:is(a) { text-decoration:none; padding-inline-end:12px; }

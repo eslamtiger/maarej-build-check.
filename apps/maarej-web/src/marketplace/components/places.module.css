@@ -11,7 +11,7 @@
 .searchBar button{display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:50%;background:var(--m-neutral-100);color:var(--m-neutral-800);cursor:pointer}
 
 .searchLayout{display:grid;gap:16px}
-.filters{position:sticky;top:0;z-index:5;margin-inline:-2px;padding:8px 2px;background:var(--m-surface-page)}
+.filters{position:sticky;top:var(--site-header-h,0px);z-index:5;margin-inline:-2px;padding:8px 2px;background:var(--m-surface-page)}
 .filterToggle{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border:1px solid var(--m-neutral-300);border-radius:var(--m-radius-pill);background:var(--m-white);color:var(--m-blue-900);font-weight:700;cursor:pointer}
 .filterToggle b{display:grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:var(--m-radius-pill);background:var(--m-blue-700);color:var(--m-white);font-size:.75rem}
 .filterPanel{display:none;gap:14px;margin-top:10px;padding:16px;border:1px solid var(--m-border-soft);border-radius:var(--m-radius-lg);background:var(--m-white);box-shadow:var(--m-shadow-md)}
@@ -133,7 +133,7 @@
 }
 @media (min-width:1024px){
  .searchLayout{grid-template-columns:270px 1fr;align-items:start}
- .filters{position:sticky;top:12px;padding:0}
+ .filters{position:sticky;top:calc(var(--site-header-h,0px) + 12px);padding:0}
  .filterToggle{display:none}
  .filterPanel{display:grid;margin:0;box-shadow:none}
  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
