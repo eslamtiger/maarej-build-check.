@@ -44,7 +44,7 @@ export function PlaceSearch({kind}:{kind:'centers'|'spaces'}){
  const mapItems:MapItem[]=kind==='centers'?centerRows.map(x=>({id:x.id,name:x.name,area:x.area,lat:x.lat,lng:x.lng,rating:x.rating,reviews:x.reviews,priceLabel:String(x.price.min),priceNote:'من',href:'',photo:placePhoto('center',x.id,160)}))
   :spaceRows.map(x=>({id:x.id,name:x.name,area:x.area,lat:x.lat,lng:x.lng,rating:x.rating,reviews:x.reviews,priceLabel:String(x.price.min),priceNote:'من',href:'',photo:placePhoto('space',x.id,160)}));
  // Tapping a pin brings that place to the top of the list and scrolls to its card.
- const pick=(id:string|null)=>{setSelectedId(id);if(id)requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById(`card-${id}`)?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})));};
+ const pick=(id:string|null)=>{setSelectedId(id);if(id)setTimeout(()=>document.getElementById(`card-${id}`)?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}),60);};
  const first=<T extends {id:string}>(rows:T[])=>selectedId?[...rows.filter(r=>r.id===selectedId),...rows.filter(r=>r.id!==selectedId)]:rows;
 
  const areaChoices:Choice[]=options.governorates.filter(g=>!f.governorate||g===f.governorate).flatMap(g=>[...new Set(places.filter(p=>p.governorate===g).map(p=>p.area))].sort((a,b)=>a.localeCompare(b,'ar')).map(a=>({value:a,label:a,group:f.governorate?undefined:g})));

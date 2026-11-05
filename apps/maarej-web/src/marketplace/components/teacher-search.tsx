@@ -46,7 +46,7 @@ export function TeacherSearch(){
  const mapItems:MapItem[]=useMemo(()=>results.filter(t=>t.areas.length).map(t=>{const area=(f.area&&t.areas.includes(f.area)?f.area:t.areas.find(a=>!f.governorate||areaGovernorate.get(a)===f.governorate))??t.areas[0];
   return {id:t.id,name:t.name,area,...spot(area,t.id),rating:t.rating??0,reviews:t.reviewCount??0,priceLabel:t.price?String(t.price.min):'—',priceNote:'من',href:'',photo:t.image?.replace('w=600&h=600','w=120&h=120'),fallback:{text:initials(t.name),bg:teacherGradient(t.id)}};}),[results,f.area,f.governorate]);
  // Tapping a face on the map brings that teacher to the top of the list and scrolls to the card.
- const pick=(id:string|null)=>{setSelectedId(id);if(id)requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById(`card-${id}`)?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})));};
+ const pick=(id:string|null)=>{setSelectedId(id);if(id)setTimeout(()=>document.getElementById(`card-${id}`)?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}),60);};
  const subjects=f.subject?f.subject.split(','):[];
  const lo=f.minPrice?Number(f.minPrice):priceBounds[0],hi=f.maxPrice?Number(f.maxPrice):priceBounds[1];
  const priceLabel=f.minPrice||f.maxPrice?`${lo} – ${hi}${f.maxPrice?'':'+'}`:'';
