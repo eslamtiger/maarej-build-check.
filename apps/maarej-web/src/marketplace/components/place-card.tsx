@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import {useState} from 'react';
 import type {CSSProperties} from 'react';
-import {Building2,DoorOpen,Star,MapPin,UsersRound,LayoutGrid,ArrowLeft} from 'lucide-react';
+import type {LucideIcon} from 'lucide-react';
+import {Building2,DoorOpen,Star,MapPin,UsersRound,LayoutGrid,ArrowLeft,Check,Trees} from 'lucide-react';
 import type {CenterDTO,SpaceDTO} from '../types/place';
 import {featureLabel,placePhoto} from '../adapters/places';
 import c from './cards.module.css';
@@ -28,32 +29,40 @@ function Photo({src}:{src:string}){
  return failed?null:<img className={c.photo} src={src} alt="" loading="lazy" onError={()=>setFailed(true)}/>;
 }
 
-type Sync={active?:boolean;onHover?:(id:string|null)=>void;index?:number};
-type Props={kind:'center'|'space';id:string;href:string;name:string;area:string;rating:number;reviews:number;price:number;unit:string;facts:{icon:typeof UsersRound;text:string}[];features:string[]}&Sync;
+export type Fact={icon:LucideIcon;label:string;value:string};
+type Sync={active?:boolean;picked?:boolean;onHover?:(id:string|null)=>void;index?:number};
+type Props={kind:'center'|'space';id:string;href:string;name:string;sub:string;rating:number;reviews:number;price:number;unit:string;facts:Fact[];tags:string[];tagKind:'features'|'zones'}&Sync;
 
-function PlaceCard({kind,id,href,name,area,rating,reviews,price,unit,facts,features,active,onHover,index=0}:Props){
- const Kind=kind==='center'?Building2:DoorOpen;
- return <article id={`card-${id}`} className={c.card} data-active={active} style={{'--i':index} as CSSProperties} onMouseEnter={()=>onHover?.(id)} onMouseLeave={()=>onHover?.(null)}>
-  <div className={c.media} aria-hidden="true">
+export function Facts({facts}:{facts:Fact[]}){
+ return <dl className={c.facts}>{facts.map(({icon:Icon,label,value})=><div key={label}><dt><Icon size={14} aria-hidden="true"/>{label}</dt><dd>{value}</dd></div>)}</dl>;
+}
+
+function PlaceCard({kind,id,href,name,sub,rating,reviews,price,unit,facts,tags,tagKind,active,picked,onHover,index=0}:Props){
+ const Kind=kind==='center'?Building2:DoorOpen,TagIcon=tagKind==='zones'?Trees:Check;
+ return <Link href={href} id={`card-${id}`} className={c.card} data-active={active} data-picked={picked} style={{'--i':index} as CSSProperties}
+  onMouseEnter={()=>onHover?.(id)} onMouseLeave={()=>onHover?.(null)} onFocus={()=>onHover?.(id)} onBlur={()=>onHover?.(null)}>
+  <div className={c.media}>
    <Photo src={placePhoto(kind,id)}/>
-   <span className={c.rate}><Star size={13}/><bdi>{rating.toFixed(1)}</bdi><small>({reviews})</small></span>
-   <span className={c.kind}><Kind size={18}/></span>
-   <span className={c.price}><small>من</small><bdi dir="ltr">{price}</bdi><small>{unit}</small></span>
+   <span className={c.rate}><Star size={20} aria-hidden="true"/><bdi>{rating.toFixed(1)}</bdi><small>({reviews})</small></span>
+   <span className={c.kind} aria-hidden="true"><Kind size={18}/></span>
+   <span className={c.price}><small>من</small><b><bdi dir="ltr">{price}</bdi></b><small>{unit}</small></span>
   </div>
   <div className={c.body}>
-   <div className={c.head}><h3><Link href={href} onFocus={()=>onHover?.(id)} onBlur={()=>onHover?.(null)}><bdi>{name}</bdi></Link></h3><span className={c.go} aria-hidden="true"><ArrowLeft size={20}/></span></div>
-   <ul className={c.meta}><li><MapPin size={15} aria-hidden="true"/>{area}</li>{facts.map(({icon:Icon,text})=><li key={text}><Icon size={15} aria-hidden="true"/>{text}</li>)}</ul>
-   <ul className={c.tags} aria-label="تجهيزات">{features.slice(0,3).map(f=><li key={f}>{featureLabel(f)}</li>)}{features.length>3&&<li><bdi dir="ltr">+{features.length-3}</bdi></li>}</ul>
+   <div className={c.head}><div><h3><bdi>{name}</bdi></h3><p>{sub}</p></div><span className={c.go} aria-hidden="true"><ArrowLeft size={20}/></span></div>
+   <Facts facts={facts}/>
+   {tags.length>0&&<ul className={c.tags} data-kind={tagKind} aria-label={tagKind==='zones'?'الأماكن':'التجهيزات'}>{tags.slice(0,4).map(t=><li key={t}><TagIcon size={13} aria-hidden="true"/>{t}</li>)}{tags.length>4&&<li><bdi dir="ltr">+{tags.length-4}</bdi></li>}</ul>}
   </div>
- </article>;
+ </Link>;
 }
 
 export function CenterCard({center:x,returnTo,...sync}:{center:CenterDTO;returnTo:string}&Sync){
- return <PlaceCard kind="center" id={x.id} href={`/centers/${x.id}?returnTo=${encodeURIComponent(returnTo)}`} name={x.name} area={x.area} rating={x.rating} reviews={x.reviews} price={x.price.min} unit="ج.م / ساعة"
-  facts={[{icon:LayoutGrid,text:`${x.rooms.length} قاعات`},{icon:UsersRound,text:`حتى ${x.maxSeats} طالب`}]} features={x.features} {...sync}/>;
+ return <PlaceCard kind="center" id={x.id} href={`/centers/${x.id}?returnTo=${encodeURIComponent(returnTo)}`} name={x.name} sub={x.type} rating={x.rating} reviews={x.reviews} price={x.price.min} unit="ج.م / ساعة"
+  facts={[{icon:MapPin,label:'المنطقة',value:x.area},{icon:LayoutGrid,label:'القاعات',value:String(x.rooms.length)},{icon:UsersRound,label:'أكبر قاعة',value:`${x.maxSeats} طالب`}]}
+  tags={x.features.map(featureLabel)} tagKind="features" {...sync}/>;
 }
 
 export function SpaceCard({space:x,returnTo,...sync}:{space:SpaceDTO;returnTo:string}&Sync){
- return <PlaceCard kind="space" id={x.id} href={`/spaces/${x.id}?returnTo=${encodeURIComponent(returnTo)}`} name={x.name} area={x.area} rating={x.rating} reviews={x.reviews} price={x.price.min} unit="ج.م"
-  facts={[{icon:UsersRound,text:x.capacity===1?'فرد واحد':`حتى ${x.capacity} أفراد`},{icon:LayoutGrid,text:x.type}]} features={x.features} {...sync}/>;
+ return <PlaceCard kind="space" id={x.id} href={`/spaces/${x.id}?returnTo=${encodeURIComponent(returnTo)}`} name={x.name} sub={x.type} rating={x.rating} reviews={x.reviews} price={x.price.min} unit="ج.م"
+  facts={[{icon:MapPin,label:'المنطقة',value:x.area},{icon:UsersRound,label:'السعة',value:x.capacity===1?'فرد واحد':`${x.capacity} أفراد`},{icon:LayoutGrid,label:'الوحدات',value:String(x.units)}]}
+  tags={x.zones} tagKind="zones" {...sync}/>;
 }

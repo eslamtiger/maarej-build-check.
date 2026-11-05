@@ -182,3 +182,14 @@
 .mapPin[data-on=true]{background:#4B3FD6}
 .mapGo{background:#4B3FD6;box-shadow:0 3px 0 #3328A8}
 .mapPreview{border-radius:22px}
+/* Photo pins */
+.photoPin{position:absolute;z-index:1;display:grid;justify-items:center;gap:2px;padding:0;border:0;background:none;cursor:pointer;transform:translate(-50%,-50%);transition:transform .2s cubic-bezier(.34,1.56,.64,1);animation:pinIn .45s cubic-bezier(.34,1.56,.64,1) backwards}
+@keyframes pinIn{from{transform:translate(-50%,-50%) scale(.6)}}
+.photoPin>img,.photoPin>span{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;object-fit:cover;border:3px solid #fff;background:#E4E0FF;color:#fff;font-family:var(--m-font-display);font-weight:800;font-size:.8125rem;box-shadow:0 6px 14px rgba(22,19,61,.28)}
+.photoPin[data-shape=round]>img,.photoPin[data-shape=round]>span{border-radius:50%}
+.photoPin[data-on=true]{z-index:3;transform:translate(-50%,-50%) scale(1.22)}
+.photoPin[data-on=true]>img,.photoPin[data-on=true]>span{border-color:#4B3FD6;box-shadow:0 0 0 3px #fff,0 10px 22px rgba(75,63,214,.4)}
+.photoPin>b{display:inline-flex;align-items:center;gap:2px;padding:1px 6px;border-radius:99px;background:#fff;color:#16133D;font-size:.6875rem;box-shadow:0 2px 6px rgba(22,19,61,.18)}
+.photoPin>b svg{color:#F59E0B;fill:#F59E0B}
+.photoPin:focus-visible{outline:none}.photoPin:focus-visible>img,.photoPin:focus-visible>span{outline:3px solid #A59CFF;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.photoPin{animation:none;transition:none}}

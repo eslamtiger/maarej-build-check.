@@ -12,7 +12,7 @@ export type CenterDTO={
 };
 export type SpaceDTO={
  id:string;legacyId:string;name:string;type:string;area:string;governorate:string;rating:number;reviews:number;
- capacity:number;units:number;features:string[];price:{min:number;max:number};lat:number;lng:number;provenance:Provenance;
+ capacity:number;units:number;features:string[];zones:string[];price:{min:number;max:number};lat:number;lng:number;provenance:Provenance;
 };
 export type PlaceSort='default'|'rating'|'priceAsc'|'priceDesc';
 export type PlaceFilters={q:string;governorate:string;area:string;seats:string;feature:string;rating:string;minPrice:string;maxPrice:string;sort:PlaceSort};

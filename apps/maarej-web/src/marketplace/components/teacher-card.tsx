@@ -2,7 +2,9 @@
 import {useState} from 'react';
 import type {CSSProperties} from 'react';
 import Link from 'next/link';
-import {Star,MapPin,ArrowLeft,BookOpen} from 'lucide-react';
+import {Star,MapPin,ArrowLeft,GraduationCap,School} from 'lucide-react';
+import {Facts} from './place-card';
+import type {Fact} from './place-card';
 import type {TeacherSearchDTO} from '../types/teacher';
 import c from './cards.module.css';
 import styles from './marketplace.module.css';
@@ -18,19 +20,20 @@ export function TeacherPortrait({teacher:t,className=''}:{teacher:Pick<TeacherSe
   :<span className={`${styles.initials} ${className}`} style={{background:teacherGradient(t.id),color:'#fff',display:'grid',placeItems:'center',fontWeight:800}} aria-hidden="true">{initialsOf(t.name)}</span>;
 }
 
-export function TeacherCard({teacher:t,returnTo='/teachers',active=false,onHover,index=0}:{teacher:TeacherSearchDTO;returnTo?:string;active?:boolean;onHover?:(id:string|null)=>void;index?:number}){
+export function TeacherCard({teacher:t,returnTo='/teachers',active=false,picked=false,onHover,index=0}:{teacher:TeacherSearchDTO;returnTo?:string;active?:boolean;picked?:boolean;onHover?:(id:string|null)=>void;index?:number}){
  const [failed,setFailed]=useState(false);
  const href=`/teachers/${t.id}?returnTo=${encodeURIComponent(returnTo)}`;
- return <article id={`card-${t.id}`} className={c.card} data-active={active} style={{'--i':index} as CSSProperties} onMouseEnter={()=>onHover?.(t.id)} onMouseLeave={()=>onHover?.(null)}>
-  <div className={c.media} aria-hidden="true" style={!t.image||failed?{background:teacherGradient(t.id)}:undefined}>
-   {t.image&&!failed?<img className={c.photo} src={t.image} alt="" loading="lazy" style={{objectPosition:'center 22%'}} onError={()=>setFailed(true)}/>:<span className={c.fallback}>{initialsOf(t.name)}</span>}
-   {t.rating!==undefined&&<span className={c.rate}><Star size={13}/><bdi>{t.rating.toFixed(1)}</bdi>{t.reviewCount!==undefined&&<small>({t.reviewCount})</small>}</span>}
-   {t.price&&<span className={c.price}><small>من</small><bdi dir="ltr">{t.price.min}</bdi><small>ج.م / حصة</small></span>}
+ const facts:Fact[]=[{icon:MapPin,label:'المنطقة',value:t.areas[0]??'—'},{icon:GraduationCap,label:'المرحلة',value:t.stages.join(' · ')||'—'},{icon:School,label:'النظام',value:t.systems.join(' · ')||'—'}];
+ return <Link href={href} id={`card-${t.id}`} className={c.card} data-active={active} data-picked={picked} style={{'--i':index} as CSSProperties}
+  onMouseEnter={()=>onHover?.(t.id)} onMouseLeave={()=>onHover?.(null)} onFocus={()=>onHover?.(t.id)} onBlur={()=>onHover?.(null)}>
+  <div className={c.media} style={!t.image||failed?{background:teacherGradient(t.id)}:undefined}>
+   {t.image&&!failed?<img className={c.photo} src={t.image} alt="" loading="lazy" style={{objectPosition:'center 25%'}} onError={()=>setFailed(true)}/>:<span className={c.fallback} aria-hidden="true">{initialsOf(t.name)}</span>}
+   {t.rating!==undefined&&<span className={c.rate}><Star size={20} aria-hidden="true"/><bdi>{t.rating.toFixed(1)}</bdi>{t.reviewCount!==undefined&&<small>({t.reviewCount})</small>}</span>}
+   {t.price&&<span className={c.price}><small>من</small><b><bdi dir="ltr">{t.price.min}</bdi></b><small>ج.م / حصة</small></span>}
   </div>
   <div className={c.body}>
-   <div className={c.head}><h3><Link href={href} onFocus={()=>onHover?.(t.id)} onBlur={()=>onHover?.(null)}>{t.name}</Link></h3><span className={c.go} aria-hidden="true"><ArrowLeft size={20}/></span></div>
-   <ul className={c.meta}>{t.subjects.length>0&&<li><BookOpen size={15} aria-hidden="true"/>{t.subjects.slice(0,2).join(' · ')}</li>}{t.areas.length>0&&<li><MapPin size={15} aria-hidden="true"/>{t.areas[0]}</li>}</ul>
-   <ul className={c.tags}>{t.stages.slice(0,3).map(s=><li key={s}>{s}</li>)}{t.systems.slice(0,1).map(s=><li key={s} data-tone="amber">{s}</li>)}</ul>
+   <div className={c.head}><div><h3>{t.name}</h3>{t.subjects.length>0&&<p>{t.subjects.join(' · ')}</p>}</div><span className={c.go} aria-hidden="true"><ArrowLeft size={20}/></span></div>
+   <Facts facts={facts}/>
   </div>
- </article>;
+ </Link>;
 }

@@ -29,7 +29,7 @@ export function MarketplaceHome(){
  return <PublicMarketplaceShell>
   <section className={h.hero} aria-labelledby="home-title">
    <div className={h.copy}>
-    <h1 id="home-title">المدرس الصح، والسنتر الأقرب،<br/><em>ورحلة تعليم واضحة للطالب وأهله.</em></h1>
+    <h1 id="home-title">المدرس الصح، والسنتر الأقرب،<br/><em>ورحلة تعليم واضحة لكل طالب.</em></h1>
    </div>
    <div className={h.doors}>
     <Link href="/teachers" className={h.door} data-tone="teacher" aria-label="المدرسين">
@@ -51,7 +51,7 @@ export function MarketplaceHome(){
   </section>
 
   <section className={h.features} aria-labelledby="features-title">
-   <h2 id="features-title">معارج معمول للطالب ولأهله</h2>
+   <h2 id="features-title">معارج معمول للطالب ولولي الأمر</h2>
    <div className={h.audiences}>
     <article className={h.audience} data-who="student" aria-labelledby="for-student">
      <header><span className={h.who}>للطالب</span><h3 id="for-student">يومك منظم، ومجهودك باين</h3></header>

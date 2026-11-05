@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import {Star,MapPin,UsersRound,LayoutGrid,Navigation,Check,Banknote} from 'lucide-react';
+import {Star,MapPin,UsersRound,LayoutGrid,Navigation,Check,Banknote,Trees} from 'lucide-react';
 import type {CenterDTO,SpaceDTO,CenterReviewRole} from '../types/place';
 import {featureLabel,directionsHref} from '../adapters/places';
 import {marketplaceTeachers} from '../adapters/teachers';
@@ -69,6 +69,7 @@ export function SpaceProfile({space:s}:{space:SpaceDTO}){
   <BackToSearch base="/spaces" label="مساحات المذاكرة"/>
   <ProfileHead kind="space" id={s.id} name={s.name} area={s.area} type={s.type} rating={s.rating} reviews={s.reviews} address={`${s.area}، ${s.governorate}`}/>
   <Facts items={[{icon:UsersRound,label:'السعة',value:s.capacity===1?'فرد واحد':`حتى ${s.capacity} أفراد`},{icon:LayoutGrid,label:'الوحدات المتاحة',value:String(s.units)},{icon:Banknote,label:'نطاق السعر (ج.م)',value:`${s.price.min} – ${s.price.max}`}]}/>
+  {s.zones.length>0&&<section className={styles.section} aria-labelledby="zones-title"><h2 id="zones-title">الأماكن</h2><ul className={styles.checkList}>{s.zones.map(z=><li key={z}><Trees size={15} aria-hidden="true"/>{z}</li>)}</ul></section>}
   <section className={styles.section} aria-labelledby="feat-title"><h2 id="feat-title">التجهيزات</h2><ul className={styles.checkList}>{s.features.map(f=><li key={f}><Check size={15} aria-hidden="true"/>{featureLabel(f)}</li>)}</ul></section>
   <Location lat={s.lat} lng={s.lng} address={`${s.area}، ${s.governorate}`}/>
  </div>

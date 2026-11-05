@@ -10,3 +10,5 @@ function subscribe(callback:()=>void){window.addEventListener(event,callback);wi
 function parse(value:string):StudentAppState{try{const saved=JSON.parse(value);return {...initial,...saved,preferences:{...initial.preferences,...saved.preferences}};}catch{return initial;}}
 export function updateStudentAppState(update:(state:StudentAppState)=>StudentAppState){const state=update(parse(snapshot()));try{localStorage.setItem(key,JSON.stringify(state));}catch{}window.dispatchEvent(new Event(event));}
 export function useStudentAppState(){const value=useSyncExternalStore(subscribe,snapshot,()=>"");return useMemo(()=>parse(value),[value]);}
+// One-off read outside React (e.g. to pick a default governorate for search).
+export function readStudentAppState(){return parse(snapshot());}

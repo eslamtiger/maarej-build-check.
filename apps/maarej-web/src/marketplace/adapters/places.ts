@@ -18,7 +18,10 @@ export const marketplaceCenters:readonly CenterDTO[]=centersRaw.map(c=>{
 // Demo space names and types shown in Arabic (the V6 dataset mixes English brand-style names).
 const spaceNames:Record<string,string>={'spc-01':'ركن المذاكرة','spc-02':'مساحة تركيز','spc-04':'مكتب ومذاكرة','spc-05':'الركن الهادي','spc-07':'العُش','spc-08':'معمل المذاكرة','spc-10':'محطة تركيز','spc-11':'نتعلّم سوا','spc-13':'ساحة الفريق','spc-14':'بيت الأفكار','spc-15':'ملتقى المذاكرة','spc-16':'مكتبي','spc-17':'براح','spc-19':'ذهن','spc-20':'مرسى المذاكرة','spc-21':'الركن المبدع','spc-22':'ورشة المذاكرة','spc-23':'قاعدة الفريق','spc-24':'غرفة تركيز','spc-25':'شغل وتعلّم','spc-27':'دور المذاكرة','spc-28':'مكتبك','spc-30':'مكان التعلّم'};
 const spaceTypes:Record<string,string>={'Maker Space':'مساحة تصنيع','Media / Podcast':'استوديو بودكاست'};
-export const marketplaceSpaces:readonly SpaceDTO[]=spacesRaw.map(s=>({...s,name:spaceNames[s.id]??s.name,type:spaceTypes[s.type]??s.type,provenance:{kind:'demo',source:s.source}}));
+// The places inside each study space (garden, yard, engineers' room…). Demo values picked per space, until owners add their own.
+const zonePool=['جاردن','يارد','غرفة مهندسين','غرفة اجتماعات','ركن هادي','روف','قاعة مذاكرة','كبائن فردية','غرفة فريق','تراس'] as const;
+const zonesFor=(id:string)=>{const n=Number(id.split('-')[1])||1,count=2+(n%3);return Array.from({length:count},(_,i)=>zonePool[(n*3+i*4)%zonePool.length]).filter((z,i,a)=>a.indexOf(z)===i);};
+export const marketplaceSpaces:readonly SpaceDTO[]=spacesRaw.map(s=>({...s,name:spaceNames[s.id]??s.name,type:spaceTypes[s.type]??s.type,zones:zonesFor(s.id),provenance:{kind:'demo',source:s.source}}));
 
 export function resolveCenter(id:string){return marketplaceCenters.find(c=>c.id===id||c.legacyId===id);}
 export function resolveSpace(id:string){return marketplaceSpaces.find(s=>s.id===id||s.legacyId===id);}
@@ -33,8 +36,8 @@ export function filterPlaces<T extends CenterDTO|SpaceDTO>(places:readonly T[],f
  const rows=places.filter(p=>
   (!q||normalizeArabic([p.name,p.type,p.area,p.governorate,...p.features.map(featureLabel)].join(' ')).includes(q))&&
   (!f.governorate||p.governorate===f.governorate)&&(!f.area||p.area===f.area)&&
-  (!seats||capacityOf(p)>=seats)&&(!f.feature||p.features.includes(f.feature))&&
-  (!f.rating||p.rating>Number(f.rating))&&
+  (!seats||capacityOf(p)>=seats)&&(!f.feature||f.feature.split(',').every(x=>p.features.includes(x)))&&
+  (!f.rating||p.rating>=Number(f.rating))&&
   (min===undefined||p.price.max>=min)&&(max===undefined||p.price.min<=max));
  const sorters:Record<PlaceSort,((a:T,b:T)=>number)|undefined>={default:undefined,rating:(a,b)=>b.rating-a.rating||b.reviews-a.reviews,priceAsc:(a,b)=>a.price.min-b.price.min,priceDesc:(a,b)=>b.price.max-a.price.max};
  const sorter=sorters[f.sort];return sorter?[...rows].sort(sorter):rows;
@@ -49,7 +52,8 @@ export function activePlaceFilters(f:PlaceFilters){return Object.entries(f).filt
 
 export function parsePlaceQuery(params:URLSearchParams,places:readonly Place[]):PlaceFilters{
  const f={...emptyPlaceFilters},o=placeOptions(places);f.q=(params.get('q')??'').slice(0,160);
- for(const [key,allowed] of [['governorate',o.governorates],['area',o.areas],['feature',o.features],['rating',['3','4']],['seats',['5','10','20','30']]] as const){const v=params.get(key)??'';if((allowed as readonly string[]).includes(v))f[key]=v;}
+ f.feature=(params.get('feature')??'').split(',').filter(v=>o.features.includes(v)).join(',');
+ for(const [key,allowed] of [['governorate',o.governorates],['area',o.areas],['rating',['3','4']],['seats',['5','10','20','30']]] as const){const v=params.get(key)??'';if((allowed as readonly string[]).includes(v))f[key]=v;}
  for(const key of ['minPrice','maxPrice'] as const){const v=params.get(key);if(v!==null&&v.trim()!==''&&Number.isFinite(Number(v))&&Number(v)>=0)f[key]=String(Number(v));}
  const sort=params.get('sort');if(sort==='rating'||sort==='priceAsc'||sort==='priceDesc')f.sort=sort;return f;
 }
@@ -66,3 +70,8 @@ export const placePhoto=(kind:'center'|'space',id:string,width=800)=>{
  const list=kind==='center'?centerPhotos:spacePhotos,n=Number(id.split('-')[1])||1;
  return `https://images.unsplash.com/photo-${list[(n-1)%list.length]}?auto=format&fit=crop&w=${width}&q=70`;
 };
+
+// Area → governorate, from the demo places. Used to guess the visitor's governorate from saved profile data.
+export const areaGovernorate:ReadonlyMap<string,string>=new Map([...marketplaceCenters,...marketplaceSpaces].map(p=>[p.area,p.governorate]));
+export const governorates=['الجيزة','القاهرة'] as const;
+export const defaultGovernorate='الجيزة';
