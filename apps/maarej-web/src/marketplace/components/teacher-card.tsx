@@ -1,7 +1,7 @@
 'use client';
 import {useState} from 'react';
 import type {CSSProperties} from 'react';
-import {Star} from 'lucide-react';
+import {Star,GraduationCap} from 'lucide-react';
 import {Facts,Tags,CardHead,PriceTag,useCardMotion} from './place-card';
 import {subjectEmoji} from '../adapters/emoji';
 import type {Fact} from './place-card';
@@ -24,8 +24,8 @@ export function TeacherCard({teacher:t,returnTo='/teachers',active=false,picked=
  const [failed,setFailed]=useState(false);
  const {hot,setHot,handlers,ref,centered}=useCardMotion();
  const href=`/teachers/${t.id}?returnTo=${encodeURIComponent(returnTo)}`;
- // Name + area, then the subject(s), then stage and system as plain values (no labels).
- const facts:Fact[]=[{emoji:'🎓',value:t.stages.join(' · ')||'—'},{emoji:'🏫',value:t.systems.join(' · ')||'—'}];
+ // Name + area, then subject(s) with the education system beside them, then the stages (no labels).
+ const facts:Fact[]=[{icon:GraduationCap,value:t.stages.join(' · ')||'—'}];
  return <article ref={ref} id={`card-${t.id}`} className={c.card} data-active={active} data-picked={picked} data-hot={hot} data-centered={centered} style={{'--i':index} as CSSProperties} {...handlers}
   onMouseEnter={()=>{setHot(true);onHover?.(t.id);}} onMouseLeave={()=>{setHot(false);onHover?.(null);}}>
   <div className={c.media} style={!t.image||failed?{background:teacherGradient(t.id)}:undefined}>
@@ -35,7 +35,7 @@ export function TeacherCard({teacher:t,returnTo='/teachers',active=false,picked=
   </div>
   <div className={c.body}>
    <CardHead name={t.name} area={t.areas[0]??'—'} href={href} onFocus={()=>onHover?.(t.id)} onBlur={()=>onHover?.(null)}/>
-   <Tags tags={t.subjects.map(s=>({emoji:subjectEmoji(s),label:s}))} kind="subjects" label="المواد"/>
+   <Tags tags={[...t.subjects.slice(0,2).map(s=>({emoji:subjectEmoji(s),label:s})),...t.systems.slice(0,1).map(s=>({emoji:'🏫',label:s,tone:'system' as const}))]} kind="subjects" label="المواد والنظام"/>
    <Facts facts={facts}/>
   </div>
  </article>;

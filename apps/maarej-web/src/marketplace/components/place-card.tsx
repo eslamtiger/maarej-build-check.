@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import {useEffect,useRef,useState} from 'react';
 import type {CSSProperties,PointerEvent as ReactPointerEvent,MouseEvent as ReactMouseEvent} from 'react';
-import {Building2,DoorOpen,Star,MapPin} from 'lucide-react';
+import {Building2,DoorOpen,Star,MapPin,UsersRound,LayoutGrid} from 'lucide-react';
+import type {LucideIcon} from 'lucide-react';
 import {emojiFor} from '../adapters/emoji';
 import type {CenterDTO,SpaceDTO} from '../types/place';
 import {featureLabel,placePhotos} from '../adapters/places';
@@ -23,13 +24,14 @@ export function PlaceCover({kind,id,area,size='card'}:{kind:'center'|'space';id:
 }
 
 
-export type Fact={emoji:string;label?:string;value:string};
+export type Fact={icon:LucideIcon;label?:string;value:string};
+export type Tag={emoji:string;label:string;tone?:'system'};
 type Sync={active?:boolean;picked?:boolean;onHover?:(id:string|null)=>void;index?:number};
-type Props={kind:'center'|'space';id:string;href:string;name:string;area:string;rating:number;reviews:number;price:{min:number;max:number};unit:string;facts:Fact[];tags:{emoji:string;label:string}[];tagKind:'features'|'zones'|'subjects'}&Sync;
+type Props={kind:'center'|'space';id:string;href:string;name:string;area:string;rating:number;reviews:number;price:{min:number;max:number};unit:string;facts:Fact[];tags:Tag[];tagKind:'features'|'zones'|'subjects'}&Sync;
 
-// One line of facts: emoji, optional small label, bold value.
+// One line of facts: purple icon, optional small label, value.
 export function Facts({facts}:{facts:Fact[]}){
- return <ul className={c.facts}>{facts.map(({emoji,label,value})=><li key={emoji+value}><i aria-hidden="true">{emoji}</i>{label&&<small>{label}</small>}<b>{value}</b></li>)}</ul>;
+ return <ul className={c.facts}>{facts.map(({icon:Icon,label,value})=><li key={value}><i aria-hidden="true"><Icon size={18}/></i>{label&&<small>{label}</small>}<b>{value}</b></li>)}</ul>;
 }
 // Price range on the photo: lowest – highest.
 export function PriceTag({price,unit}:{price:{min:number;max:number};unit:string}){
@@ -56,10 +58,10 @@ export function useCardMotion(){
  return {hot,setHot,nudge,handlers,ref,centered};
 }
 // One line of tags: three, then +N.
-export function Tags({tags,kind,label}:{tags:{emoji:string;label:string}[];kind:'features'|'zones'|'subjects';label:string}){
+export function Tags({tags,kind,label}:{tags:Tag[];kind:'features'|'zones'|'subjects';label:string}){
  if(!tags.length)return null;
  // The "+N" sits outside the clipped row so it always shows.
- return <div className={c.tagRow}><ul className={c.tags} data-kind={kind} aria-label={label}>{tags.slice(0,3).map(t=><li key={t.label}><span aria-hidden="true">{t.emoji}</span>{t.label}</li>)}</ul>{tags.length>3&&<span className={c.more} aria-label={`و${tags.length-3} كمان`}><bdi dir="ltr">+{tags.length-3}</bdi></span>}</div>;
+ return <div className={c.tagRow}><ul className={c.tags} data-kind={kind} aria-label={label}>{tags.slice(0,3).map(t=><li key={t.label} data-tone={t.tone}><span aria-hidden="true">{t.emoji}</span>{t.label}</li>)}</ul>{tags.length>3&&<span className={c.more} aria-label={`و${tags.length-3} كمان`}><bdi dir="ltr">+{tags.length-3}</bdi></span>}</div>;
 }
 export function CardHead({name,area,href,onFocus,onBlur}:{name:string;area:string;href:string;onFocus?:()=>void;onBlur?:()=>void}){
  return <div className={c.head}><h3><Link href={href} className={c.cover} onFocus={onFocus} onBlur={onBlur}><bdi>{name}</bdi></Link></h3><span className={c.area}><MapPin size={14} aria-hidden="true"/>{area}</span></div>;
@@ -86,12 +88,12 @@ function PlaceCard({kind,id,href,name,area,rating,reviews,price,unit,facts,tags,
 
 export function CenterCard({center:x,returnTo,...sync}:{center:CenterDTO;returnTo:string}&Sync){
  return <PlaceCard kind="center" id={x.id} href={`/centers/${x.id}?returnTo=${encodeURIComponent(returnTo)}`} name={x.name} area={x.area} rating={x.rating} reviews={x.reviews} price={x.price} unit="ج.م / ساعة"
-  facts={[{emoji:'🚪',label:'القاعات',value:String(x.rooms.length)},{emoji:'👥',label:'أكبر قاعة',value:`${x.maxSeats} طالب`}]}
+  facts={[{icon:DoorOpen,label:'القاعات',value:String(x.rooms.length)},{icon:UsersRound,label:'أكبر قاعة',value:`${x.maxSeats} طالب`}]}
   tags={x.features.map(f=>{const l=featureLabel(f);return {emoji:emojiFor(l),label:l};})} tagKind="features" {...sync}/>;
 }
 
 export function SpaceCard({space:x,returnTo,...sync}:{space:SpaceDTO;returnTo:string}&Sync){
  return <PlaceCard kind="space" id={x.id} href={`/spaces/${x.id}?returnTo=${encodeURIComponent(returnTo)}`} name={x.name} area={x.area} rating={x.rating} reviews={x.reviews} price={x.price} unit="ج.م"
-  facts={[{emoji:'👥',label:'السعة',value:x.capacity===1?'فرد واحد':`${x.capacity} أفراد`},{emoji:'🪑',label:'الوحدات',value:String(x.units)}]}
+  facts={[{icon:LayoutGrid,label:'الوحدات',value:String(x.units)},{icon:UsersRound,label:'السعة',value:x.capacity===1?'فرد واحد':`${x.capacity} أفراد`}]}
   tags={x.zones.map(z=>({emoji:emojiFor(z),label:z}))} tagKind="zones" {...sync}/>;
 }
