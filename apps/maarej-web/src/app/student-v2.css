@@ -11,18 +11,6 @@
 }
 .s2 h1,.s2 h2,.s2 h3{font-family:var(--m-font-display)}
 
-/* ---------- Top bar ---------- */
-.s2-top{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:6px;height:60px;padding-inline:max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--s2-page);border-bottom:1px solid var(--s2-line)}
-.s2-top-space{flex:1}
-.s2-brand{display:inline-flex;align-items:center;gap:9px;color:var(--s2-ink);text-decoration:none;font-family:var(--m-font-display);font-weight:800;font-size:1.15rem}
-.s2-brand small{display:block;font-family:var(--m-font-ar);font-weight:500;font-size:.75rem;color:var(--s2-muted)}
-.s2-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--s2-brand);color:#fff;font-size:1rem;box-shadow:0 3px 0 #3328A8}
-.s2-explore{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:12px;color:var(--s2-brand);font-weight:700;font-size:.875rem;text-decoration:none}
-.s2-explore:hover{background:var(--s2-soft)}
-.s2-icon-link{position:relative;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;color:var(--s2-ink)}
-.s2-icon-link:hover{background:#EEECF7}
-.s2-dot{position:absolute;top:10px;inset-inline-end:11px;width:9px;height:9px;border-radius:50%;background:#FF5C7F;box-shadow:0 0 0 2px var(--s2-page)}
-.s2-avatar{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:linear-gradient(140deg,#FFC65C,#FF9A3D);color:#4A2E00;font-family:var(--m-font-display);font-weight:800;text-decoration:none}
 
 /* ---------- Content frame ---------- */
 .s2 .v104-content{width:min(100% - 32px,1180px);gap:16px;padding-top:6px}
@@ -46,9 +34,7 @@
 .s2 .s2-side nav a:hover{background:#F6F5FB;color:var(--s2-ink)}
 .s2 .s2-side nav a.is-active{background:var(--s2-soft);color:var(--s2-brand);font-weight:700}
 .s2 .s2-side nav a.is-active svg{stroke-width:2.4}
-.s2-side-explore{margin-top:auto;display:flex;align-items:center;gap:10px;min-height:52px;padding:0 14px;border-radius:14px;background:#FFF4E0;color:#7A4A00;font-weight:700;font-size:.875rem;text-decoration:none}
-.s2-side-explore:hover{background:#FFEBC7}
-@media (min-width:900px){.s2-top .s2-brand,.s2-top .s2-explore{display:none}.s2-top{padding-inline:30px}.s2 .v104-content{padding:6px 30px 50px}.s2.v104-app{padding-bottom:0}}
+@media (min-width:900px){.s2.v104-app{padding-bottom:0}}
 
 /* ---------- Page heads, sections, stacks ---------- */
 .s2 .v104-pagehead{margin:4px 0 0}
@@ -158,3 +144,12 @@ a.s2-ring:hover{background:#F7F6FC}
 .s2 .s2-finance-actions button:active{transform:translateY(2px);box-shadow:0 1px 0 #E2DFEE}
 .s2 .s2-finance-note{margin:-4px 0 0;color:var(--s2-muted);font-size:.8125rem;text-align:center}
 .s2 .v108-finance-tabs{margin-block:0}
+
+/* ---------- Shared site header layout (V2.1) ---------- */
+.s2-side-title{margin:0 0 8px;padding:0 14px;color:var(--s2-muted);font-size:.8125rem;font-weight:700}
+@media (min-width:900px){
+  .s2.v104-app{padding:0!important;display:grid;grid-template-columns:240px minmax(0,1fr);grid-template-rows:auto 1fr;align-items:start}
+  .s2.v104-app > header{grid-column:1/-1}
+  .s2 .s2-side{position:sticky!important;top:69px!important;inset-block:auto!important;right:auto!important;height:calc(100vh - 69px);grid-column:1;grid-row:2;width:auto!important;padding-top:20px}
+  .s2 .v104-content{grid-column:2;grid-row:2;width:min(100%,1180px);padding:20px 30px 50px}
+}

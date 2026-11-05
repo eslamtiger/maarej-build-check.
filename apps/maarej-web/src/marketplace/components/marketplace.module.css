@@ -48,3 +48,4 @@
 .selectionRow:has(input:focus-visible){outline:3px solid #4B3FD6;outline-offset:2px;position:relative;z-index:1;border-radius:10px}
 
 .artDirection{min-width:0}
+.searchShell .main{padding-top:14px}

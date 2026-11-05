@@ -5,6 +5,7 @@ import {studentDetailHref} from "@/lib/student-navigation";
 import {StudentContextLink as Link} from "../student-context-link";
 import { useRouter } from "next/navigation";
 import { useStudentAppState } from "@/lib/student-app-state";
+import { useStudentProfile } from "@/lib/student-profile";
 import { useEffect, useState, type CSSProperties } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { BookOpenCheck, CalendarDays, ChevronLeft, ClipboardCheck, Gift, GraduationCap, ShieldCheck, Trophy, X } from "lucide-react";
@@ -30,7 +31,7 @@ type HomeDetail = { kind: "source"; record: SourceRecord; href?: string } | { ki
 const doneStatuses = ["تم التسليم", "تمت المراجعة"];
 
 export function StudentHome() {
-  const router=useRouter(), appState=useStudentAppState();
+  const router=useRouter(), appState=useStudentAppState(), profile=useStudentProfile();
   const reduce = useReducedMotion(), mode = useQaIdentityMode();
   const baseIdentity = identityDemoViews[mode];
   const [progressSnapshot, setProgressSnapshot] = useState<{ base: JourneyIdentitySource; value: JourneyIdentitySource } | null>(null);
@@ -70,7 +71,7 @@ export function StudentHome() {
     ...(mission ? [{ id: "mission", label: "المهمة", caption: missionSteps ? `فاضل ${Number(missionSteps[2]) - Number(missionSteps[1])}` : mission.title, value: mission.value / 100, display: missionSteps ? `${missionSteps[1]}/${missionSteps[2]}` : `${mission.value}%`, color: "#6F63FF", href: "/student/journey" }] : []),
   ];
   const tags = nextActionContext?.split(" · ").filter(Boolean) ?? [];
-  const firstName = studentDemo.identity.name.split(" ")[0];
+  const firstName = profile.name.split(" ")[0];
   const greeting = clock.minutes < 12 * 60 ? "صباح الخير" : "مساء الخير";
   // Brief §13: momentum shows the current week; the identity itself never drops.
   const momentumLow = baseIdentity.status === "atRisk" || baseIdentity.status === "downgraded";

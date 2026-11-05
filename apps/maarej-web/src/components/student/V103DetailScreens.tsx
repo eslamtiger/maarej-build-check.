@@ -1,4 +1,5 @@
 "use client";
+import { ProfileEditor } from "./v2/profile-editor";
 
 import Link from "next/link";
 import {StudentBackButton} from "./student-record-details";
@@ -27,9 +28,7 @@ function Empty({ text }: { text: string }) { return <Card className="v102-empty-
 
 export function TeacherProfileScreen({teacherId}:{teacherId:string}){return <CompleteTeacherScreen teacherId={teacherId}/>;}
 
-export function StudentProfileScreen() {
-  return <StudentV101Shell active="account"><StudentBackButton fallback="/student/account"/><Head title="الملف الشخصي" desc="بيانات الطالب الأساسية"/><Card className="v103-profile-card"><Avatar className="v103-avatar-lg">ي</Avatar><h2>{d.identity.name}</h2><p>{d.identity.stage}</p></Card><Card className="v102-list"><div className="v102-item"><UserRound/><div><b>الاسم</b><small>{d.identity.name}</small></div></div><div className="v102-item"><GraduationCap/><div><b>المرحلة الدراسية</b><small>{d.identity.stage}</small></div></div></Card><p className="v103-note">هذه البيانات للعرض فقط في النسخة الحالية.</p></StudentV101Shell>;
-}
+export function StudentProfileScreen() { return <ProfileEditor/>; }
 
 export function SecurityScreen(){return <CompleteSecurityScreen/>;}
 

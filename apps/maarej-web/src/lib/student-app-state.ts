@@ -1,7 +1,8 @@
 "use client";
 import { useMemo, useSyncExternalStore } from "react";
 export type DemoTransaction={id:string;title:string;amount:number;status:string;createdAt:string;reference:string;kind:"pay"|"topup"|"withdraw";groupId?:string;balanceChange:number;method?:string;fundingSource?:string;approvalRequired?:boolean};
-export type StudentAppState={submissions:Record<string,{text:string;submittedAt:string}>;readNotifications:string[];transactions:DemoTransaction[];preferences:{notifications:boolean;reduceMotion:boolean;largeText:boolean};planCancelled:boolean};
+export type StudentAppState={submissions:Record<string,{text:string;submittedAt:string}>;readNotifications:string[];transactions:DemoTransaction[];preferences:{notifications:boolean;reduceMotion:boolean;largeText:boolean};planCancelled:boolean;profile?:StudentProfileEdits};
+export type StudentProfileEdits={name?:string;stage?:string;city?:string;school?:string;bio?:string;avatarColor?:string};
 const initial:StudentAppState={submissions:{},readNotifications:[],transactions:[],preferences:{notifications:true,reduceMotion:false,largeText:false},planCancelled:false};
 const key="maarej-student-v107";const event="maarej-student-change";
 function snapshot(){try{return localStorage.getItem(key) ?? "";}catch{return "";}}

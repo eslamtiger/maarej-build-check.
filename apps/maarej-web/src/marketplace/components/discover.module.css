@@ -168,3 +168,10 @@
 .sheetApply{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:0;border-radius:var(--m-radius-md);background:var(--m-blue-700);color:var(--m-white);font-size:1rem;font-weight:800;cursor:pointer}
 @media (min-width:720px){.sheet{inset-block-end:auto;inset-block-start:50%;inset-inline:auto;inset-inline-start:50%;width:min(560px,92vw);transform:translate(-50%,-50%);border-radius:24px}}
 @media (prefers-reduced-motion:reduce){.path,.mapPin{transition:none}}
+
+/* Same visual language as the student space */
+.hero{background:radial-gradient(120% 90% at 100% 0%,#E4E0FF 0%,transparent 60%),radial-gradient(80% 70% at 0% 100%,#FFF1D6 0%,transparent 65%),#F3F1FF;border-color:#E6E2FA;border-radius:26px}
+.hero h1{font-family:var(--m-font-display)}
+.tabs button[aria-selected=true]{background:#4B3FD6;border-color:#4B3FD6;box-shadow:0 3px 0 #3328A8}
+.heroForm button{background:#4B3FD6;box-shadow:0 4px 0 #3328A8;border-radius:14px}
+.heroForm button:active{transform:translateY(3px);box-shadow:0 1px 0 #3328A8}
