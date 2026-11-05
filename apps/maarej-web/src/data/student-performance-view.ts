@@ -52,5 +52,5 @@ export function formatPerformanceChange(value: number) {
 }
 
 export function formatPerformanceDate(date: string) {
-  return new Intl.DateTimeFormat("ar-EG", { day:"numeric", month:"long", year:"numeric", numberingSystem:"latn", timeZone:"UTC" }).format(new Date(date));
+  return new Intl.DateTimeFormat("ar-EG-u-nu-latn", { day:"numeric", month:"long", year:"numeric", numberingSystem:"latn", timeZone:"UTC" }).format(new Date(date));
 }

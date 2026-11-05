@@ -26,10 +26,10 @@
 .nextActions { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:4px; }
 .go { flex:1 1 200px; display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:56px; padding:0 22px; border:0; border-radius:16px; background:#FFB53D; color:#4A2E00; font-family:var(--m-font-display); font-size:1.1rem; font-weight:800; cursor:pointer;
   box-shadow:0 5px 0 #D68A16, 0 12px 26px rgba(255,170,40,.32); transition:transform .12s var(--s2-ease), box-shadow .12s var(--s2-ease); }
-.go:hover { transform:translateY(-1px); }
+@media (hover:hover) { .go:hover { transform:translateY(-1px); } }
 .go:active { transform:translateY(4px); box-shadow:0 1px 0 #D68A16, 0 5px 12px rgba(255,170,40,.28); }
 .go svg { transition:transform .2s var(--s2-ease); }
-.go:hover svg { transform:translateX(-4px); }
+@media (hover:hover) { .go:hover svg { transform:translateX(-4px); } }
 .ghost { display:inline-flex; align-items:center; gap:6px; min-height:48px; padding:0 14px; border-radius:14px; color:var(--s2-brand); font-weight:700; text-decoration:none; }
 .ghost:hover { background:#F3F1FF; }
 .character { display:none; }
@@ -45,7 +45,7 @@
 /* Timeline */
 .timeline { list-style:none; margin:0; padding:0; display:grid; gap:6px; }
 .timelineItem { width:100%; display:grid; grid-template-columns:58px 40px minmax(0,1fr) auto; align-items:center; gap:10px; min-height:62px; padding:8px 10px; border:0; border-radius:16px; background:#F7F6FC; color:inherit; text-align:start; font:inherit; cursor:pointer; transition:background .15s; }
-.timelineItem:hover { background:#F0EEFB; }
+@media (hover:hover) { .timelineItem:hover { background:#F0EEFB; } }
 .timelineItem[data-first=true] { background:#F0EEFF; box-shadow:inset 3px 0 0 var(--s2-brand); }
 .timelineItem time { display:grid; justify-items:center; line-height:1.25; }
 .timelineItem time b { font-size:.875rem; }
@@ -81,7 +81,7 @@
 /* Wins */
 .winList { display:grid; gap:8px; }
 .win { display:grid; grid-template-columns:48px minmax(0,1fr); align-items:center; gap:12px; min-height:64px; padding:8px; border:1px solid var(--s2-line); border-radius:16px; background:#fff; color:inherit; text-align:start; font:inherit; cursor:pointer; transition:border-color .15s, transform .15s var(--s2-ease); }
-.win:hover { border-color:#CFC9F3; transform:translateY(-1px); }
+@media (hover:hover) { .win:hover { border-color:#CFC9F3; transform:translateY(-1px); } }
 .medal { display:grid; place-items:center; width:48px; height:48px; border-radius:14px; background:#EEECF6; color:#8C88A8; }
 .win[data-earned=true] .medal { background:#FFF1D6; color:#A8630A; }
 .winText { display:grid; gap:3px; min-width:0; }

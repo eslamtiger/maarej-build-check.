@@ -1,4 +1,4 @@
-const dateFormatter = new Intl.DateTimeFormat("ar-EG", {
+const dateFormatter = new Intl.DateTimeFormat("ar-EG-u-nu-latn", {
   day: "numeric", month: "long", year: "numeric", numberingSystem: "latn", timeZone: "Africa/Cairo",
 });
 

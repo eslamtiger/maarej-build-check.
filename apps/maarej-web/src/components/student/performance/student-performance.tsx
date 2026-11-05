@@ -11,6 +11,7 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle } fr
 import { studentPerformancePeriods, formatPerformanceChange, formatPerformanceDate, type AcademicEvidence, type TaskEvidence, type PerformancePoint, type PerformanceTrend } from "@/data/student-performance-view";
 import { performanceSourceRecords } from "@/data/student-performance-demo";
 import styles from "./student-performance.module.css";
+import { subjectStyle } from "../v2/student-v2";
 
 function Trend({ trend, concise = false }: { trend?: PerformanceTrend; concise?: boolean }) {
   if (!trend) return null;
@@ -72,7 +73,7 @@ export function StudentPerformanceScreen() {
         return d.details ? <button key={d.id} type="button" className={styles.dimension} data-kind={d.icon} onClick={() => setDetail(`dimension:${d.id}`)}>{contents}</button> : <div key={d.id} className={styles.dimension} data-kind={d.icon}>{contents}</div>;
       })}</div></section>
       <section className={styles.history}><h2>تطور أدائك</h2><p className={styles.context}>الاتجاه الحالي: <b>{(view.overall.trend?.value ?? 0) > 0 ? "تحسن" : (view.overall.trend?.value ?? 0) < 0 ? "تراجع" : "ثابت"}</b></p><Trend trend={view.overall.trend}/><p className={styles.context}>{view.period}</p><HistoryChart key={view.id} history={view.history} label={`تطور التقييم العام · ${view.period}`}/></section>
-      <section className={styles.subjects}><h2>أداؤك حسب المادة</h2>{view.subjects.map(s => <button type="button" key={s.subjectId} className={styles.subject} onClick={() => router.push(studentDetailHref(`/student/learning/subjects/${s.subjectId}?period=${view.id}`))}>
+      <section className={styles.subjects}><h2>أداؤك حسب المادة</h2>{view.subjects.map(s => <button type="button" key={s.subjectId} className={styles.subject} style={subjectStyle(s.subjectId)} onClick={() => router.push(studentDetailHref(`/student/learning/subjects/${s.subjectId}?period=${view.id}`))}>
         <div><h3>{s.subjectName}</h3><Trend trend={{...s.trend,label:`خلال ${view.period}`}}/><div className={styles.subjectBreakdown}>{s.dimensions.slice(0,3).map(d => <span key={d.id}>{d.label} <b>{d.value}%</b></span>)}</div><div className={styles.meter}><i style={{width:`${s.currentValue}%`}} data-direction={s.trend.value < 0 ? "down" : s.trend.value === 0 ? "flat" : "up"}/></div></div><strong>{s.currentValue}%</strong><ChevronLeft size={18}/>
       </button>)}</section>
     </div>

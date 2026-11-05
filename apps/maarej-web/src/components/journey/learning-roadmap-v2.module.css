@@ -180,3 +180,6 @@
 .surface { margin-inline:0 !important; margin-top:14px; overflow:hidden; }
 .mission { border-top:0 !important; margin-top:14px !important; }
 .journey > .missionCta { margin-top:14px; }
+.sheetMission { border:1px solid #E7E5F1 !important; border-radius:18px !important; background:#F7F6FC !important; box-shadow:none !important; }
+.sheetMission [role=progressbar] > * { background:#4B3FD6 !important; }
+.detailSheet :global(.v102-button), .sheetFooter .missionCta { min-height:52px; }

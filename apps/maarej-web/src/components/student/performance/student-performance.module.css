@@ -7,3 +7,29 @@
 .chartPoint{display:block;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:pointer;border-radius:50%}.chartPoint:focus-visible{outline:3px solid #8A81F0;outline-offset:-4px}.evaluationAction{display:flex;align-items:center;gap:6px;min-height:44px;border:0;padding:0;background:transparent;color:#433c9e;font:inherit;font-size:.85rem;font-weight:750;cursor:pointer;margin-top:3px}.evidence{margin-top:10px}.evidenceCounts{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:.8125rem;line-height:1.8;color:#716786}.evidenceCounts b{color:#433c9e}.records{display:grid;gap:0;margin-top:12px}.records>div{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:12px 0;border-top:1px solid #e4deef;font-size:.8125rem}.records>div>div{display:grid;gap:5px;min-width:0}.records small,.details small{font-size:.72rem;color:#817793;line-height:1.7}.records strong{white-space:nowrap;color:#433c9e}.records [data-state=late]{color:#986023}.records [data-state=completed]{color:#247354}.records [data-state=pending]{color:#716786}.drawerScroll>h3{font-size:.95rem;font-weight:700}.overallBreakdown{margin-top:9px}@media(min-width:1024px){.dimensions{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 .records>button{display:flex;width:100%;align-items:center;gap:12px;justify-content:space-between;padding:12px 0;min-height:44px;border:0;border-top:1px solid #e4deef;background:transparent;text-align:right;color:inherit;font:inherit;font-size:.8125rem;cursor:pointer}.records>button>div{display:grid;gap:5px;min-width:0;flex:1}.records>button>svg{flex-shrink:0}.evaluationDimension{padding:14px;border:0;border-radius:14px;background:#f6f4fc;text-align:right;font:inherit;color:inherit;cursor:pointer;min-height:44px}.evaluationDimension h3{display:flex;justify-content:space-between;align-items:center}.evaluationDimension strong{color:#4B3FD6;font-size:1.3rem}.evaluationDimension p{font-size:.9375rem;line-height:1.8;margin:0;color:#716786}.detailBack{display:flex;align-items:center;gap:7px;min-height:44px;border:0;background:transparent;color:#433c9e;font:inherit;font-size:.8rem;cursor:pointer;padding:0;margin-bottom:10px}.detailMetric>small{color:#817793;font-size:.75rem}.header p a{color:#4B3FD6;text-decoration:underline;text-underline-offset:3px}
+
+/* ===== Student V2 look ===== */
+.page h2 { font-family:var(--m-font-display); font-size:1.1rem; font-weight:700; color:#16133D; }
+.overall { position:relative; overflow:hidden; border:1px solid #E6E2FA; border-radius:26px; background:radial-gradient(120% 90% at 100% 0%,#E4E0FF 0%,transparent 60%),radial-gradient(80% 70% at 0% 100%,#FFF1D6 0%,transparent 65%),#F3F1FF; }
+.overall > strong { font-family:var(--m-font-display); font-weight:800; }
+.overallBreakdown { border-top-color:#DCD8F5; font-size:.8125rem; }
+.evaluationAction { color:#4B3FD6; font-weight:700; }
+.dimension, .dimension[data-kind=attendance], .dimension[data-kind=academic] { background:#fff; border:1px solid #E7E5F1; border-radius:20px; padding:14px; }
+.dimension > strong { font-family:var(--m-font-display); font-weight:800; }
+.dimension[data-kind=academic] > strong, .dimension[data-kind=academic] .dimensionHeading { color:#4B3FD6; }
+.dimension[data-kind=tasks] > strong, .dimension[data-kind=tasks] .dimensionHeading { color:#B26A00; }
+.dimension[data-kind=attendance] > strong, .dimension[data-kind=attendance] .dimensionHeading { color:#12865F; }
+.dimension > small, .dimension > p, .dimension .trend { font-size:.8125rem; }
+.history, .attendance { border-radius:22px; border:1px solid #E7E5F1; background:#fff; }
+.subjects { padding:16px; border:1px solid #E7E5F1; border-radius:22px; background:#fff; }
+.subject { position:relative; padding:14px 12px; border-bottom:0; border-radius:16px; background:var(--subject-tint,#F7F6FC); margin-top:8px; }
+.subject h3 { font-family:var(--m-font-display); }
+.subject > strong { font-family:var(--m-font-display); font-size:1.5rem; font-weight:800; color:var(--subject,#4B3FD6); }
+.meter { height:6px; background:rgba(255,255,255,.9); max-width:none; }
+.meter i, .meter i[data-direction=down], .meter i[data-direction=flat] { background:var(--subject,#4B3FD6); }
+.subjectBreakdown { font-size:.8125rem; }
+.periods button[aria-pressed=true] { background:#4B3FD6; border-color:#4B3FD6; color:#fff; box-shadow:0 3px 0 #3328A8; }
+/* Same page head as the other Learning tabs (the tabs already give the way back). */
+.header > a, .header p { display:none; }
+.header h1 { font-family:var(--m-font-display); font-size:clamp(1.5rem,5vw,1.9rem); font-weight:800; }
+.subjectBreakdown b, .chartValue strong, .evidenceCounts b, .records strong, .details strong, .detailMetric > strong { direction:ltr; unicode-bidi:isolate; }

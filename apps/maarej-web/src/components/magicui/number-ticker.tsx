@@ -14,7 +14,7 @@ export interface NumberTickerProps extends ComponentPropsWithoutRef<"span"> {
   locale?: string;
 }
 
-export function NumberTicker({ value, startValue = 0, direction = "up", delay = 0, className, decimalPlaces = 0, locale = "ar-EG", ...props }: NumberTickerProps) {
+export function NumberTicker({ value, startValue = 0, direction = "up", delay = 0, className, decimalPlaces = 0, locale = "ar-EG-u-nu-latn", ...props }: NumberTickerProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const motionValue = useMotionValue(direction === "down" ? value : startValue);
   const springValue = useSpring(motionValue, { damping: 60, stiffness: 100 });

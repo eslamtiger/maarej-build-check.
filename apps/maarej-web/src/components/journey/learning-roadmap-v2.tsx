@@ -111,7 +111,7 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
             {view.currentIdentity && <span className={styles.v2Momentum} data-low={atRisk}><i aria-hidden="true"/>{atRisk ? "زخمك محتاج دفعة" : "زخمك قوي"}</span>}
           </div>
           {distinctNextHint && <p className={styles.v2Hint}>{distinctNextHint}</p>}
-          {name && activeIndex >= 0 && <button type="button" className={styles.v2HeroLink} onClick={() => setSelected(nodes[activeIndex].id)}>تفاصيل مرحلتك</button>}
+          {name && activeIndex >= 0 && <button type="button" className={styles.v2HeroLink} onClick={() => setSelected(nodes[activeIndex].id)}>تفاصيل خطوتك الحالية</button>}
         </div>
         {theme.characterAsset && <motion.img className={styles.v2Character} src={theme.characterAsset.src} alt="" width={1024} height={1536} initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .35 }}/>}
       </section>
@@ -175,8 +175,8 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
       <DrawerContent className={styles.detailSheet} dir="rtl" style={accentStyle}>
         <DrawerClose className={styles.closeSheet} aria-label="إغلاق"><X size={20}/></DrawerClose>
         <div className={styles.sheetScroll}><div className={styles.sheetEmblem}><IdentityEmblem theme={theme} size={30}/></div>
-        <DrawerTitle>{selectedReward ? "تفاصيل المكافأة" : selected === "source" ? sourceRecord?.type === "homework" ? "تفاصيل الواجب" : sourceRecord?.type === "exam" ? "تفاصيل الاختبار" : "تفاصيل الحصة" : selected?.startsWith("achievement:") ? "تفاصيل الإنجاز" : selected === "mission" ? "مهمتك الآن" : selectedState === "current" ? <><small className={styles.sheetEyebrow}>أنت هنا</small>{stage ?? selectedNode?.label}</> : selectedNode ? labelOf(selectedIndex) : ""}</DrawerTitle>
-        <DrawerDescription>{selectedReward?.title ?? (selected === "source" ? sourceRecord?.title : selected?.startsWith("achievement:") ? selectedAchievement?.name : selected === "mission" ? mission?.title : selectedState === "current" ? selectedNode?.subtitle : selectedState === "completed" ? "مرحلة مكتملة" : selectedState === "locked" ? "مرحلة مقفلة" : "المرحلة القادمة")}</DrawerDescription>
+        <DrawerTitle>{selectedReward ? "تفاصيل المكافأة" : selected === "source" ? sourceRecord?.type === "homework" ? "تفاصيل الواجب" : sourceRecord?.type === "exam" ? "تفاصيل الاختبار" : "تفاصيل الحصة" : selected?.startsWith("achievement:") ? "تفاصيل الإنجاز" : selected === "mission" ? "مهمتك الآن" : selectedState === "current" ? <><small className={styles.sheetEyebrow}>أنت هنا{stage ? ` · مرحلة ${stage}` : ""}</small>{labelOf(selectedIndex)}</> : selectedNode ? labelOf(selectedIndex) : ""}</DrawerTitle>
+        <DrawerDescription>{selectedReward?.title ?? (selected === "source" ? sourceRecord?.title : selected?.startsWith("achievement:") ? selectedAchievement?.name : selected === "mission" ? mission?.title : selectedState === "current" ? selectedNode?.subtitle : selectedState === "completed" ? "خطوة خلصت" : selectedState === "locked" ? "خطوة مقفولة" : "الخطوة الجاية")}</DrawerDescription>
         {selected === "source" && sourceRecord && <div className={styles.detailBlock}>{sourceRecord.fields.filter(field => meaningful(field.value)).map(field => <p key={field.label}><strong>{field.label}: </strong>{/تاريخ/.test(field.label) ? formatArabicDate(field.value) : field.value}</p>)}{sourceRecord.href && <Link href={sourceRecord.href} className={styles.missionCta}>{sourceRecord.actionLabel ?? "فتح السجل"}</Link>}</div>}
         {selectedReward && <div className={styles.detailBlock}>
           <p><strong>قيمة المكافأة: </strong>{selectedReward.amount} ج.م</p>

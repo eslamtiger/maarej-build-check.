@@ -66,7 +66,7 @@ export function homeLaunchpadView(clock?: HomeClock | null, submittedIds: readon
     .filter(item => !submittedIds.includes(item.id) && (item.status === "مطلوب" || item.status === "متأخر" || item.status === "قيد المتابعة"))
     .map(item => {
       const id = item.id;
-      return { id, kind: "homework", title: item.title, context: item.subject, time: new Intl.DateTimeFormat("ar-EG",{hour:"numeric",minute:"2-digit",numberingSystem:"latn",timeZone:"Africa/Cairo"}).format(new Date(item.dueAt)), date:item.dueAt.slice(0,10), status: item.status,
+      return { id, kind: "homework", title: item.title, context: item.subject, time: new Intl.DateTimeFormat("ar-EG-u-nu-latn",{hour:"numeric",minute:"2-digit",numberingSystem:"latn",timeZone:"Africa/Cairo"}).format(new Date(item.dueAt)), date:item.dueAt.slice(0,10), status: item.status,
         source: journeyActionData.sources.find(record => record.type === "homework" && record.id === id), href: item.href };
     });
   const upcoming: HomeAction[] = clock ? studentSchedule.filter(event => {
