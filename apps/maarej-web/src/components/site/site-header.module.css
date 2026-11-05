@@ -2,13 +2,12 @@
    A thin indigo-to-amber line on top carries the brand (the climb toward a goal). */
 .header { position:sticky; top:0; z-index:70; background:#fff; border-bottom:1px solid #ECEAF4; color:#16133D; font-family:var(--m-font-ar); box-shadow:0 6px 24px rgba(22,19,61,.04); }
 .accent { display:block; height:3px; background:linear-gradient(270deg,#4B3FD6 0%,#6F63FF 55%,#FFB53D 100%); }
-.inner { display:grid; grid-template-columns:auto 1fr auto; grid-template-areas:"brand . user" "nav nav nav"; align-items:center; gap:6px 12px; max-width:1240px; margin:auto; padding:8px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px)); }
+/* One row everywhere: logo (right) · tabs (center) · bell + avatar (left). */
+.inner { display:grid; grid-template-columns:auto minmax(0,1fr) auto; grid-template-areas:"brand nav user"; align-items:center; gap:8px; max-width:1240px; margin:auto; min-height:60px; padding:6px max(12px,env(safe-area-inset-right,0px)) 6px max(12px,env(safe-area-inset-left,0px)); }
 .brand { grid-area:brand; display:inline-flex; align-items:center; gap:10px; min-height:44px; color:#16133D; text-decoration:none; }
-.brand svg { filter:drop-shadow(0 3px 0 #3328A8); }
-.word { display:grid; line-height:1.15; }
-.word b { font-family:var(--m-font-display); font-weight:800; font-size:1.3rem; letter-spacing:-.2px; }
-.word small { display:none; color:#7D7A98; font-size:.75rem; font-weight:500; }
-.nav { grid-area:nav; display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; padding:4px; border-radius:16px; background:#F4F3FA; }
+.brand svg { filter:drop-shadow(0 3px 0 #3328A8); transition:transform .25s cubic-bezier(.34,1.56,.64,1); }
+@media (hover:hover) { .brand:hover svg { transform:rotate(-6deg) scale(1.06); } }
+.nav { grid-area:nav; justify-self:center; display:flex; gap:2px; max-width:100%; overflow-x:auto; scrollbar-width:none; padding:4px; border-radius:16px; background:#F4F3FA; }
 .nav::-webkit-scrollbar { display:none; }
 .nav a { flex:1 0 auto; display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:40px; padding:0 12px; border-radius:12px; color:#4A4668; font-weight:600; font-size:.9375rem; text-decoration:none; white-space:nowrap; transition:background .15s, color .15s; }
 .nav a svg { color:#8C88A8; }
@@ -16,7 +15,7 @@
 .nav a[aria-current=page] svg { color:#4B3FD6; }
 @media (hover:hover) { .nav a:not([aria-current=page]):hover { background:rgba(255,255,255,.7); color:#16133D; } }
 .user { grid-area:user; position:relative; display:flex; align-items:center; gap:6px; }
-.bell { position:relative; display:grid; place-items:center; width:44px; height:44px; border-radius:14px; color:#16133D; }
+.bell { position:relative; display:none; place-items:center; width:44px; height:44px; border-radius:14px; color:#16133D; }
 .bell:hover, .bell[aria-current=page] { background:#F4F3FA; }
 .bell i { position:absolute; top:10px; inset-inline-end:11px; width:9px; height:9px; border-radius:50%; background:#FF5C7F; box-shadow:0 0 0 2px #fff; }
 .me { display:inline-flex; align-items:center; gap:6px; min-height:48px; padding:3px 4px 3px 10px; border:1px solid #E7E5F1; border-radius:999px; background:#fff; color:#5F5B7C; cursor:pointer; font:inherit; box-shadow:0 2px 0 #EEECF6; }
@@ -40,12 +39,14 @@
 .menu .logout { margin-top:4px; border-top:1px solid #F0EEF6; border-radius:0 0 12px 12px; color:#B4233C; }
 .menu .logout svg { color:#B4233C; }
 .header a:focus-visible, .header button:focus-visible { outline:3px solid #A59CFF; outline-offset:2px; }
-@media (max-width:520px) { .nav a svg { display:none; } .nav a { padding:0 10px; font-size:.875rem; } }
+.user[data-in=student] .bell { display:grid; }
+.more { display:none; }
+@media (max-width:520px) { .nav a svg { display:none; } .nav a { padding:0 9px; min-height:38px; font-size:.8125rem; } .nav { padding:3px; border-radius:14px; } .brand svg { width:36px; height:36px; } .me { min-height:42px; padding:2px; } .me .chev { display:none; } }
+@media (min-width:600px) { .more { display:inline; white-space:pre; } .bell { display:grid; } }
 @media (min-width:900px) {
-  .inner { grid-template-areas:"brand nav user"; min-height:72px; padding-block:10px; }
-  .nav { justify-self:center; }
-  .word small { display:block; }
+  .inner { min-height:72px; padding-block:10px; gap:12px; }
   .meName { display:inline; }
 }
 @media (prefers-reduced-motion:reduce) { .menu { animation:none; } .chev, .nav a { transition:none; } }
 .me:is(a) { text-decoration:none; padding-inline-end:12px; }
+@media (max-width:899px) { .me:is(a) { padding:2px; } }

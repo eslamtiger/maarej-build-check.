@@ -175,3 +175,10 @@
 .tabs button[aria-selected=true]{background:#4B3FD6;border-color:#4B3FD6;box-shadow:0 3px 0 #3328A8}
 .heroForm button{background:#4B3FD6;box-shadow:0 4px 0 #3328A8;border-radius:14px}
 .heroForm button:active{transform:translateY(3px);box-shadow:0 1px 0 #3328A8}
+.mapFallback{display:grid;place-items:center;width:84px;height:70px;border-radius:12px;color:#fff;font-family:var(--m-font-display);font-weight:800;font-size:1.25rem}
+/* Map + pins in the Maarej palette */
+.mapBox{border-radius:28px;border-color:#E7E5F1}
+.mapPin{border-color:#4B3FD6;font-family:var(--m-font-display)}
+.mapPin[data-on=true]{background:#4B3FD6}
+.mapGo{background:#4B3FD6;box-shadow:0 3px 0 #3328A8}
+.mapPreview{border-radius:22px}

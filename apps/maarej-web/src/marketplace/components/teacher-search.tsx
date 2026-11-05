@@ -1,44 +1,78 @@
 'use client';
-import {useEffect,useState,useRef} from 'react';
-import {Search,SlidersHorizontal,MapPin,List,Map,X,Star,RotateCcw,Check,ChevronDown,BookOpen,ArrowUpDown,Compass} from 'lucide-react';
-import {Drawer,DrawerHeader,DrawerTitle,DrawerDescription} from '@/components/ui/drawer';
+import {useEffect,useMemo,useState,useCallback} from 'react';
+import {BookOpen,GraduationCap,MapPin,Banknote,School,ArrowUpDown} from 'lucide-react';
 import {marketplaceTeachers} from '../adapters/teachers';
+import {marketplaceCenters,marketplaceSpaces} from '../adapters/places';
 import {emptyFilters,filterTeachers,searchOptions,activeFilterCount,parseTeacherQuery,serializeTeacherQuery} from '../adapters/search';
-import type {SearchFilters,TeacherSearchDTO} from '../types/teacher';
+import type {SearchFilters} from '../types/teacher';
 import {PublicMarketplaceShell} from './public-shell';
-import {TeacherCard,TeacherPortrait} from './teacher-card';
-import {SelectionList,TeacherSelectionDrawer} from './filter-selection-sheet';
-import styles from './marketplace.module.css';
+import {TeacherCard,teacherGradient} from './teacher-card';
+import {PlaceMap} from './place-map';
+import type {MapItem} from './place-map';
+import {SearchTop,SearchBox,Toolbar,FilterPill,StarToggle,ResetPill,ChoiceSheet,Count,Empty,Split} from './search-kit';
+import type {Choice} from './search-kit';
+import c from './cards.module.css';
+import k from './search-kit.module.css';
+
 const options=searchOptions(marketplaceTeachers);
-const labels:Record<string,string>={q:'البحث',subject:'المادة',governorate:'المحافظة',area:'المنطقة',stage:'المرحلة',system:'النظام',rating:'التقييم',minPrice:'من',maxPrice:'إلى'};
-function FilterFields({filters:f,onChange,onChoose}:{filters:SearchFilters;onChange:(key:keyof SearchFilters,value:string)=>void;onChoose:(key:keyof SearchFilters)=>void}){
- const control=(key:'subject'|'stage'|'governorate'|'area'|'system',label:string)=><button type="button" className={styles.selectionControl} onClick={()=>onChoose(key)} aria-haspopup="dialog"><span><small>{label}</small><strong>{f[key]||'الكل'}</strong></span>{f[key]?<Check size={16}/>:<ChevronDown size={16}/>}</button>;
- return <div className={styles.filterGrid}><section className={styles.filterGroup}><h3>المادة والمرحلة</h3>{control('subject','المادة')}{control('stage','المرحلة')}</section><section className={styles.filterGroup}><h3>المكان</h3>{control('governorate','المحافظة')}{control('area','المنطقة')}</section><section className={styles.filterGroup}><h3>النظام التعليمي</h3>{control('system','النظام')}</section><fieldset className={styles.filterSection}><legend>التقييم</legend><div className={styles.filterChips}><button type="button" aria-pressed={!f.rating} onClick={()=>onChange('rating','')}>الكل</button>{['4','3','2'].map(v=><button type="button" key={v} aria-pressed={f.rating===v} onClick={()=>onChange('rating',f.rating===v?'':v)}><Star size={14} aria-hidden="true"/>أكثر من {v}</button>)}</div></fieldset><fieldset className={styles.priceFields}><legend>السعر <small>ج.م / حصة</small></legend><label>من<input type="number" min="0" step="any" inputMode="decimal" dir="ltr" value={f.minPrice} onChange={e=>onChange('minPrice',e.target.value)} placeholder="بدون حد"/></label><label>إلى<input type="number" min="0" step="any" inputMode="decimal" dir="ltr" value={f.maxPrice} onChange={e=>onChange('maxPrice',e.target.value)} placeholder="بدون حد"/></label></fieldset>{f.minPrice&&f.maxPrice&&Number(f.minPrice)>Number(f.maxPrice)&&<p role="status" className={styles.filterWarning}>حد البداية أكبر من حد النهاية؛ عدّل نطاق السعر.</p>}</div>;
-}
-// Visual slots are schematic, not coordinates or a distance-ranking source.
-function DiscoveryMap({teachers,selected,onSelect,animate}:{teachers:readonly TeacherSearchDTO[];selected?:string;onSelect:(id:string)=>void;animate:boolean}){
- const pins=[...teachers.filter(t=>t.image),...teachers.filter(t=>!t.image)].slice(0,5);
- const picked=teachers.find(t=>t.id===selected);if(picked&&!pins.some(t=>t.id===selected))pins[pins.length-1]=picked;
- const slots=[[23,18],[73,23],[24,53],[76,65],[45,83]];
- return <section className={styles.mapSurface} aria-label="خريطة استكشاف تجريبية — توزيع بصري وليس مواقع فعلية">
-  <div className={styles.mapGeography} aria-hidden="true"/>
-  <div className={styles.mapPlaceNames} aria-hidden="true"><span>الزمالك</span><strong>القاهرة</strong><span>مدينة نصر</span><span>المعادي</span></div>
-  <span className={styles.mapLabel}>خريطة تجريبية</span>
-  <div className={styles.pins}>{pins.map((t,i)=><button key={t.id} style={{left:`${slots[i][0]}%`,top:`${slots[i][1]}%`,animationDelay:`${i*35}ms`}} className={`${styles.pin} ${animate?styles.pinEnter:''} ${selected===t.id?styles.selectedPin:''}`} type="button" aria-pressed={selected===t.id} aria-label={`عرض ${t.name} · ${t.areas[0]}`} onClick={()=>onSelect(t.id)}><TeacherPortrait teacher={t} discovery/>{t.rating!==undefined&&<span className={styles.pinRating}><Star size={12} aria-hidden="true"/><bdi>{t.rating.toFixed(1)}</bdi></span>}</button>)}</div>
-  {!pins.length&&<p className={styles.noPins}>لا نتائج للفلاتر الحالية</p>}
-  <span className={styles.mapNote}>توزيع توضيحي · ليس للملاحة</span>
- </section>;
-}
+// Teachers have an area, not an address: each pin sits near the middle of that area (from the demo places), nudged a little so pins don't stack.
+const areaInfo=(()=>{const m=new Map<string,{lat:number;lng:number;n:number;gov:string}>();
+ for(const p of [...marketplaceCenters,...marketplaceSpaces]){const a=m.get(p.area)??{lat:0,lng:0,n:0,gov:p.governorate};a.lat+=p.lat;a.lng+=p.lng;a.n++;m.set(p.area,a);}
+ return m;})();
+const hash=(s:string)=>[...s].reduce((h,ch)=>(h*31+ch.charCodeAt(0))%9973,7);
+const spot=(area:string,id:string)=>{const a=areaInfo.get(area);const lat=a?a.lat/a.n:30.04,lng=a?a.lng/a.n:31.24,h=hash(id);return {lat:lat+((h%7)-3)*.004,lng:lng+((Math.floor(h/7)%7)-3)*.004};};
+const initials=(name:string)=>name.replace(/^أ\.\s*/,'').split(' ').slice(0,2).map(s=>s[0]).join(' ');
+
+type Sheet=null|'subject'|'stage'|'area'|'price'|'system'|'sort';
+const prices:Choice[]=[{value:'-150',label:'حتى 150'},{value:'150-250',label:'150 – 250'},{value:'250-',label:'أكتر من 250'}];
+const sorts:Choice[]=[{value:'rating',label:'الأعلى تقييمًا'},{value:'priceAsc',label:'الأقل سعرًا'},{value:'priceDesc',label:'الأعلى سعرًا'}];
+const list=(values:readonly string[]):Choice[]=>values.map(v=>({value:v,label:v}));
+const areaChoices:Choice[]=[...new Set(marketplaceTeachers.flatMap(t=>t.areas))].map(a=>({value:a,label:a,group:areaInfo.get(a)?.gov??'أخرى'})).sort((x,y)=>(x.group??'').localeCompare(y.group??'','ar')||x.label.localeCompare(y.label,'ar'));
+
 export function TeacherSearch(){
- const [filters,setFilters]=useState<SearchFilters>({...emptyFilters}),[view,setView]=useState<'map'|'list'>('map'),[ready,setReady]=useState(false),[open,setOpen]=useState(false),[selected,setSelected]=useState<string>(),[sheet,setSheet]=useState<keyof SearchFilters|'filters'>('filters'),[fromFilters,setFromFilters]=useState(false),[pinsEntered,setPinsEntered]=useState(false);
- const cards=useRef<Record<string,HTMLElement|null>>({});
- useEffect(()=>{const timer=setTimeout(()=>setPinsEntered(true),550);return ()=>clearTimeout(timer);},[]);
- function choose(key:keyof SearchFilters,inside=false){setSheet(key);setFromFilters(inside);setOpen(true);}
- function selectPin(id:string){setSelected(id);const card=cards.current[id];if(card){const box=card.getBoundingClientRect();if(box.top<0||box.bottom>window.innerHeight)card.scrollIntoView({block:'nearest',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}}
- useEffect(()=>{const read=()=>{const params=new URLSearchParams(window.location.search);setFilters(parseTeacherQuery(params,marketplaceTeachers));setView(params.get('view')==='list'?'list':'map');setSelected(undefined);};read();setReady(true);window.addEventListener('popstate',read);return ()=>window.removeEventListener('popstate',read);},[]);
- useEffect(()=>{if(!ready)return;const query=serializeTeacherQuery(filters,view);window.history.replaceState(null,'',window.location.pathname+(query?'?'+query:''));},[filters,view,ready]);
- const results=filterTeachers(marketplaceTeachers,filters),count=activeFilterCount(filters);
- function change(key:keyof SearchFilters,value:string){setFilters(f=>({...f,[key]:value,...(key==='governorate'?{area:''}:{})}));setSelected(undefined);}
- function reset(){setFilters({...emptyFilters});setSelected(undefined);}
- return <PublicMarketplaceShell active="teachers"><div className={styles.artDirection}><div className={styles.discoveryIntro}><span><Compass size={15}/> اكتشف معارج</span><h1>اكتشف المدرس المناسب ليك</h1></div><div className={styles.searchInput}><Search size={20} aria-hidden="true"/><label className={styles.srOnly} htmlFor="teacher-query">ابحث باسم المدرس أو المادة أو المنطقة</label><input id="teacher-query" value={filters.q} placeholder="مدرس، مادة أو منطقة" onChange={e=>change('q',e.target.value)}/>{filters.q&&<button type="button" onClick={()=>change('q','')} aria-label="مسح البحث"><X size={18}/></button>}</div><div className={styles.quickFilters}><button type="button" className={styles.filterButton} onClick={()=>{setSheet('filters');setOpen(true);}} aria-haspopup="dialog"><SlidersHorizontal size={17} aria-hidden="true"/>الفلاتر{count>0&&<b>{count}</b>}</button><button type="button" className={filters.area?styles.activeQuickFilter:undefined} onClick={()=>choose('area')} aria-haspopup="dialog"><MapPin size={16}/><span>{filters.area||'المنطقة'}</span>{filters.area?<Check size={14}/>:<ChevronDown size={14}/>}</button><button type="button" className={filters.subject?styles.activeQuickFilter:undefined} onClick={()=>choose('subject')} aria-haspopup="dialog"><BookOpen size={16}/><span>{filters.subject||'المادة'}</span>{filters.subject?<Check size={14}/>:<ChevronDown size={14}/>}</button></div>{count>0&&<div className={styles.selectedFilters} aria-label="الفلاتر المختارة">{Object.entries(filters).filter(([k,v])=>k!=='sort'&&v).slice(0,2).map(([k,v])=><button key={k} type="button" onClick={()=>change(k as keyof SearchFilters,'')} aria-label={`إزالة ${labels[k]}: ${v}`}><span>{labels[k]}: {k==='rating'?`أكثر من ${v}`:v}</span><X size={13} aria-hidden="true"/></button>)}<button type="button" onClick={()=>{setSheet('filters');setOpen(true);}} className={styles.moreFilters} hidden={Object.entries(filters).filter(([k,v])=>k!=='sort'&&v).length<=2}>+{Object.entries(filters).filter(([k,v])=>k!=='sort'&&v).length-2}</button><button type="button" onClick={reset}><RotateCcw size={14} aria-hidden="true"/>إعادة تعيين</button></div>}<div className={`${styles.searchLayout} ${view==='list'?styles.listLayout:''}`}><div className={styles.mapColumn}><div className={styles.viewSwitch} aria-label="طريقة عرض النتائج"><button type="button" aria-pressed={view==='map'} onClick={()=>setView('map')}><Map size={16} aria-hidden="true"/>الخريطة</button><button type="button" aria-pressed={view==='list'} onClick={()=>setView('list')}><List size={16} aria-hidden="true"/>القائمة</button></div>{view==='map'&&<><DiscoveryMap teachers={results} selected={selected} onSelect={selectPin} animate={!pinsEntered}/></>}</div><section className={styles.results} aria-label="نتائج البحث"><div className={styles.resultsHeader}><h2 aria-live="polite" aria-atomic="true"><span key={results.length} className={styles.resultCount}>{results.length}</span> مدرس مناسب</h2><button type="button" className={styles.sortControl} onClick={()=>choose('sort')} aria-haspopup="dialog"><ArrowUpDown size={15}/>{filters.sort==='default'?'الترتيب':filters.sort==='rating'?'الأعلى تقييمًا':filters.sort==='priceAsc'?'السعر الأقل':'السعر الأعلى'}<ChevronDown size={13}/></button></div>{results.length?<div key={serializeTeacherQuery(filters,view)} className={styles.cardList}>{results.map(t=><TeacherCard key={t.id} teacher={t} selected={selected===t.id} onSelect={()=>setSelected(t.id)} cardRef={node=>{cards.current[t.id]=node;}} returnTo={'/teachers?'+serializeTeacherQuery(filters,view)}/>)}</div>:<div className={styles.empty}><Search size={30} aria-hidden="true"/><h3>ملقيناش مدرسين بالمواصفات دي</h3><p>جرّب تغيّر أحد الفلاتر أو توسع المنطقة.</p><button type="button" onClick={reset}>إعادة تعيين الفلاتر</button></div>}</section></div><Drawer open={open} onOpenChange={setOpen}><TeacherSelectionDrawer><DrawerHeader className={styles.drawerHeading}><DrawerTitle>{sheet==='filters'?'خلّي البحث أقرب ليك':sheet==='sort'?'ترتيب النتائج':`اختر ${labels[sheet]}`}</DrawerTitle><DrawerDescription className={styles.srOnly}>اختر من القائمة لعرض النتائج المطابقة.</DrawerDescription><button type="button" onClick={()=>setOpen(false)} aria-label="إغلاق الفلاتر"><X size={20}/></button></DrawerHeader><div className={styles.drawerBody}>{sheet==='filters'?<FilterFields filters={filters} onChange={change} onChoose={key=>choose(key,true)}/>:<SelectionList key={sheet} value={filters[sheet]} values={sheet==='sort'?[['default','الترتيب الافتراضي'],['rating','الأعلى تقييمًا'],['priceAsc','السعر: الأقل أولًا'],['priceDesc','السعر: الأعلى أولًا']]:[['','الكل'],...(sheet==='subject'?options.subjects:sheet==='stage'?options.stages:sheet==='system'?options.systems:sheet==='governorate'?options.governorates:filters.governorate?searchOptions(marketplaceTeachers.filter(t=>t.governorates.includes(filters.governorate))).areas:options.areas).map(v=>[v,v] as [string,string])]} label={labels[sheet]||'الترتيب'} onSelect={value=>change(sheet,value)}/>}</div><div className={styles.drawerActions}>{sheet==='filters'?<button type="button" onClick={reset}>إعادة تعيين</button>:fromFilters&&<button type="button" onClick={()=>setSheet('filters')}>كل الفلاتر</button>}<button type="button" onClick={()=>setOpen(false)}>عرض النتائج (<span key={results.length} className={styles.resultCount}>{results.length}</span>)</button></div></TeacherSelectionDrawer></Drawer></div></PublicMarketplaceShell>;
+ const [f,setF]=useState<SearchFilters>({...emptyFilters});
+ const [view,setView]=useState<'list'|'map'>('list');
+ const [ready,setReady]=useState(false);
+ const [sheet,setSheet]=useState<Sheet>(null);
+ const [hoverId,setHoverId]=useState<string|null>(null);
+ const [selectedId,setSelectedId]=useState<string|null>(null);
+ useEffect(()=>{const read=()=>{const p=new URLSearchParams(location.search);setF(parseTeacherQuery(p,marketplaceTeachers));setView(p.get('view')==='map'?'map':'list');};read();setReady(true);addEventListener('popstate',read);return()=>removeEventListener('popstate',read);},[]);
+ const query=serializeTeacherQuery(f,view);
+ useEffect(()=>{if(ready)history.replaceState(null,'',location.pathname+(query?'?'+query:''));},[query,ready]);
+ const set=(patch:Partial<SearchFilters>)=>{setF(prev=>({...prev,...patch}));setSelectedId(null);};
+ const close=useCallback(()=>setSheet(null),[]);
+ const results=filterTeachers(marketplaceTeachers,f),active=activeFilterCount({...f,q:''}),returnTo='/teachers'+(query?'?'+query:'');
+ const mapItems:MapItem[]=useMemo(()=>results.filter(t=>t.areas.length).map(t=>({id:t.id,name:t.name,area:t.areas[0],...spot(t.areas[0],t.id),rating:t.rating??0,reviews:t.reviewCount??0,priceLabel:t.price?String(t.price.min):'—',priceNote:'من',priceUnit:'ج.م / حصة',href:`/teachers/${t.id}?returnTo=${encodeURIComponent(returnTo)}`,photo:t.image,fallback:{text:initials(t.name),bg:teacherGradient(t.id)}})),[results,returnTo]);
+ const pick=(id:string|null)=>{setSelectedId(id);if(id&&view==='list')document.getElementById(`card-${id}`)?.scrollIntoView({block:'center',behavior:'smooth'});};
+ const priceValue=f.minPrice||f.maxPrice?`${f.minPrice}-${f.maxPrice}`:'';
+ const priceLabel=prices.find(p=>p.value===priceValue)?.label??(priceValue?`${f.minPrice||'0'} – ${f.maxPrice||'∞'}`:'');
+
+ return <PublicMarketplaceShell active="teachers">
+  <h1 className={k.srOnly}>المدرسين</h1>
+  <SearchTop><SearchBox id="teacher-q" value={f.q} onChange={q=>set({q})} placeholder="مدرس، مادة أو منطقة"/></SearchTop>
+
+  <Toolbar view={view} onView={setView}>
+   {active>0&&<ResetPill onReset={()=>set({...emptyFilters,q:f.q})}/>}
+   <FilterPill icon={BookOpen} label="المادة" value={f.subject} onOpen={()=>setSheet('subject')} onClear={()=>set({subject:''})}/>
+   <FilterPill icon={GraduationCap} label="المرحلة" value={f.stage} onOpen={()=>setSheet('stage')} onClear={()=>set({stage:''})}/>
+   <FilterPill icon={MapPin} label="المنطقة" value={f.area||f.governorate} onOpen={()=>setSheet('area')} onClear={()=>set({area:'',governorate:''})}/>
+   <FilterPill icon={Banknote} label="السعر" value={priceLabel} onOpen={()=>setSheet('price')} onClear={()=>set({minPrice:'',maxPrice:''})}/>
+   <StarToggle pressed={f.rating==='4'} onToggle={()=>set({rating:f.rating==='4'?'':'4'})}/>
+   <FilterPill icon={School} label="النظام" value={f.system} onOpen={()=>setSheet('system')} onClear={()=>set({system:''})}/>
+   <FilterPill icon={ArrowUpDown} label="الترتيب" value={sorts.find(s=>s.value===f.sort)?.label} onOpen={()=>setSheet('sort')} onClear={()=>set({sort:'default'})}/>
+  </Toolbar>
+
+  <Split view={view}
+   list={<><Count n={results.length} unit="مدرس"/>
+    {results.length===0?<Empty onReset={()=>set({...emptyFilters})}/>
+    :<div className={c.grid}>{results.map((t,i)=><TeacherCard key={t.id} index={i} teacher={t} returnTo={returnTo} active={t.id===hoverId||t.id===selectedId} onHover={setHoverId}/>)}</div>}</>}
+   map={<PlaceMap items={mapItems} activeId={hoverId} selectedId={selectedId} onHover={setHoverId} onSelect={pick} label="المدرسين"/>}/>
+
+  <ChoiceSheet open={sheet==='subject'} icon={BookOpen} title="المادة" choices={list(options.subjects)} value={f.subject} onPick={ch=>set({subject:ch?.value??''})} onClose={close}/>
+  <ChoiceSheet open={sheet==='stage'} icon={GraduationCap} title="المرحلة" choices={list(options.stages)} value={f.stage} onPick={ch=>set({stage:ch?.value??''})} onClose={close}/>
+  <ChoiceSheet open={sheet==='area'} icon={MapPin} title="المنطقة" choices={areaChoices} value={f.area} onPick={ch=>set({area:ch?.value??'',governorate:ch&&ch.group!=='أخرى'?ch.group??'':''})} onClose={close}/>
+  <ChoiceSheet open={sheet==='price'} icon={Banknote} title="سعر الحصة (ج.م)" choices={prices} value={priceValue} onPick={ch=>{const [minPrice='',maxPrice='']=(ch?.value??'-').split('-');set({minPrice,maxPrice});}} onClose={close}/>
+  <ChoiceSheet open={sheet==='system'} icon={School} title="النظام" choices={list(options.systems)} value={f.system} onPick={ch=>set({system:ch?.value??''})} onClose={close}/>
+  <ChoiceSheet open={sheet==='sort'} icon={ArrowUpDown} title="الترتيب" choices={sorts} value={f.sort==='default'?'':f.sort} allLabel="الافتراضي" onPick={ch=>set({sort:(ch?.value??'default') as SearchFilters['sort']})} onClose={close}/>
+ </PublicMarketplaceShell>;
 }

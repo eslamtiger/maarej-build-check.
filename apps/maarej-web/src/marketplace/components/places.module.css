@@ -162,3 +162,9 @@
 .price{font-family:var(--m-font-display)}
 .coverIcon{color:var(--m-blue-700)}
 .soonTag{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;background:#FFF4E0;color:#7A4A00;font-weight:700;font-size:.875rem;white-space:nowrap}
+
+/* Photo covers (Unsplash): no crop zoom needed; icon stays if a photo fails. */
+.coverPhoto{transform:none}
+.coverIconBig{position:relative;display:grid;place-items:center;color:var(--tone)}
+.coverHero{border-radius:28px;aspect-ratio:16/9}
+.profileHead .coverHero{box-shadow:0 18px 40px rgba(22,19,61,.12)}

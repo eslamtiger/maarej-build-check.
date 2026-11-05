@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import {Star,MapPin,UsersRound,LayoutGrid,Navigation,Info,Check,Banknote} from 'lucide-react';
+import {Star,MapPin,UsersRound,LayoutGrid,Navigation,Check,Banknote} from 'lucide-react';
 import type {CenterDTO,SpaceDTO,CenterReviewRole} from '../types/place';
 import {featureLabel,directionsHref} from '../adapters/places';
 import {marketplaceTeachers} from '../adapters/teachers';
@@ -11,7 +11,6 @@ import styles from './places.module.css';
 
 const roleLabels:Record<CenterReviewRole,string>={parents:'أولياء الأمور',students:'الطلاب',teachers:'المدرسون',centers:'سناتر شريكة'};
 
-function DemoNotice({what}:{what:string}){return <p className={styles.notice}><Info size={16} aria-hidden="true"/>بيانات {what} توضيحية. الحجز والتواصل المباشر هيتفعّلوا في المرحلة الجاية.</p>;}
 
 function ProfileHead({kind,id,name,area,type,rating,reviews,address}:{kind:'center'|'space';id:string;name:string;area:string;type:string;rating:number;reviews:number;address:string}){
  return <header className={styles.profileHead}>
@@ -36,10 +35,9 @@ export function CenterProfile({center:c}:{center:CenterDTO}){
  const teachers=c.featuredTeachers.map(id=>marketplaceTeachers.find(t=>t.legacyId===id)).filter(t=>t!==undefined);
  const reviewRoles=(Object.keys(roleLabels) as CenterReviewRole[]).filter(r=>(c.reviewsByRole[r]?.length??0)>0);
  return <PublicMarketplaceShell active="centers"><div className={styles.profile}>
-  <BackToSearch base="/centers" label="العودة للسناتر"/>
+  <BackToSearch base="/centers" label="السناتر"/>
   <ProfileHead kind="center" id={c.id} name={c.name} area={c.area} type={c.type} rating={c.rating} reviews={c.reviews} address={c.address}/>
   <Facts items={[{icon:LayoutGrid,label:'القاعات',value:String(c.rooms.length)},{icon:UsersRound,label:'أكبر قاعة',value:`${c.maxSeats} طالب`},{icon:Banknote,label:'سعر الساعة (ج.م)',value:`${c.price.min} – ${c.price.max}`}]}/>
-  {c.note&&<p className={styles.lead}>{c.note}</p>}
   {c.branches.length>0&&<p className={styles.muted}>فروع أخرى: {c.branches.join('، ')}</p>}
 
   <section className={styles.section} aria-labelledby="rooms-title"><h2 id="rooms-title">القاعات</h2>
@@ -61,7 +59,6 @@ export function CenterProfile({center:c}:{center:CenterDTO}){
   </section>}
 
   <Location lat={c.lat} lng={c.lng} address={c.address}/>
-  <DemoNotice what="السنتر والقاعات والأسعار والتقييمات"/>
  </div>
  <div className={styles.stickyBar}><p className={styles.price}><small>القاعة من</small><bdi dir="ltr">{c.price.min}</bdi> <span>ج.م / ساعة</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>
  </PublicMarketplaceShell>;
@@ -69,12 +66,11 @@ export function CenterProfile({center:c}:{center:CenterDTO}){
 
 export function SpaceProfile({space:s}:{space:SpaceDTO}){
  return <PublicMarketplaceShell active="spaces"><div className={styles.profile}>
-  <BackToSearch base="/spaces" label="العودة للمساحات"/>
+  <BackToSearch base="/spaces" label="مساحات المذاكرة"/>
   <ProfileHead kind="space" id={s.id} name={s.name} area={s.area} type={s.type} rating={s.rating} reviews={s.reviews} address={`${s.area}، ${s.governorate}`}/>
   <Facts items={[{icon:UsersRound,label:'السعة',value:s.capacity===1?'فرد واحد':`حتى ${s.capacity} أفراد`},{icon:LayoutGrid,label:'الوحدات المتاحة',value:String(s.units)},{icon:Banknote,label:'نطاق السعر (ج.م)',value:`${s.price.min} – ${s.price.max}`}]}/>
   <section className={styles.section} aria-labelledby="feat-title"><h2 id="feat-title">التجهيزات</h2><ul className={styles.checkList}>{s.features.map(f=><li key={f}><Check size={15} aria-hidden="true"/>{featureLabel(f)}</li>)}</ul></section>
   <Location lat={s.lat} lng={s.lng} address={`${s.area}، ${s.governorate}`}/>
-  <DemoNotice what="المساحة والأسعار والتقييمات"/>
  </div>
  <div className={styles.stickyBar}><p className={styles.price}><small>نطاق السعر</small><bdi dir="ltr">{s.price.min} – {s.price.max}</bdi> <span>ج.م</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>
  </PublicMarketplaceShell>;

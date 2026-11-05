@@ -3,18 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Bell, Building2, ChevronDown, DoorOpen, GraduationCap, Info, LogOut, PenLine, Settings } from "lucide-react";
+import { Bell, Building2, ChevronDown, GraduationCap, Info, LogOut, PenLine, Settings } from "lucide-react";
 import { studentNotifications } from "@/data/student-records";
 import { useStudentAppState } from "@/lib/student-app-state";
 import { useStudentProfile } from "@/lib/student-profile";
 import { MaarejMark } from "./maarej-logo";
 import styles from "./site-header.module.css";
 
+// Three tabs only. "المنشآت التعليمية" covers centers and study spaces (one page with a toggle).
 const sections = [
-  { href: "/teachers", label: "المدرسين", Icon: GraduationCap },
-  { href: "/centers", label: "السناتر", Icon: Building2 },
-  { href: "/spaces", label: "مساحات المذاكرة", Icon: DoorOpen },
-  { href: "/about", label: "عن معارج", Icon: Info },
+  { href: "/teachers", label: "المدرسين", more: "", Icon: GraduationCap, match: ["/teachers"] },
+  { href: "/centers", label: "المنشآت", more: " التعليمية", Icon: Building2, match: ["/centers", "/spaces"] },
+  { href: "/about", label: "عن معارج", more: "", Icon: Info, match: ["/about"] },
 ] as const;
 
 // Inside the student space the avatar opens a small menu; everywhere else it goes straight to the space.
@@ -50,16 +50,16 @@ export function SiteHeader() {
     return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("touchstart", onDown); document.removeEventListener("keydown", onKey); };
   }, [open]);
   const inStudent = path.startsWith("/student");
-  const isActive = (href: string) => path === href || path.startsWith(href + "/");
+  const isActive = (match: readonly string[]) => match.some(href => path === href || path.startsWith(href + "/"));
 
   return <header ref={bar} className={styles.header} dir="rtl">
     <span className={styles.accent} aria-hidden="true"/>
     <div className={styles.inner}>
-      <Link href="/" className={styles.brand} aria-label="معارج، الصفحة الرئيسية"><MaarejMark size={40}/><span className={styles.word}><b>معارج</b><small>تعليمك كله في مكان واحد</small></span></Link>
+      <Link href="/" className={styles.brand} aria-label="معارج، الصفحة الرئيسية"><MaarejMark size={40}/></Link>
       <nav className={styles.nav} aria-label="صفحات معارج">
-        {sections.map(({ href, label, Icon }) => <Link key={href} href={href} aria-current={isActive(href) ? "page" : undefined}><Icon size={17} aria-hidden="true"/>{label}</Link>)}
+        {sections.map(({ href, label, more, Icon, match }) => <Link key={href} href={href} aria-current={isActive(match) ? "page" : undefined}><Icon size={17} aria-hidden="true"/>{label}{more && <span className={styles.more}>{more}</span>}</Link>)}
       </nav>
-      <div className={styles.user} ref={box}>
+      <div className={styles.user} ref={box} data-in={inStudent ? "student" : undefined}>
         <Link href="/student/notifications" className={styles.bell} aria-label={unread ? "الإشعارات، فيه جديد" : "الإشعارات"} aria-current={path === "/student/notifications" ? "page" : undefined}><Bell size={20} aria-hidden="true"/>{unread && <i aria-hidden="true"/>}</Link>
         {inStudent ? <button type="button" className={styles.me} aria-haspopup="menu" aria-expanded={open} aria-controls="site-user-menu" onClick={() => setOpen(v => !v)}>
           <SiteAvatar name={profile.name} color={profile.avatarColor}/>

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import {Star,MapPin,BadgeCheck,GraduationCap,BookOpen,Info,Building2,Clock3} from 'lucide-react';
+import {Star,MapPin,BadgeCheck,GraduationCap,BookOpen,Building2,Clock3} from 'lucide-react';
 import profiles from '../data/teacher-profiles.json';
 import type {TeacherSearchDTO} from '../types/teacher';
 import {marketplaceCenters} from '../adapters/places';
@@ -41,8 +41,6 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
   {centers.length>0&&<section className={styles.section} aria-labelledby="ctr-title"><h2 id="ctr-title">بيدرّس في</h2>
    <ul className={styles.teacherList}>{centers.map(c=><li key={c.id}><Link href={`/centers/${c.id}`}><span className={styles.centerDot}><Building2 size={18} aria-hidden="true"/></span><span><strong>{c.name}</strong><small>{c.area}</small></span></Link></li>)}</ul>
   </section>}
-
-  <p className={styles.notice}><Info size={16} aria-hidden="true"/>بيانات مدرس توضيحية. الحجز والتواصل المباشر هيتفعّلوا في المرحلة الجاية.</p>
  </div>
  {t.price&&<div className={styles.stickyBar}><p className={styles.price}><small>الحصة من</small><bdi dir="ltr">{t.price.min}</bdi> <span>ج.م</span></p><span className={styles.soonTag}>الحجز بيتفعّل قريب</span></div>}
  </PublicMarketplaceShell>;

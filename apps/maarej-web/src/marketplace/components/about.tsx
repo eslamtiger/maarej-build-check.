@@ -35,6 +35,5 @@ export function AboutMaarej(){
     <li><ShieldCheck size={18} aria-hidden="true"/>المكافآت بتحتفل بالمجهود، لكنها ما بتشتريش الهوية.</li>
    </ul>
   </section>
-  <p className={a.note}>معارج لسه في مرحلة تجريبية، وكل الأسماء والأسعار والأرقام اللي في الموقع بيانات توضيحية.</p>
  </PublicMarketplaceShell>;
 }

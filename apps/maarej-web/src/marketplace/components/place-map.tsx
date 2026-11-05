@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {Plus,Minus,LocateFixed,Star,X,ArrowLeft} from 'lucide-react';
 import styles from './discover.module.css';
 
-export type MapItem={id:string;name:string;area:string;lat:number;lng:number;rating:number;reviews:number;priceLabel:string;priceNote:string;href:string;photo:string};
+export type MapItem={id:string;name:string;area:string;lat:number;lng:number;rating:number;reviews:number;priceLabel:string;priceNote:string;priceUnit?:string;href:string;photo?:string;fallback?:{text:string;bg:string}};
 
 // Schematic map of Greater Cairo. No tile server is used (no third-party requests, works offline),
 // so the shapes are approximate and only meant to show where places sit relative to each other.
@@ -62,11 +62,10 @@ export function PlaceMap({items,activeId,selectedId,onHover,onSelect,label}:{ite
    <button type="button" onClick={()=>setZi(i=>Math.max(i-1,0))} aria-label="تصغير الخريطة" disabled={zi===0}><Minus size={18}/></button>
    <button type="button" onClick={()=>{setZi(0);onSelect(null);}} aria-label="إعادة ضبط الخريطة"><LocateFixed size={17}/></button>
   </div>
-  <p className={styles.mapNote}>خريطة تخطيطية · المواقع تقريبية</p>
-  {pins.length===0&&<p className={styles.mapEmpty}>مفيش نتائج تتعرض على الخريطة.</p>}
+  {pins.length===0&&<p className={styles.mapEmpty}>مفيش نتايج</p>}
   {selected&&<div className={styles.mapPreview}>
-   <img src={selected.photo} alt="" loading="lazy"/>
-   <div><strong><bdi>{selected.name}</bdi></strong><span>{selected.area}</span><span className={styles.mapRate}><Star size={13} aria-hidden="true"/><bdi>{selected.rating.toFixed(1)}</bdi> · {selected.reviews} تقييم</span><b>{selected.priceNote} <bdi dir="ltr">{selected.priceLabel}</bdi> ج.م</b></div>
+   {selected.photo?<img src={selected.photo} alt="" loading="lazy"/>:<span className={styles.mapFallback} style={{background:selected.fallback?.bg}} aria-hidden="true">{selected.fallback?.text}</span>}
+   <div><strong><bdi>{selected.name}</bdi></strong><span>{selected.area}</span><span className={styles.mapRate}><Star size={13} aria-hidden="true"/><bdi>{selected.rating.toFixed(1)}</bdi> · {selected.reviews} تقييم</span><b>{selected.priceNote} <bdi dir="ltr">{selected.priceLabel}</bdi> {selected.priceUnit??'ج.م'}</b></div>
    <Link href={selected.href} className={styles.mapGo} aria-label={`عرض ${selected.name}`}><ArrowLeft size={18} aria-hidden="true"/></Link>
    <button type="button" className={styles.mapClose} onClick={()=>onSelect(null)} aria-label="إغلاق"><X size={16}/></button>
   </div>}
