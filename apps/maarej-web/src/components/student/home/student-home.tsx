@@ -71,14 +71,18 @@ export function StudentHome() {
   ];
   const tags = nextActionContext?.split(" · ").filter(Boolean) ?? [];
   const firstName = studentDemo.identity.name.split(" ")[0];
+  const greeting = clock.minutes < 12 * 60 ? "صباح الخير" : "مساء الخير";
+  // Brief §13: momentum shows the current week; the identity itself never drops.
+  const momentumLow = baseIdentity.status === "atRisk" || baseIdentity.status === "downgraded";
   const style = { "--home-primary": theme.primaryColor, "--home-secondary": theme.secondaryColor } as CSSProperties;
   const rise = (i: number) => ({ initial: reduce ? false as const : { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { duration: .32, delay: reduce ? 0 : i * .05, ease: [.16, 1, .3, 1] as const } });
 
   return <StudentV101Shell active="home"><div className={styles.home} style={style}>
     <motion.section className={styles.hero} {...rise(0)} aria-labelledby="home-next-heading">
       <div className={styles.heroHead}>
-        <h1>صباح الخير يا {firstName}</h1>
+        <h1>{greeting} يا {firstName}</h1>
         {identity.currentIdentity?.name && <Link className={styles.identity} href="/student/journey"><span className={styles.identityEmblem}><IdentityEmblem theme={theme} size={15}/></span><span>{identity.currentIdentity.name}{identity.currentStage && <small> · {identity.currentStage}</small>}</span></Link>}
+        <span className={styles.momentum} data-low={momentumLow}><i aria-hidden="true"/>{momentumLow ? "زخمك محتاج دفعة" : "زخمك قوي"}</span>
       </div>
       <div className={styles.heroBody}>
         <article className={styles.next}>

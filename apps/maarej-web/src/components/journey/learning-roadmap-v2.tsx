@@ -63,6 +63,7 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
   const name = view.currentIdentity?.name;
   const stage = view.currentStage;
   const direction = view.currentDirection;
+  // Brief §13: an earned identity never drops. A weak week only lowers momentum.
   const atRisk = view.status === "atRisk" || view.status === "downgraded";
   const nodes = view.journeyNodes;
   const activeIndex = nodes.findIndex(n => n.state === "current");
@@ -81,7 +82,7 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
   const rewardNodeIndex = explicitRewardNode >= 0 ? explicitRewardNode : reward ? nodes.findIndex(n => n.relatedMissionId === mission?.id && mission?.rewardId === reward.id) : -1;
   const achievementNodeIndex = nearbyAchievement ? nodes.findIndex(node => (node.relatedAchievementId ?? node.relatedBadgeId) === nearbyAchievement.id) : -1;
   const { height: roadmapHeight, positions, segments, markerPositions } = journeyLayout(nodes.length, currentIndex, [
-    ...(reward && rewardNodeIndex >= 0 ? [{ id: "reward", nodeIndex: rewardNodeIndex, kind: "reward" as const }] : []),
+    // Brief §14: rewards are not drawn on the path; the mission card shows them.
     ...(nearbyAchievement && achievementNodeIndex >= 0 ? [{ id: "achievement", nodeIndex: achievementNodeIndex, kind: "achievement" as const }] : []),
   ]);
   const rewardPosition = positions[rewardNodeIndex], rewardAnchor = markerPositions.reward;
@@ -109,7 +110,7 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
           <h1>رحلتي</h1>{name && <><span className={styles.eyebrow}>هويتك</span><h2>{name}</h2></>}
           {stage && <p className={styles.stage}><small>المرحلة</small>{stage}</p>}
           {direction && <span className={styles.direction}><small>التوجه</small>{direction}</span>}
-          {view.currentIdentity && <span className={`${styles.health} ${atRisk ? styles.atRisk : ""}`}>{atRisk ? <TriangleAlert size={15}/> : <ShieldCheck size={15}/>} {atRisk ? "يحتاج اهتمام" : "مستقر"}</span>}
+          {view.currentIdentity && <span className={`${styles.health} ${atRisk ? styles.atRisk : ""}`}>{atRisk ? <TriangleAlert size={15}/> : <ShieldCheck size={15}/>} زخمك {atRisk ? "محتاج دفعة" : "قوي"}</span>}
         </div>
         <motion.div className={`${styles.character} ${!theme.characterAsset ? styles.emblemFallback : ""}`} initial={reduce ? false : { opacity: 0, x: -7, scale: .96 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .25 }}>
           {theme.characterAsset ? <img src={theme.characterAsset.src} alt={theme.characterAsset.alt} width={1024} height={1536}/> : <span role="img" aria-label="شعار هويتك"><IdentityEmblem theme={theme} size={88}/></span>}
@@ -148,7 +149,7 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
               {n.state !== "locked" && Math.abs(i - currentIndex) <= 1 && meaningful(n.state === "current" && stage !== n.label ? stage ?? n.subtitle : n.subtitle) && <text y="25" textAnchor="middle" className={styles.nodeContext}>{n.state === "current" && stage !== n.label ? stage ?? n.subtitle : n.subtitle}</text>}
             </g>)}
           </svg>
-          {nodes.map((n, i) => <JourneyLandmark key={n.id} state={stateOf(i)} theme={theme} label={labelOf(i)} x={positions[i].x} y={positions[i].y} index={i} atRisk={n.attention || (n.state === "current" && atRisk)} onOpen={() => setSelected(n.id)}/>)}
+          {nodes.map((n, i) => <JourneyLandmark key={n.id} state={stateOf(i)} theme={theme} label={labelOf(i)} x={positions[i].x} y={positions[i].y} index={i} atRisk={n.attention} onOpen={() => setSelected(n.id)}/>)}
           {reward && rewardAnchor && <motion.button type="button" className={styles.rewardMarker} style={{ left: `${rewardAnchor.x * 100}%`, top: `${rewardAnchor.y * 100}%`, width: 64, translate: "-50% -50%" }} aria-label={`مكافأة ${mission?.title ?? labelOf(rewardNodeIndex)}: ${reward.amount} جنيه — عرض تفاصيل المكافأة`} onClick={() => setSelected(`reward:${reward.id}`)}
             initial={reduce ? false : { opacity: 0, y: 6, scale: .9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: "spring", bounce: .22, duration: .4, delay: reduce ? 0 : .5 }} whileTap={reduce ? undefined : { scale: .97 }}>
             <span><Gift size={21}/></span><b>{reward.amount} ج.م</b>
@@ -164,7 +165,7 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
         <div className={styles.missionKicker}><Target size={18} aria-hidden="true"/>مهمتك الآن</div><h2>{mission.title}</h2>
         <div className={styles.missionProgress}><span>{mission.context}</span><b dir="ltr">{mission.progressText}</b></div>
         <Progress value={mission.value} aria-label="تقدم المهمة الحالية"/>
-        <p className={styles.nextAction}>{resolveMissionSource(mission, actionData.sources) ? "كمّل مهمتك الحالية لتفتح خطوتك التالية" : mission.remaining}</p>
+        <p className={styles.nextAction}>{resolveMissionSource(mission, actionData.sources) ? "كمّل مهمتك عشان تفتح خطوتك الجاية" : mission.remaining}</p>
         <div className={styles.missionActions}>{missionReward && <strong className={styles.reward}><Gift size={16}/>{missionReward.amount} ج.م</strong>}
           <motion.button type="button" className={styles.missionCta} whileTap={reduce ? undefined : { scale: .97 }} onClick={() => openMission(mission)}>{resolveMissionSource(mission, actionData.sources) ? "كمّل المهمة" : "تفاصيل المهمة"}</motion.button>
         </div>
@@ -185,11 +186,11 @@ export function LearningRoadmapV2({ identity, identityTheme, actionData = journe
           {meaningful(selectedReward.funder) && <p><strong>المموّل: </strong>{selectedReward.funder}</p>}
           {meaningful(selectedReward.status) && <p><strong>حالة التمويل: </strong>{selectedReward.status}</p>}
           {typeof selectedReward.progress === "number" && <><p><strong>التقدم الحالي: </strong>{selectedReward.progress}%</p><Progress value={selectedReward.progress} aria-label="تقدم شرط المكافأة"/></>}
-          {meaningful(selectedReward.releaseCondition) && <p><strong>شرط الإفراج: </strong>{selectedReward.releaseCondition}</p>}{resolveStudentSource("reward",selectedReward.id)?.href && <Link href={resolveStudentSource("reward",selectedReward.id)!.href} className={styles.missionCta}>تفاصيل المكافأة وسجل شرطها</Link>}
+          {meaningful(selectedReward.releaseCondition) && <p><strong>شرط الصرف: </strong>{selectedReward.releaseCondition}</p>}{resolveStudentSource("reward",selectedReward.id)?.href && <Link href={resolveStudentSource("reward",selectedReward.id)!.href} className={styles.missionCta}>تفاصيل المكافأة وسجل شرطها</Link>}
         </div>}
         {selectedState === "current" && <div className={styles.identityMetadata}>
           {name && <span>هويتك: <strong>{name}</strong></span>}
-          {view.currentIdentity && <span className={`${styles.health} ${atRisk ? styles.atRisk : ""}`}>{atRisk ? <TriangleAlert size={15}/> : <ShieldCheck size={15}/>}حالة الهوية: {atRisk ? "يحتاج اهتمام" : "مستقر"}</span>}
+          {view.currentIdentity && <span className={`${styles.health} ${atRisk ? styles.atRisk : ""}`}>{atRisk ? <TriangleAlert size={15}/> : <ShieldCheck size={15}/>}زخم الأسبوع: {atRisk ? "محتاج دفعة، وهويتك محفوظة" : "قوي"}</span>}
           {view.highestAchievedIdentity?.name && view.highestAchievedIdentity.id !== view.currentIdentity?.id && <span>أعلى هوية وصلت لها: <strong>{view.highestAchievedIdentity.name}</strong></span>}
         </div>}
         {selectedMission && <div className={styles.sheetMission}>

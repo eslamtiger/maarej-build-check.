@@ -13,6 +13,9 @@
 .identity { display:inline-flex; align-items:center; gap:7px; min-height:36px; padding:4px 12px 4px 5px; border-radius:999px; background:#fff; border:1px solid #E3DFF8; color:var(--s2-ink); font-size:.875rem; font-weight:700; text-decoration:none; }
 .identity small { font-weight:500; color:var(--s2-muted); font-size:.8125rem; }
 .identityEmblem { display:grid; place-items:center; width:26px; height:26px; border-radius:50%; background:#FFB53D; color:#5C3A00; }
+.momentum { display:inline-flex; align-items:center; gap:7px; min-height:36px; padding:0 12px; border-radius:999px; background:#E7F6EF; color:#12704F; font-size:.875rem; font-weight:700; }
+.momentum i { width:8px; height:8px; border-radius:50%; background:currentColor; }
+.momentum[data-low=true] { background:#FFF1D6; color:#8A5300; }
 .heroBody { position:relative; z-index:1; display:grid; grid-template-columns:minmax(0,1fr); align-items:end; }
 .next { display:grid; gap:10px; padding:16px; border-radius:20px; background:#fff; box-shadow:0 14px 36px rgba(54,40,160,.10); border:1px solid #ECE9FB; }
 .kicker { font-size:.8125rem; font-weight:700; color:var(--s2-brand); }
