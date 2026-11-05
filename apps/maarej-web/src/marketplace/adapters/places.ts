@@ -52,7 +52,7 @@ export function activePlaceFilters(f:PlaceFilters){return Object.entries(f).filt
 
 export function parsePlaceQuery(params:URLSearchParams,places:readonly Place[]):PlaceFilters{
  const f={...emptyPlaceFilters},o=placeOptions(places);f.q=(params.get('q')??'').slice(0,160);
- f.rating=(params.get('rating')??'').split(',').filter(v=>v==='3'||v==='4').join(',');
+ f.rating=['3','4','4.5'].includes(params.get('rating')??'')?params.get('rating')!:'';
  f.feature=(params.get('feature')??'').split(',').filter(v=>o.features.includes(v)).join(',');
  for(const [key,allowed] of [['governorate',o.governorates],['area',o.areas],['seats',['5','10','20','30']]] as const){const v=params.get(key)??'';if((allowed as readonly string[]).includes(v))f[key]=v;}
  for(const key of ['minPrice','maxPrice'] as const){const v=params.get(key);if(v!==null&&v.trim()!==''&&Number.isFinite(Number(v))&&Number(v)>=0)f[key]=String(Number(v));}
@@ -67,6 +67,11 @@ export const directionsHref=(lat:number,lng:number)=>`https://www.google.com/map
 // Centers get classrooms and training rooms; spaces get study rooms and coworking desks. Picked by id so a place keeps its photo everywhere.
 const centerPhotos=['1580582932707-520aed937b7b','1635424239131-32dc44986b56','1519406596751-0a3ccc4937fe','1762176264161-09219da49794','1762176263996-a0713a49ee4d','1766476210492-824c8a4b79b2','1757192420362-3629ce30d2e3','1757193714692-44cdf07a5377','1786397685301-2421a92593ee','1541829070764-84a7d30dd3f3','1510531704581-5b2870972060','1733568414840-bcf218851fc3','1658200542476-68e8adf747ff','1757194455505-1433ab2cd758','1789654499247-67ddedd251cc'];
 const spacePhotos=['1497366811353-6870744d04b2','1770816307817-2fa6131e3a9b','1606836576983-8b458e75221d','1759301495186-d3787210df5b','1765729003706-355ca161736d','1600508774634-4e11d34730e2','1614070776241-fb47cec38278','1549637642-90187f64f420','1754607812143-12d421b1db11','1777896193454-8b4863264f0b','1687291058463-b19f5a0d4081','1789654499278-dd06937e20a1','1731816803705-54ab8fbd6a8f','1593588332695-cd49488a8ec8','1497215728101-856f4ea42174'];
+// A small gallery per place: its own photo first, then others from the same set (stepping through the list so neighbours differ).
+export const placePhotos=(kind:'center'|'space',id:string,width=800,count=4)=>{
+ const list=kind==='center'?centerPhotos:spacePhotos,n=Number(id.split('-')[1])||1;
+ return Array.from({length:count},(_,k)=>`https://images.unsplash.com/photo-${list[(n-1+k*4)%list.length]}?auto=format&fit=crop&w=${width}&q=70`);
+};
 export const placePhoto=(kind:'center'|'space',id:string,width=800)=>{
  const list=kind==='center'?centerPhotos:spacePhotos,n=Number(id.split('-')[1])||1;
  return `https://images.unsplash.com/photo-${list[(n-1)%list.length]}?auto=format&fit=crop&w=${width}&q=70`;

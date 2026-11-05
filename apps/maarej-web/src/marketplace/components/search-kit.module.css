@@ -126,3 +126,9 @@
   .resultsHead { margin-top:0; }
 }
 @media (max-width:440px) { .seg a { gap:6px; font-size:.9375rem; white-space:nowrap; } .seg a > svg { display:none; } .seg a b { min-width:24px; padding:1px 6px; } }
+/* The other kind of place is a call to action: amber, raised, with a soft pulse so first-time visitors notice it */
+.seg a:not([aria-current=page]) { background:linear-gradient(150deg,#FFC45E,#FF9A3D); color:#2B1B00; font-weight:800; box-shadow:0 4px 0 #D68A16, 0 10px 20px rgba(255,154,61,.35); animation:segPulse 2.8s ease-in-out infinite; }
+.seg a:not([aria-current=page]) b { background:rgba(255,255,255,.55); color:#7A4A00; }
+@keyframes segPulse { 0%,100% { box-shadow:0 4px 0 #D68A16, 0 0 0 0 rgba(255,154,61,.45); } 50% { box-shadow:0 4px 0 #D68A16, 0 0 0 7px rgba(255,154,61,0); } }
+@media (hover:hover) { .seg a:not([aria-current=page]):hover { background:linear-gradient(150deg,#FFCF75,#FFA850); color:#2B1B00; transform:translateY(-1px); } }
+@media (prefers-reduced-motion:reduce) { .seg a:not([aria-current=page]) { animation:none; } }

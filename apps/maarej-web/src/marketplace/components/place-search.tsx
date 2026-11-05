@@ -1,6 +1,6 @@
 'use client';
 import {useEffect,useMemo,useState,useCallback} from 'react';
-import {MapPin,Map as MapIcon,Banknote,UsersRound,Sparkles,ArrowUpDown,Building2,DoorOpen} from 'lucide-react';
+import {MapPin,Map as MapIcon,Banknote,UsersRound,Sparkles,ArrowUpDown,Star,Building2,DoorOpen} from 'lucide-react';
 import {marketplaceCenters,marketplaceSpaces,emptyPlaceFilters,filterPlaces,placeOptions,activePlaceFilters,parsePlaceQuery,serializePlaceQuery,featureLabel,placePhoto,governorates} from '../adapters/places';
 import {governorateFromUrl,withGovernorate} from '../adapters/location';
 import type {PlaceFilters} from '../types/place';
@@ -8,7 +8,7 @@ import {PublicMarketplaceShell} from './public-shell';
 import {CenterCard,SpaceCard} from './place-card';
 import {PlaceMap} from './place-map';
 import type {MapItem} from './place-map';
-import {SearchTop,SearchBox,Segmented,Toolbar,FilterPill,StarToggle,ResetPill,ChoiceSheet,MultiSheet,RangeSheet,ResultsHead,Empty,MapFirst} from './search-kit';
+import {SearchTop,SearchBox,Segmented,Toolbar,FilterPill,ResetPill,ChoiceSheet,MultiSheet,RangeSheet,ResultsHead,Empty,MapFirst} from './search-kit';
 import type {Choice} from './search-kit';
 import c from './cards.module.css';
 import k from './search-kit.module.css';
@@ -18,7 +18,8 @@ const copy={
  centers:{title:'السناتر',search:'سنتر، منطقة أو تجهيز',unit:'سنتر',seatUnit:'طالب',money:'ج.م / ساعة',step:25},
  spaces:{title:'مساحات المذاكرة',search:'مساحة، منطقة أو تجهيز',unit:'مساحة',seatUnit:'أفراد',money:'ج.م',step:25},
 } as const;
-type Sheet=null|'gov'|'area'|'price'|'seats'|'feature'|'sort';
+type Sheet=null|'rating'|'gov'|'area'|'price'|'seats'|'feature'|'sort';
+const ratings:Choice[]=[{value:'3',label:'⭐ أكتر من 3'},{value:'4',label:'⭐ أكتر من 4'},{value:'4.5',label:'⭐ أكتر من 4.5'}];
 const sorts:Choice[]=[{value:'rating',label:'الأعلى تقييمًا'},{value:'priceAsc',label:'الأقل سعرًا'},{value:'priceDesc',label:'الأعلى سعرًا'}];
 const split=(v:string)=>v?v.split(','):[];
 
@@ -69,7 +70,7 @@ export function PlaceSearch({kind}:{kind:'centers'|'spaces'}){
    <FilterPill icon={UsersRound} label="السعة" value={f.seats?`${f.seats}+ ${t.seatUnit}`:''} onOpen={()=>setSheet('seats')} onClear={()=>set({seats:''})}/>
    <FilterPill icon={Sparkles} label="التجهيزات" value={featureValue} onOpen={()=>setSheet('feature')} onClear={()=>set({feature:''})}/>
    <FilterPill icon={Banknote} label="السعر" value={priceLabel} onOpen={()=>setSheet('price')} onClear={()=>set({minPrice:'',maxPrice:''})}/>
-   {(['3','4'] as const).map(level=>{const on=f.rating.split(',').includes(level);return <StarToggle key={level} level={level} pressed={on} onToggle={()=>set({rating:(on?f.rating.split(',').filter(x=>x&&x!==level):[...f.rating.split(',').filter(Boolean),level]).sort().join(',')})}/>;})}
+   <FilterPill icon={Star} label="التقييم" value={f.rating?`${f.rating}+`:''} onOpen={()=>setSheet('rating')} onClear={()=>set({rating:''})}/>
   </Toolbar>
 
   <MapFirst
@@ -83,6 +84,7 @@ export function PlaceSearch({kind}:{kind:'centers'|'spaces'}){
   <RangeSheet open={sheet==='price'} icon={Banknote} title="السعر" bounds={bounds} step={t.step} value={[lo,hi]} money={t.money} count={count} unit={t.unit} onChange={([a,b])=>set({minPrice:a>bounds[0]?String(a):'',maxPrice:b<bounds[1]?String(b):''})} onClose={close}/>
   <MultiSheet open={sheet==='feature'} icon={Sparkles} title="التجهيزات" choices={featureChoices} values={features} count={count} unit={t.unit} onChange={v=>set({feature:v.join(',')})} onClose={close}/>
   <ChoiceSheet open={sheet==='seats'} icon={UsersRound} title="السعة" choices={seatChoices} value={f.seats} onPick={ch=>set({seats:ch?.value??''})} onClose={close}/>
+  <ChoiceSheet open={sheet==='rating'} icon={Star} title="التقييم" choices={ratings} value={f.rating} onPick={ch=>set({rating:ch?.value??''})} onClose={close}/>
   <ChoiceSheet open={sheet==='sort'} icon={ArrowUpDown} title="الترتيب" choices={sorts} value={f.sort==='default'?'':f.sort} allLabel="الافتراضي" onPick={ch=>set({sort:(ch?.value??'default') as PlaceFilters['sort']})} onClose={close}/>
  </PublicMarketplaceShell>;
 }

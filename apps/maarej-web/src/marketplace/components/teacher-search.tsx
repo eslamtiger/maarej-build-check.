@@ -1,6 +1,6 @@
 'use client';
 import {useEffect,useMemo,useState,useCallback} from 'react';
-import {BookOpen,GraduationCap,MapPin,Map as MapIcon,Banknote,School,ArrowUpDown} from 'lucide-react';
+import {BookOpen,GraduationCap,MapPin,Map as MapIcon,Banknote,School,ArrowUpDown,Star} from 'lucide-react';
 import {marketplaceTeachers} from '../adapters/teachers';
 import {marketplaceCenters,marketplaceSpaces,areaGovernorate,governorates} from '../adapters/places';
 import {governorateFromUrl,withGovernorate} from '../adapters/location';
@@ -10,7 +10,7 @@ import {PublicMarketplaceShell} from './public-shell';
 import {TeacherCard,teacherGradient} from './teacher-card';
 import {PlaceMap} from './place-map';
 import type {MapItem} from './place-map';
-import {SearchTop,SearchBox,Toolbar,FilterPill,StarToggle,ResetPill,ChoiceSheet,MultiSheet,RangeSheet,ResultsHead,Empty,MapFirst} from './search-kit';
+import {SearchTop,SearchBox,Toolbar,FilterPill,ResetPill,ChoiceSheet,MultiSheet,RangeSheet,ResultsHead,Empty,MapFirst} from './search-kit';
 import type {Choice} from './search-kit';
 import c from './cards.module.css';
 import k from './search-kit.module.css';
@@ -25,7 +25,8 @@ const spot=(area:string,id:string)=>{const a=areaCenter.get(area);const lat=a?a.
 const initials=(name:string)=>name.replace(/^أ\.\s*/,'').split(' ').slice(0,2).map(s=>s[0]).join(' ');
 const priceBounds:[number,number]=[Math.floor(Math.min(...marketplaceTeachers.flatMap(t=>t.price?[t.price.min]:[]))/10)*10,Math.ceil(Math.max(...marketplaceTeachers.flatMap(t=>t.price?[t.price.max]:[]))/10)*10];
 
-type Sheet=null|'subject'|'stage'|'gov'|'area'|'price'|'system'|'sort';
+type Sheet=null|'rating'|'subject'|'stage'|'gov'|'area'|'price'|'system'|'sort';
+const ratings:Choice[]=[{value:'3',label:'⭐ أكتر من 3'},{value:'4',label:'⭐ أكتر من 4'},{value:'4.5',label:'⭐ أكتر من 4.5'}];
 const sorts:Choice[]=[{value:'rating',label:'الأعلى تقييمًا'},{value:'priceAsc',label:'الأقل سعرًا'},{value:'priceDesc',label:'الأعلى سعرًا'}];
 const list=(values:readonly string[]):Choice[]=>values.map(v=>({value:v,label:v}));
 const allAreas=[...new Set(marketplaceTeachers.flatMap(t=>t.areas))];
@@ -64,7 +65,7 @@ export function TeacherSearch(){
    <FilterPill icon={GraduationCap} label="المرحلة" value={f.stage} onOpen={()=>setSheet('stage')} onClear={()=>set({stage:''})}/>
    <FilterPill icon={BookOpen} label="المادة" value={subjects.length?(subjects.length===1?subjects[0]:`${subjects[0]} +${subjects.length-1}`):''} onOpen={()=>setSheet('subject')} onClear={()=>set({subject:''})}/>
    <FilterPill icon={Banknote} label="السعر" value={priceLabel} onOpen={()=>setSheet('price')} onClear={()=>set({minPrice:'',maxPrice:''})}/>
-   {(['3','4'] as const).map(level=>{const on=f.rating.split(',').includes(level);return <StarToggle key={level} level={level} pressed={on} onToggle={()=>set({rating:(on?f.rating.split(',').filter(x=>x&&x!==level):[...f.rating.split(',').filter(Boolean),level]).sort().join(',')})}/>;})}
+   <FilterPill icon={Star} label="التقييم" value={f.rating?`${f.rating}+`:''} onOpen={()=>setSheet('rating')} onClear={()=>set({rating:''})}/>
   </Toolbar>
 
   <MapFirst
@@ -79,6 +80,7 @@ export function TeacherSearch(){
   <ChoiceSheet open={sheet==='area'} icon={MapPin} title={f.governorate?`المنطقة · ${f.governorate}`:'المنطقة'} choices={areaChoices} value={f.area} onPick={ch=>set({area:ch?.value??'',...(ch?.group&&ch.group!=='أخرى'?{governorate:ch.group}:{})})} onClose={close}/>
   <RangeSheet open={sheet==='price'} icon={Banknote} title="سعر الحصة" bounds={priceBounds} step={10} value={[lo,hi]} money="ج.م / حصة" count={results.length} unit="مدرس" onChange={([a,b])=>set({minPrice:a>priceBounds[0]?String(a):'',maxPrice:b<priceBounds[1]?String(b):''})} onClose={close}/>
   <ChoiceSheet open={sheet==='system'} icon={School} title="النظام" choices={list(options.systems)} value={f.system} onPick={ch=>set({system:ch?.value??''})} onClose={close}/>
+  <ChoiceSheet open={sheet==='rating'} icon={Star} title="التقييم" choices={ratings} value={f.rating} onPick={ch=>set({rating:ch?.value??''})} onClose={close}/>
   <ChoiceSheet open={sheet==='sort'} icon={ArrowUpDown} title="الترتيب" choices={sorts} value={f.sort==='default'?'':f.sort} allLabel="الافتراضي" onPick={ch=>set({sort:(ch?.value??'default') as SearchFilters['sort']})} onClose={close}/>
  </PublicMarketplaceShell>;
 }
