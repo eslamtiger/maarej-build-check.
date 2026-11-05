@@ -40,7 +40,8 @@ export function Facts({facts}:{facts:Fact[]}){
 // One line of tags: three, then +N.
 export function Tags({tags,kind,label}:{tags:{emoji:string;label:string}[];kind:'features'|'zones'|'subjects';label:string}){
  if(!tags.length)return null;
- return <ul className={c.tags} data-kind={kind} aria-label={label}>{tags.slice(0,3).map(t=><li key={t.label}><span aria-hidden="true">{t.emoji}</span>{t.label}</li>)}{tags.length>3&&<li data-more><bdi dir="ltr">+{tags.length-3}</bdi></li>}</ul>;
+ // The "+N" sits outside the clipped row so it always shows.
+ return <div className={c.tagRow}><ul className={c.tags} data-kind={kind} aria-label={label}>{tags.slice(0,3).map(t=><li key={t.label}><span aria-hidden="true">{t.emoji}</span>{t.label}</li>)}</ul>{tags.length>3&&<span className={c.more} aria-label={`و${tags.length-3} كمان`}><bdi dir="ltr">+{tags.length-3}</bdi></span>}</div>;
 }
 export function CardHead({name,area}:{name:string;area:string}){
  return <div className={c.head}><h3><bdi>{name}</bdi></h3><span className={c.area}><MapPin size={14} aria-hidden="true"/>{area}</span></div>;
