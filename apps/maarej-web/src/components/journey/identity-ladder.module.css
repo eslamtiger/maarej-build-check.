@@ -18,7 +18,7 @@ li[data-state=current] .name small { color:var(--identity-accent,#4B3FD6); font-
 li[data-state=locked] .name b { color:#5F5B7C; }
 .chev { color:#A5A1C2; transition:transform .2s; }
 .row[aria-expanded=true] .chev { transform:rotate(180deg); }
-li[data-state=current] { background:#F3F1FF; }
+.steps > li[data-state=current] { background:#F3F1FF; }
 .stages { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; padding:0 8px 10px 8px; padding-inline-start:60px; }
 .stages span { display:grid; gap:5px; font-size:.8125rem; font-weight:600; color:#8C88A8; }
 .stages i { display:block; height:8px; border-radius:6px; background:#E2DFF0; }
