@@ -7,6 +7,7 @@ import { Bell, Building2, ChevronDown, DoorOpen, GraduationCap, Info, LogOut, Pe
 import { studentNotifications } from "@/data/student-records";
 import { useStudentAppState } from "@/lib/student-app-state";
 import { useStudentProfile } from "@/lib/student-profile";
+import { MaarejMark } from "./maarej-logo";
 import styles from "./site-header.module.css";
 
 const sections = [
@@ -46,8 +47,9 @@ export function SiteHeader() {
   const isActive = (href: string) => path === href || path.startsWith(href + "/");
 
   return <header className={styles.header} dir="rtl">
+    <span className={styles.accent} aria-hidden="true"/>
     <div className={styles.inner}>
-      <Link href="/" className={styles.brand} aria-label="معارج، الصفحة الرئيسية"><span className={styles.mark} aria-hidden="true">م</span><span>معارج</span></Link>
+      <Link href="/" className={styles.brand} aria-label="معارج، الصفحة الرئيسية"><MaarejMark size={40}/><span className={styles.word}><b>معارج</b><small>تعليمك كله في مكان واحد</small></span></Link>
       <nav className={styles.nav} aria-label="صفحات معارج">
         {sections.map(({ href, label, Icon }) => <Link key={href} href={href} aria-current={isActive(href) ? "page" : undefined}><Icon size={17} aria-hidden="true"/>{label}</Link>)}
       </nav>
@@ -55,6 +57,7 @@ export function SiteHeader() {
         <Link href="/student/notifications" className={styles.bell} aria-label={unread ? "الإشعارات، فيه جديد" : "الإشعارات"} aria-current={path === "/student/notifications" ? "page" : undefined}><Bell size={20} aria-hidden="true"/>{unread && <i aria-hidden="true"/>}</Link>
         <button type="button" className={styles.me} aria-haspopup="menu" aria-expanded={open} aria-controls="site-user-menu" onClick={() => setOpen(v => !v)}>
           <SiteAvatar name={profile.name} color={profile.avatarColor}/>
+          <span className={styles.meName}>{profile.name.split(" ")[0]}</span>
           <ChevronDown size={16} aria-hidden="true" className={styles.chev}/>
           <span className={styles.srOnly}>حسابي: {profile.name}</span>
         </button>

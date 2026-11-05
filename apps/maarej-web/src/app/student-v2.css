@@ -150,6 +150,6 @@ a.s2-ring:hover{background:#F7F6FC}
 @media (min-width:900px){
   .s2.v104-app{padding:0!important;display:grid;grid-template-columns:240px minmax(0,1fr);grid-template-rows:auto 1fr;align-items:start}
   .s2.v104-app > header{grid-column:1/-1}
-  .s2 .s2-side{position:sticky!important;top:69px!important;inset-block:auto!important;right:auto!important;height:calc(100vh - 69px);grid-column:1;grid-row:2;width:auto!important;padding-top:20px}
+  .s2 .s2-side{position:sticky!important;top:76px!important;inset-block:auto!important;right:auto!important;height:calc(100vh - 76px);grid-column:1;grid-row:2;width:auto!important;padding-top:20px}
   .s2 .v104-content{grid-column:2;grid-row:2;width:min(100%,1180px);padding:20px 30px 50px}
 }
