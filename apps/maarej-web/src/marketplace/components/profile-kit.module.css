@@ -171,34 +171,27 @@
 .rHead em { color:#E59A0B; }
 .subTabs button small { color:#E59A0B; }
 
-/* ---------- Teacher hero, Facebook / Instagram order: cover, round photo with numbers + contact beside it, then name ---------- */
-.tHero { display:grid; gap:12px; }
-.tCover { height:150px; border-radius:24px; background:radial-gradient(120% 120% at 100% 0%,#C9C2F5 0%,transparent 55%),radial-gradient(90% 90% at 0% 100%,#FFE2A8 0%,transparent 60%),#EEEBFF; }
-.tTop { display:flex; align-items:flex-end; gap:14px; margin-top:-62px; padding:0 4px; }
-.tAvatar { width:124px; height:124px; flex:none; border-radius:50%; object-fit:cover; border:5px solid #fff; box-shadow:0 10px 24px rgba(22,19,61,.18); background:#E4E0FF; font-size:2rem; }
-.tSide { flex:1; min-width:0; display:grid; gap:8px; padding-bottom:4px; }
-.tStats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; padding:0; list-style:none; text-align:center; }
-.tStats li { display:grid; gap:0; }
-.tStats b { display:inline-flex; justify-content:center; align-items:center; gap:3px; font-family:var(--m-font-display); font-size:1.2rem; font-weight:800; color:#16133D; }
-.tStats small { color:#625F7C; font-weight:600; font-size:.75rem; }
-.tStar { color:#F59E0B; }
-.tSide .contactBar { padding:0; justify-content:flex-start; }
-.tSide .contactBar ul a { width:42px; height:42px; }
-.tId { display:grid; gap:6px; padding:0 4px; }
-.tId h1 { display:flex; align-items:center; gap:8px; margin:0; font-family:var(--m-font-display); font-size:clamp(1.4rem,4.6vw,2rem); font-weight:800; line-height:1.3; color:#16133D; }
-.tId h1 svg { color:#4B3FD6; flex:none; }
+/* ---------- Teacher hero: cover, round photo with name + rating + the teacher's message beside it, contact icons under them ---------- */
+.tHero { display:grid; gap:14px; }
+.tCover { height:110px; border-radius:24px; background:radial-gradient(120% 120% at 100% 0%,#C9C2F5 0%,transparent 55%),radial-gradient(90% 90% at 0% 100%,#FFE2A8 0%,transparent 60%),#EEEBFF; }
+.tTop { display:flex; align-items:flex-start; gap:14px; margin-top:-58px; padding:0 4px; }
+.tAvatar { width:104px; height:104px; flex:none; border-radius:50%; object-fit:cover; border:5px solid #fff; box-shadow:0 10px 24px rgba(22,19,61,.18); background:#E4E0FF; font-size:2rem; }
+.tSide { flex:1; min-width:0; display:grid; gap:6px; padding-top:66px; }
+.tSide h1 { display:flex; align-items:center; gap:6px; margin:0; font-family:var(--m-font-display); font-size:1.3rem; font-weight:800; line-height:1.35; color:#16133D; }
+.tSide h1 svg { color:#4B3FD6; flex:none; }
+.tSide .stars svg { width:18px; height:18px; }
+.tSide .stars b { font-size:1rem; }
+.tMsg { position:relative; margin:4px 0 0; padding:10px 14px; border-radius:6px 18px 18px 18px; background:#F3F0FF; color:#2B2850; font-size:.9375rem; font-weight:500; line-height:1.8; }
+.tHero .contactBar { display:grid; gap:10px; padding:0; }
+.tHero .contactBar ul { display:flex; flex-wrap:nowrap; justify-content:space-between; gap:4px; max-width:440px; }
+.tHero .contactBar ul a { width:46px; height:46px; }
+.tHero .contactBar ul a svg { width:25px; height:25px; }
+.tHero .site { justify-self:start; min-height:44px; padding:0 16px; font-size:.9375rem; }
+.tId { display:grid; gap:8px; padding:0 4px; }
 .tLine { margin:0; color:#4A4668; font-weight:600; font-size:.9375rem; line-height:1.7; }
 .tId .chips { margin:0; }
-/* Phones: like Instagram, the numbers sit beside the photo and the contact icons go full width under them */
-@media (max-width:719px) {
-  .tCover { height:120px; }
-  .tTop { flex-wrap:wrap; margin-top:-56px; gap:10px 12px; }
-  .tAvatar { width:100px; height:100px; }
-  .tSide { display:contents; }
-  .tStats { flex:1; min-width:0; align-self:flex-end; padding-bottom:6px; }
-  .tSide .contactBar { width:100%; }
-}
-@media (min-width:720px) { .tCover { border-radius:28px; height:190px; } .tTop { padding:0 24px; margin-top:-70px; } .tId { padding:0 24px; } .tStats { max-width:360px; } }
+@media (min-width:720px) { .tCover { height:190px; border-radius:28px; } .tTop { padding:0 24px; margin-top:-70px; gap:20px; } .tAvatar { width:128px; height:128px; } .tSide { padding-top:80px; } .tSide h1 { font-size:1.75rem; } .tMsg { font-size:1rem; max-width:560px; } .tHero .contactBar, .tId { padding-inline:24px; } }
+@media (max-width:380px) { .tHero .contactBar ul a { width:42px; height:42px; } .tHero .contactBar ul a svg { width:23px; height:23px; } }
 
 /* Tips for students: numbered cards that scroll sideways on phones */
 .tips { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(220px,78%); gap:10px; margin:0; padding:2px 2px 8px; list-style:none; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; }
@@ -208,12 +201,10 @@
 .tips b { font-family:var(--m-font-display); font-size:1.05rem; color:#16133D; }
 .tips p { margin:0; color:#4A4668; line-height:1.8; font-size:.9375rem; }
 @media (min-width:900px) { .tips { grid-auto-flow:row; grid-template-columns:repeat(4,minmax(0,1fr)); overflow:visible; } }
-@media (min-width:720px) { .tTop { align-items:flex-start; } .tSide { padding-top:80px; } }
 
 /* Icon sizes: one comfortable size everywhere (42px round button, 22px glyph) */
 .contactBar ul a { width:42px; height:42px; }
 .contactBar ul a svg { width:22px; height:22px; }
-.tSide .contactBar ul { gap:6px; }
 .site { min-height:42px; }
 .tabs a span { font-size:1.1rem; line-height:1; }
 .tips li > span { font-size:1.5rem; line-height:1; }
