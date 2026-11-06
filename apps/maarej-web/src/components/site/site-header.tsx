@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Bell, Building2, ChevronDown, GraduationCap, Info, LogOut, PenLine, Settings } from "lucide-react";
+import { Bell, Bookmark, Building2, ChevronDown, GraduationCap, Info, LogOut, PenLine, Settings } from "lucide-react";
 import { studentNotifications } from "@/data/student-records";
 import { useStudentAppState } from "@/lib/student-app-state";
 import { useStudentProfile } from "@/lib/student-profile";
@@ -19,6 +19,7 @@ const sections = [
 
 // Inside the student space the avatar opens a small menu; everywhere else it goes straight to the space.
 const menu = [
+  { href: "/saved", label: "المحفوظات", Icon: Bookmark },
   { href: "/student/profile", label: "تعديل ملفي", Icon: PenLine },
   { href: "/student/account", label: "الإعدادات", Icon: Settings },
 ] as const;
@@ -60,6 +61,7 @@ export function SiteHeader() {
         {sections.map(({ href, label, more, Icon, match }) => <Link key={href} href={href} aria-current={isActive(match) ? "page" : undefined}><Icon size={17} aria-hidden="true"/>{label}{more && <span className={styles.more}>{more}</span>}</Link>)}
       </nav>
       <div className={styles.user} ref={box} data-in={inStudent ? "student" : undefined}>
+        <Link href="/saved" className={styles.bell} aria-label="المحفوظات" aria-current={path === "/saved" ? "page" : undefined}><Bookmark size={20} aria-hidden="true"/></Link>
         <Link href="/student/notifications" className={styles.bell} aria-label={unread ? "الإشعارات، فيه جديد" : "الإشعارات"} aria-current={path === "/student/notifications" ? "page" : undefined}><Bell size={20} aria-hidden="true"/>{unread && <i aria-hidden="true"/>}</Link>
         {inStudent ? <button type="button" className={styles.me} aria-haspopup="menu" aria-expanded={open} aria-controls="site-user-menu" onClick={() => setOpen(v => !v)}>
           <SiteAvatar name={profile.name} color={profile.avatarColor}/>

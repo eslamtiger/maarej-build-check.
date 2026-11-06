@@ -46,9 +46,9 @@ a.who:hover { background:#fff; }
 .price { background:#4B3FD6; color:#fff; }
 .cnt[data-fill=ok] { background:#D5F2E2; color:#0E6A4B; }
 .cnt[data-fill=warm] { background:#FFE7B3; color:#7A4A00; }
-.cnt[data-fill=hot] { background:#FFD3D3; color:#B3201F; animation:cntPulse 1.8s ease-in-out infinite; }
-.cnt[data-fill=full] { background:#D92D2D; color:#fff; }
-@keyframes cntPulse { 50% { box-shadow:0 0 0 3px rgba(217,45,45,.25); } }
+.cnt[data-fill=hot] { background:#FFE4E4; color:#B3201F; box-shadow:0 0 6px 1px rgba(217,45,45,.35); animation:cntPulse 1.8s ease-in-out infinite; }
+.cnt[data-fill=full] { background:#FFE4E4; color:#9C1C1C; box-shadow:0 0 8px 1px rgba(217,45,45,.4); }
+@keyframes cntPulse { 50% { box-shadow:0 0 12px 3px rgba(217,45,45,.45); } }
 @media (prefers-reduced-motion:reduce) { .cnt { animation:none !important; } }
 .block[data-tone=booked], .legend i[data-tone=booked] { background:#E3F6EC; color:#0E6A4B; box-shadow:inset 0 0 0 1.5px #9ED9BC; }
 .block[data-tone=full], .legend i[data-tone=full] { background:#FDEAEA; color:#8F1D1D; box-shadow:inset 0 0 0 1.5px #F0B3B3; }
@@ -187,9 +187,8 @@ a.who:hover { background:#fff; }
 .tCard b { font-size:.875rem; white-space:nowrap; color:#16133D; }
 .tCard em { min-width:22px; padding:0 6px; border-radius:99px; background:#FFB53D; color:#2B1B00; font-style:normal; font-size:.75rem; font-weight:800; text-align:center; }
 .tCard .tPhoto { width:38px; height:38px; border-radius:50%; }
-.cnt[data-fill=hot] { background:#FFD9D9; color:#B3201F; animation:cntFlash 1s steps(2,jump-none) infinite; }
+.cnt[data-fill=hot] { background:#FFE4E4; color:#B3201F; animation:cntPulse 1.8s ease-in-out infinite; }
 .warn { display:inline-block; margin-inline-end:2px; animation:cntShake 1s ease-in-out infinite; }
-@keyframes cntFlash { 50% { background:#D92D2D; color:#fff; } }
 @keyframes cntShake { 0%,100% { transform:rotate(0); } 25% { transform:rotate(-14deg); } 75% { transform:rotate(14deg); } }
 .cnt { display:inline-block; font-style:normal; font-weight:800; font-size:.75rem; padding:0 8px; border-radius:999px; line-height:22px; white-space:nowrap; }
 @media (prefers-reduced-motion:reduce) { .warn { animation:none; } }

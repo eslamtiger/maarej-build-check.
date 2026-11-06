@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type {ReactNode} from 'react';
 import {SiteHeader} from '@/components/site/site-header';
 import {MaarejMark} from '@/components/site/maarej-logo';
+import {Wallpaper} from './doodles';
 import styles from './marketplace.module.css';
 import ui from './shell.module.css';
 export type PublicSection='home'|'teachers'|'centers'|'spaces'|'about';
@@ -14,7 +15,9 @@ const footerCols=[
 
 // Every public page shares the site header (also used in the student space) and this footer.
 export function PublicMarketplaceShell({children,active='home'}:{children:ReactNode;active?:PublicSection}){
- return <div className={styles.shell} dir="rtl">
+ return <div className={styles.shell} dir="rtl" style={{background:'transparent'}}>
+  <Wallpaper/>
+  <div style={{position:'relative',zIndex:1}}>
   <SiteHeader/>
   <main className={styles.main}>{children}</main>
   <footer className={ui.footer}>
@@ -24,5 +27,6 @@ export function PublicMarketplaceShell({children,active='home'}:{children:ReactN
    </div>
    <div className={ui.footBottom}><span>© {new Date().getFullYear()} معارج</span><small>نسخة تجريبية: كل الأسماء والأسعار والتقييمات بيانات توضيحية.</small></div>
   </footer>
+  </div>
  </div>;
 }

@@ -2,7 +2,6 @@
 // Photo gallery for centers and study spaces: slides change by themselves every few seconds (faster while the card is
 // hovered or pressed), and can be flipped with the arrows, the dots or a swipe. Reduced motion → no auto-play.
 import {useEffect,useRef,useState} from 'react';
-import {ChevronLeft,ChevronRight} from 'lucide-react';
 import g from './gallery.module.css';
 
 export function Gallery({photos,hot=false,delay=0,controls=true,size='card',nudge}:{photos:readonly string[];hot?:boolean;delay?:number;controls?:boolean;size?:'card'|'hero';nudge?:{n:number;dir:1|-1}}){
@@ -27,8 +26,6 @@ export function Gallery({photos,hot=false,delay=0,controls=true,size='card',nudg
    {photos.map((src,k)=><img key={src} src={src} alt="" draggable={false} loading={k===0&&size==='hero'?'eager':'lazy'}/>)}
   </div>
   {controls&&n>1&&<>
-   <button type="button" className={g.prev} onClick={e=>{e.preventDefault();e.stopPropagation();go(-1);}} aria-label="الصورة اللي قبل"><ChevronRight size={18}/></button>
-   <button type="button" className={g.next} onClick={e=>{e.preventDefault();e.stopPropagation();go(1);}} aria-label="الصورة اللي بعد"><ChevronLeft size={18}/></button>
    <div className={g.dots} dir="ltr">{photos.map((src,k)=><button type="button" key={src} aria-label={`صورة ${k+1}`} aria-current={k===i} onClick={e=>{e.preventDefault();e.stopPropagation();setI(k);}}/>)}</div>
   </>}
  </div>;

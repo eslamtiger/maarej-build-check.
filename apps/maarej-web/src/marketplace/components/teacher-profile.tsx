@@ -1,3 +1,4 @@
+import {SaveButton} from './save-button';
 import {BadgeCheck} from 'lucide-react';
 import profiles from '../data/teacher-profiles.json';
 import type {TeacherSearchDTO} from '../types/teacher';
@@ -26,6 +27,7 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
  const tips=demoTeacherTips(t);
  return <PublicMarketplaceShell active="teachers"><div className={styles.profile}>
   <header className={k.tHero} id="sec-about">
+   <SaveButton kind="teacher" id={t.id}/>
    <div className={`${k.video} ${k.tVideo}`}>{t.image&&<img src={t.image} alt=""/>}<span className={k.play} aria-hidden="true">▶</span><span className={k.soon}>فيديو تعريفي · قريبًا</span></div>
    <div className={k.tTop}>
     <TeacherPortrait teacher={t} className={k.tAvatar}/>

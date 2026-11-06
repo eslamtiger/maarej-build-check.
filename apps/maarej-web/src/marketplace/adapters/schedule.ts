@@ -5,7 +5,7 @@ import {marketplaceTeachers} from './teachers';
 import type {CenterDTO} from '../types/place';
 import type {TeacherSearchDTO} from '../types/teacher';
 
-export const days=['السبت','الأحد','الاتنين','التلات','الأربع','الخميس','الجمعة'] as const;
+export const days=['السبت','الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'] as const;
 export const OPEN=10,CLOSE=22; // centers open 10:00 → 22:00
 export type Session={id:string;centerId:string;room:number;day:number;start:number;dur:number;teacherId:string;subject:string;stage:string;enrolled:number;capacity:number;price:number;status:'booked'|'request'};
 
@@ -77,3 +77,18 @@ export const centerById=(id:string):CenterDTO|undefined=>marketplaceCenters.find
 export const teacherById=(id:string)=>marketplaceTeachers.find(t=>t.id===id)??guests.find(t=>t.id===id);
 export const hourLabel=(h:number)=>{const x=h%12||12;return `${x} ${h<12?'ص':'م'}`;};
 export const timeRange=(s:number,dur:number)=>`${hourLabel(s)} – ${hourLabel(s+dur)}`;
+
+// Study spaces: every zone is a room with its own seats, hourly price, features and an anonymous week of bookings (people book a seat or the room by the hour).
+import type {SpaceDTO} from '../types/place';
+export type SpaceRoom={name:string;seats:number;price:number;features:string[];booked:{day:number;start:number;dur:number}[]};
+export function spaceRooms(sp:SpaceDTO):SpaceRoom[]{
+ const names=sp.zones.length?sp.zones:['القاعة الهادية','غرفة المذاكرة','ركن العمل'];
+ return names.slice(0,5).map((name,i)=>{
+  const r=rng(`${sp.id}:${i}`),span=Math.max(0,sp.price.max-sp.price.min);
+  const features=sp.features.filter((_,k)=>(k+i)%2===0||k<2);
+  const booked:SpaceRoom['booked']=[];const used=new Set<string>();
+  for(let a=0;a<80&&booked.length<14;a++){const day=Math.floor(r()*7),dur=r()<.4?1:2,start=r()<.8?14+Math.floor(r()*(CLOSE-14-dur+1)):OPEN+Math.floor(r()*(CLOSE-OPEN-dur+1));
+   if([...Array(dur)].some((_,k)=>used.has(`${day}:${start+k}`)))continue;for(let k=0;k<dur;k++)used.add(`${day}:${start+k}`);booked.push({day,start,dur});}
+  return {name,seats:Math.max(1,Math.round(sp.capacity/names.length)||1),price:Math.round((sp.price.min+span*(i/Math.max(1,names.length-1)))/5)*5,features,booked};
+ });
+}

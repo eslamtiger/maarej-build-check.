@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {useMemo,useState,useCallback,useEffect,useRef} from 'react';
 import type {ReactNode} from 'react';
 import {CalendarDays,DoorOpen,UsersRound,CheckCircle2,Plus,Star,MapPin,Clock3} from 'lucide-react';
-import {days,OPEN,CLOSE,hasProfile,sessionsForCenter,sessionsForTeacher,centerById,teacherById,hourLabel,timeRange} from '../adapters/schedule';
+import {days,OPEN,CLOSE,hasProfile,sessionsForCenter,sessionsForTeacher,centerById,teacherById,hourLabel,timeRange,spaceRooms} from '../adapters/schedule';
 import type {Session} from '../adapters/schedule';
 import {useDemoRequests,addDemoRequest,newId} from '../adapters/demo-requests';
 import {useDemoUser,loginUrl} from '../adapters/demo-auth';
@@ -15,12 +15,11 @@ import {featureLabel,placePhotos,roomPhotos} from '../adapters/places';
 import {swatchFor} from '../adapters/profile-demo';
 import {Gallery} from './gallery';
 import {emojiFor,subjectEmoji} from '../adapters/emoji';
-import type {CenterDTO} from '../types/place';
+import type {CenterDTO,SpaceDTO} from '../types/place';
 import {Sheet} from './search-kit';
 import {TeacherPortrait} from './teacher-card';
 import s from './schedule.module.css';
 
-const dayEmoji=['🏖️','📘','✏️','🧮','🧪','🎯','🌙'];
 const allHours=Array.from({length:CLOSE-OPEN},(_,i)=>OPEN+i);
 type Swatch={bg:string;fg:string;bd:string};
 type Block={id:string;day:number;start:number;dur:number;tone:'booked'|'request'|'mine'|'full';title:string;sub?:string;href?:string;count?:{n:number;cap:number};price?:number;color?:Swatch;onClick?:()=>void};
@@ -40,7 +39,7 @@ export function WeekGrid({blocks,onFree,label}:{blocks:Block[];onFree?:(day:numb
    {hours.map(h=><span key={h} className={s.hour}>{hourLabel(h)}</span>)}
    {shown.map(di=>{const d=days[di];const row=blocks.filter(b=>b.day===di);const taken=new Set(row.flatMap(b=>Array.from({length:b.dur},(_,k)=>b.start+k)));
     return <div key={d} className={s.row} style={{gridColumn:`1 / -1`,gridTemplateColumns:'subgrid'}}>
-     <span className={s.day}><i aria-hidden="true">{dayEmoji[di]}</i>{d}</span>
+     <span className={s.day}>{d}</span>
      {onFree&&hours.filter(h=>!taken.has(h)).map(h=><button key={h} type="button" className={s.free} style={{gridColumn:`${h-from+2} / span 1`}} onClick={()=>onFree(di,h)} aria-label={`احجز ${d} ${hourLabel(h)}`}><Plus size={16} aria-hidden="true"/></button>)}
      {row.map(b=>{const style={gridColumn:`${b.start-from+2} / span ${b.dur}`,...(b.color?{background:b.color.bg,color:b.color.fg,boxShadow:`inset 0 0 0 1.5px ${b.color.bd}`}:{})};
       return <div key={b.id} className={s.block} data-tone={b.tone} style={style}>
@@ -217,4 +216,54 @@ export function TeacherSchedule({teacherId,between}:{teacherId:string;between?:R
    <ul className={s.cPills}>{centers.map(({c,n})=><li key={c!.id}><Link href={`/centers/${c!.id}`} title={`${n} مجموعات`}><img src={placePhotos('center',c!.id,120,1)[0]} alt="" loading="lazy"/><b>{c!.name}</b><small>⭐ {c!.rating.toFixed(1)}</small></Link></li>)}</ul>
   </section>
  </>;
+}
+
+/* ---------- Study space: rooms, their features and a week calendar ---------- */
+export function SpaceSchedule({space:sp}:{space:SpaceDTO}){
+ const rooms=useMemo(()=>spaceRooms(sp),[sp]);
+ const [room,setRoom]=useState(0);
+ const [booking,setBooking]=useState<{day:number;hour:number}|null>(null);
+ const requests=useDemoRequests();
+ const user=useDemoUser();
+ const book=(day:number,hour:number)=>{if(!user){location.assign(loginUrl(`${location.pathname}#rooms`));return;}setBooking({day,hour});};
+ const r=rooms[room];
+ const mine=requests.filter((x):x is RoomRequest=>x.kind==='room'&&x.centerId===sp.id&&x.room===room);
+ const blocks:Block[]=[
+  ...r.booked.map((b,i)=>({id:`b${room}-${i}`,day:b.day,start:b.start,dur:b.dur,tone:'booked' as const,title:'محجوز'})),
+  ...mine.flatMap(x=>x.days.map(d=>({id:`${x.id}-${d}`,day:d,start:x.start,dur:x.end-x.start,tone:'mine' as const,title:'طلبك',sub:'مستني الموافقة'}))),
+ ];
+ const photos=useMemo(()=>placePhotos('space',sp.id,1000,15).slice(room*2%10,room*2%10+4),[sp.id,room]);
+ const close=useCallback(()=>setBooking(null),[]);
+ return <section className={s.section} id="rooms" aria-labelledby="sp-sch"><div className={s.head}><h2 id="sp-sch">🚪 القاعات</h2><button type="button" className={s.primary} onClick={()=>book(0,16)}><Plus size={18} aria-hidden="true"/>احجز مكان</button></div>
+  <div className={s.roomTabs} role="tablist" aria-label="القاعات">{rooms.map((x,i)=><button key={x.name} type="button" role="tab" aria-selected={i===room} onClick={()=>setRoom(i)}><b>{x.name}</b><span>👥 {x.seats} · <bdi>{x.price}</bdi> ج.م</span></button>)}</div>
+  <div className={s.roomPanel} key={room}>
+   <div className={s.roomGallery}><Gallery photos={photos} size="hero" controls={false}/></div>
+   <div className={s.roomInfo}><h3>{r.name}</h3>
+    <dl className={s.roomRows}><div><dt>👥 السعة</dt><dd>{r.seats} فرد</dd></div><div><dt>💰 سعر الساعة</dt><dd><bdi>{r.price}</bdi> ج.م</dd></div></dl>
+    {r.features.length>0&&<ul className={s.roomChips}>{r.features.map(f=><li key={f}><span aria-hidden="true">{emojiFor(featureLabel(f))}</span>{featureLabel(f)}</li>)}</ul>}
+   </div>
+  </div>
+  <div className={s.calHead}><h3><CalendarDays size={18} aria-hidden="true"/>جدول {r.name}</h3></div>
+  <WeekGrid key={room} label={`جدول ${r.name}`} blocks={blocks} onFree={book}/>
+  <SpaceSheet space={sp} room={room} roomName={r.name} price={r.price} init={booking} onClose={close}/>
+ </section>;
+}
+
+function SpaceSheet({space:sp,room,roomName,price,init,onClose}:{space:SpaceDTO;room:number;roomName:string;price:number;init:{day:number;hour:number}|null;onClose:()=>void}){
+ const [sel,setSel]=useState<number[]>(init?[init.day]:[]);
+ const [start,setStart]=useState(init?.hour??16);
+ const [end,setEnd]=useState(Math.min((init?.hour??16)+2,CLOSE));
+ const [sent,setSent]=useState(false);
+ if(!init)return null;
+ const hoursN=Math.max(0,end-start),ok=sel.length>0&&hoursN>0,close=()=>{setSent(false);onClose();};
+ return <Sheet open icon={DoorOpen} title={`احجز ${roomName}`} onClose={close}
+  footer={sent?undefined:<button type="button" className={s.primary} disabled={!ok} onClick={()=>{addDemoRequest({kind:'room',id:newId(),centerId:sp.id,room,days:sel,start,end,repeat:'once',period:'term1',collect:false,createdAt:new Date().toISOString()});setSent(true);}}>ابعت طلب الحجز{ok&&<> · <bdi>{hoursN*price*sel.length}</bdi> ج.م</>}</button>}>
+  {sent?<Done title="طلبك اتبعت للمساحة" onClose={close}><p className={s.doneText}>{sp.name} هيراجع الطلب ويتواصل معاك. هتلاقيه في الجدول باللون البنفسجي.</p></Done>:<>
+   <section className={s.field}><h3>الأيام</h3><div className={s.chips}>{days.map((d,i)=><button key={d} type="button" aria-pressed={sel.includes(i)} onClick={()=>setSel(v=>v.includes(i)?v.filter(x=>x!==i):[...v,i].sort())}>{d}</button>)}</div></section>
+   <section className={s.field}><h3>الوقت</h3><div className={s.times}>
+    <label>من<select value={start} onChange={e=>{const v=Number(e.target.value);setStart(v);if(end<=v)setEnd(Math.min(v+2,CLOSE));}}>{allHours.map(h=><option key={h} value={h}>{hourLabel(h)}</option>)}</select></label>
+    <label>إلى<select value={end} onChange={e=>setEnd(Number(e.target.value))}>{allHours.map(h=>h+1).filter(h=>h>start).map(h=><option key={h} value={h}>{hourLabel(h)}</option>)}</select></label>
+   </div></section>
+  </>}
+ </Sheet>;
 }
