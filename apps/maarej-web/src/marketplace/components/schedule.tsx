@@ -20,7 +20,8 @@ import s from './schedule.module.css';
 
 const allHours=Array.from({length:CLOSE-OPEN},(_,i)=>OPEN+i);
 type Swatch={bg:string;fg:string;bd:string};
-type Block={id:string;day:number;start:number;dur:number;tone:'booked'|'request'|'mine'|'full';title:string;sub?:string;meta?:string;color?:Swatch;onClick?:()=>void};
+type Block={id:string;day:number;start:number;dur:number;tone:'booked'|'request'|'mine'|'full';title:string;sub?:string;href?:string;count?:{n:number;cap:number};price?:number;color?:Swatch;onClick?:()=>void};
+const fillOf=(n:number,cap:number)=>n>=cap?'full':n/cap>=.85?'hot':n/cap>=.6?'warm':'ok';
 
 // Without free slots to book, only the hours that have sessions are shown (one hour of margin each side).
 export function WeekGrid({blocks,onFree,label}:{blocks:Block[];onFree?:(day:number,hour:number)=>void;label:string}){
@@ -29,17 +30,23 @@ export function WeekGrid({blocks,onFree,label}:{blocks:Block[];onFree?:(day:numb
  const shown=days.map((d,i)=>i).filter(i=>onFree||blocks.some(b=>b.day===i)); // teacher view: only days with sessions
  const box=useRef<HTMLDivElement>(null);
  // Open scrolled to the first session of the week (RTL: scrollLeft goes negative to the left).
- useEffect(()=>{const el=box.current;if(!el||!blocks.length)return;const first=Math.min(...blocks.map(b=>b.start));el.scrollLeft=-Math.max(0,(first-from-1)*76);},[from]); // eslint-disable-line react-hooks/exhaustive-deps
+ useEffect(()=>{const el=box.current;if(!el||!blocks.length)return;const first=Math.min(...blocks.map(b=>b.start));el.scrollLeft=-Math.max(0,(first-from-1)*96);},[from]); // eslint-disable-line react-hooks/exhaustive-deps
  return <div className={s.scroller} role="region" aria-label={label} tabIndex={0} ref={box}>
-  <div className={s.grid} style={{gridTemplateColumns:`72px repeat(${hours.length},76px)`}}>
+  <div className={s.grid} style={{gridTemplateColumns:`72px repeat(${hours.length},96px)`}}>
    <span className={s.corner} aria-hidden="true"/>
    {hours.map(h=><span key={h} className={s.hour}>{hourLabel(h)}</span>)}
    {shown.map(di=>{const d=days[di];const row=blocks.filter(b=>b.day===di);const taken=new Set(row.flatMap(b=>Array.from({length:b.dur},(_,k)=>b.start+k)));
     return <div key={d} className={s.row} style={{gridColumn:`1 / -1`,gridTemplateColumns:'subgrid'}}>
      <span className={s.day}>{d}</span>
      {onFree&&hours.filter(h=>!taken.has(h)).map(h=><button key={h} type="button" className={s.free} style={{gridColumn:`${h-from+2} / span 1`}} onClick={()=>onFree(di,h)} aria-label={`احجز ${d} ${hourLabel(h)}`}><Plus size={16} aria-hidden="true"/></button>)}
-     {row.map(b=>{const inner=<><b>{b.title}</b>{b.sub&&<span>{b.sub}</span>}{b.meta&&<small>{b.meta}</small>}</>,style={gridColumn:`${b.start-from+2} / span ${b.dur}`,...(b.color?{background:b.color.bg,color:b.color.fg,boxShadow:`inset 0 0 0 1.5px ${b.color.bd}`}:{})};
-      return b.onClick?<button key={b.id} type="button" className={s.block} data-tone={b.tone} style={style} onClick={b.onClick}>{inner}</button>:<div key={b.id} className={s.block} data-tone={b.tone} style={style}>{inner}</div>;})}
+     {row.map(b=>{const style={gridColumn:`${b.start-from+2} / span ${b.dur}`,...(b.color?{background:b.color.bg,color:b.color.fg,boxShadow:`inset 0 0 0 1.5px ${b.color.bd}`}:{})};
+      const f=b.count?fillOf(b.count.n,b.count.cap):undefined;
+      return <div key={b.id} className={s.block} data-tone={b.tone} style={style}>
+       {b.onClick&&<button type="button" className={s.hit} onClick={b.onClick} aria-label={`${b.title} ${b.sub??''}`}/>}
+       <b>{b.title}</b>
+       {b.sub&&(b.href?<Link href={b.href} className={s.who}>{b.sub}</Link>:<span className={s.who}>{b.sub}</span>)}
+       {(b.count||b.price!==undefined)&&<span className={s.stat}>{b.count&&<em className={s.cnt} data-fill={f}>{f==='full'?'🔒 كاملة':<>👥 <bdi>{b.count.n}/{b.count.cap}</bdi>{f==='hot'&&' 🔥'}</>}</em>}{b.price!==undefined&&<em className={s.price}>💰 <bdi>{b.price}</bdi></em>}</span>}
+      </div>;})}
     </div>;})}
   </div>
  </div>;
@@ -126,7 +133,7 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
  const blocks:Block[]=[
   ...list.map(x=>{const t=teacherById(x.teacherId);const full=x.enrolled>=x.capacity;
    return x.status==='request'?{id:x.id,day:x.day,start:x.start,dur:x.dur,tone:'request' as const,title:'طلب حجز',sub:t?.name}
-   :{id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full' as const:'booked' as const,color:swatchFor(x.teacherId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:t?.name,meta:full?`👥 ${x.enrolled}/${x.capacity} · كاملة`:`👥 ${x.enrolled}/${x.capacity}`,onClick:()=>setJoin(x)};}),
+   :{id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full' as const:'booked' as const,color:swatchFor(x.teacherId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:t?.name,href:t?`/teachers/${t.id}`:undefined,count:{n:x.enrolled,cap:x.capacity},price:x.price,onClick:()=>setJoin(x)};}),
   ...mine.flatMap(r=>r.days.map(d=>({id:`${r.id}-${d}`,day:d,start:r.start,dur:r.end-r.start,tone:'mine' as const,title:'طلبك',sub:'مستني الموافقة'}))),
  ];
  const r=c.rooms[room],all=placePhotos('center',c.id,1000,15),photos=[0,1,2,3].map(k=>all[(room*3+k)%all.length]);
@@ -184,7 +191,7 @@ export function TeacherSchedule({teacherId,between}:{teacherId:string;between?:R
  const closeJoin=useCallback(()=>setJoin(null),[]);
  if(!list.length)return <>{between}</>;
  const order=[...new Set(list.map(x=>x.centerId))];
- const blocks:Block[]=list.map(x=>{const c=centerById(x.centerId);const full=x.enrolled>=x.capacity;return {id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full':'booked',color:swatchFor(x.centerId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:c?.name,meta:`👥 ${x.enrolled}/${x.capacity} · ${x.price} ج.م${full?' · كاملة':''}`,onClick:()=>setJoin(x)};});
+ const blocks:Block[]=list.map(x=>{const c=centerById(x.centerId);const full=x.enrolled>=x.capacity;return {id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full':'booked',color:swatchFor(x.centerId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:c?.name,href:c?`/centers/${c.id}`:undefined,count:{n:x.enrolled,cap:x.capacity},price:x.price,onClick:()=>setJoin(x)};});
  const centers=[...new Set(list.map(x=>x.centerId))].map(id=>({c:centerById(id),n:list.filter(x=>x.centerId===id).length})).filter(x=>x.c);
  return <>
   <section className={s.section} id="sec-t-sch" aria-labelledby="t-sch"><div className={s.head}><h2 id="t-sch"><CalendarDays size={20} aria-hidden="true"/>جدول الحصص</h2></div>
