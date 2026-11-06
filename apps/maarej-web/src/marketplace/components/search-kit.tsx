@@ -25,19 +25,19 @@ export function FilterPill({icon:Icon,label,value,onOpen,onClear}:{icon:IconT;la
  const on=!!value;
  return <span className={k.pill} data-on={on}>
   <button type="button" className={k.pillMain} onClick={onOpen} aria-haspopup="dialog" aria-label={on?`${label}: ${value}`:label}>
-   <Icon size={16} aria-hidden="true"/><span>{value||label}</span>{!on&&<ChevronDown size={15} aria-hidden="true" className={k.chev}/>}
+   <Icon size={16} aria-hidden="true"/><span>{value||label}</span>{!on&&<ChevronDown size={16} aria-hidden="true" className={k.chev}/>}
   </button>
-  {on&&onClear&&<button type="button" className={k.pillClear} onClick={onClear} aria-label={`إزالة ${label}`}><X size={14}/></button>}
+  {on&&onClear&&<button type="button" className={k.pillClear} onClick={onClear} aria-label={`إزالة ${label}`}><X size={16}/></button>}
  </span>;
 }
 
 // Rating chips (3+ and 4+). Both can be on together.
 export function StarToggle({level,pressed,onToggle}:{level:string;pressed:boolean;onToggle:()=>void}){
- return <span className={k.pill} data-on={pressed}><button type="button" className={k.pillMain} aria-pressed={pressed} onClick={onToggle} aria-label={`تقييم ${level} فأكثر`}><Star size={15} aria-hidden="true" className={k.star}/><span><bdi dir="ltr">{level}+</bdi></span></button></span>;
+ return <span className={k.pill} data-on={pressed}><button type="button" className={k.pillMain} aria-pressed={pressed} onClick={onToggle} aria-label={`تقييم ${level} فأكثر`}><Star size={16} aria-hidden="true" className={k.star}/><span><bdi dir="ltr">{level}+</bdi></span></button></span>;
 }
 
 export function ResetPill({onReset}:{onReset:()=>void}){
- return <button type="button" className={k.reset} onClick={onReset}><RotateCcw size={15} aria-hidden="true"/>مسح</button>;
+ return <button type="button" className={k.reset} onClick={onReset}><RotateCcw size={16} aria-hidden="true"/>مسح</button>;
 }
 
 function useSheet(open:boolean,onClose:()=>void){
@@ -76,7 +76,7 @@ export function ChoiceSheet({open,icon,title,choices,value,onPick,onClose,allLab
 }
 
 function ShowButton({count,unit,onClose,onClear,canClear}:{count:number;unit:string;onClose:()=>void;onClear:()=>void;canClear:boolean}){
- return <><button type="button" className={k.footClear} onClick={onClear} disabled={!canClear}><RotateCcw size={15} aria-hidden="true"/>مسح</button>
+ return <><button type="button" className={k.footClear} onClick={onClear} disabled={!canClear}><RotateCcw size={16} aria-hidden="true"/>مسح</button>
   <button type="button" className={k.footShow} onClick={onClose}>اعرض <b key={count}>{count}</b> {unit}</button></>;
 }
 
@@ -84,7 +84,7 @@ function ShowButton({count,unit,onClose,onClear,canClear}:{count:number;unit:str
 export function MultiSheet({open,icon,title,choices,values,onChange,onClose,count,unit}:{open:boolean;icon:IconT;title:string;choices:readonly Choice[];values:readonly string[];onChange:(v:string[])=>void;onClose:()=>void;count:number;unit:string}){
  const toggle=(v:string)=>onChange(values.includes(v)?values.filter(x=>x!==v):[...values,v]);
  return <Sheet open={open} icon={icon} title={title} onClose={onClose} footer={<ShowButton count={count} unit={unit} onClose={onClose} onClear={()=>onChange([])} canClear={values.length>0}/>}>
-  {groupsOf(choices).map(g=><section key={g||'_'} className={k.group}>{g&&<h3>{g}</h3>}<div className={k.choices}>{choices.filter(c=>(c.group??'')===g).map(c=>{const on=values.includes(c.value);return <button type="button" key={c.value} className={k.choice} data-multi aria-pressed={on} onClick={()=>toggle(c.value)}><span className={k.tick} aria-hidden="true">{on&&<Check size={14}/>}</span><span>{c.label}</span></button>;})}</div></section>)}
+  {groupsOf(choices).map(g=><section key={g||'_'} className={k.group}>{g&&<h3>{g}</h3>}<div className={k.choices}>{choices.filter(c=>(c.group??'')===g).map(c=>{const on=values.includes(c.value);return <button type="button" key={c.value} className={k.choice} data-multi aria-pressed={on} onClick={()=>toggle(c.value)}><span className={k.tick} aria-hidden="true">{on&&<Check size={16}/>}</span><span>{c.label}</span></button>;})}</div></section>)}
  </Sheet>;
 }
 
@@ -119,7 +119,7 @@ export function ResultsHead({n,unit,sortLabel,onSort}:{n:number;unit:string;sort
  </div>;
 }
 export function Empty({onReset}:{onReset:()=>void}){
- return <div className={k.empty}><span aria-hidden="true"><Search size={28}/></span><p>مفيش نتايج</p><button type="button" onClick={onReset}><RotateCcw size={15} aria-hidden="true"/>اعرض الكل</button></div>;
+ return <div className={k.empty}><span aria-hidden="true"><Search size={28}/></span><p>مفيش نتايج</p><button type="button" onClick={onReset}><RotateCcw size={16} aria-hidden="true"/>اعرض الكل</button></div>;
 }
 
 // Map first: on phones the map sits on top and the results follow; on desktops they sit side by side.

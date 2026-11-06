@@ -64,7 +64,7 @@ export function Tags({tags,kind,label}:{tags:Tag[];kind:'features'|'zones'|'subj
  return <div className={c.tagRow}><ul className={c.tags} data-kind={kind} aria-label={label}>{tags.slice(0,3).map(t=><li key={t.label} data-tone={t.tone}><span aria-hidden="true">{t.emoji}</span>{t.label}</li>)}</ul>{tags.length>3&&<span className={c.more} aria-label={`و${tags.length-3} كمان`}><bdi dir="ltr">+{tags.length-3}</bdi></span>}</div>;
 }
 export function CardHead({name,area,href,onFocus,onBlur}:{name:string;area:string;href:string;onFocus?:()=>void;onBlur?:()=>void}){
- return <div className={c.head}><h3><Link href={href} className={c.cover} onFocus={onFocus} onBlur={onBlur}><bdi>{name}</bdi></Link></h3><span className={c.area}><MapPin size={14} aria-hidden="true"/>{area}</span></div>;
+ return <div className={c.head}><h3><Link href={href} className={c.cover} onFocus={onFocus} onBlur={onBlur}><bdi>{name}</bdi></Link></h3><span className={c.area}><MapPin size={16} aria-hidden="true"/>{area}</span></div>;
 }
 
 function PlaceCard({kind,id,href,name,area,rating,reviews,price,unit,facts,tags,tagKind,active,picked,onHover,index=0}:Props){

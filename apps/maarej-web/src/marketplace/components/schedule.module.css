@@ -149,3 +149,10 @@
 .roomRows dd { margin:0; font-weight:800; color:#16133D; }
 .roomChips { display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; list-style:none; }
 .roomChips li { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; background:#EEF3FF; color:#1F4E99; font-weight:700; font-size:.875rem; }
+
+/* Partner-center cards: the text block is a grid, its lines are the inline rows (the generic ".centers span" rule used to flatten it into one overlapping row) */
+.centers a .cBody { display:grid; gap:3px; min-width:0; }
+.centers .cBody > b { font-size:1rem; line-height:1.4; }
+.centers .cBody > span { display:flex; align-items:center; gap:4px; min-width:0; }
+.centers .cBody > em { justify-self:start; }
+.centers .cBody svg { flex:none; }

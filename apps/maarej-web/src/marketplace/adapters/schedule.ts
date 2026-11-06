@@ -57,5 +57,5 @@ export const sessionsForCenter=(id:string)=>sessions.filter(s=>s.centerId===id);
 export const sessionsForTeacher=(id:string)=>sessions.filter(s=>s.teacherId===id&&s.status==='booked');
 export const centerById=(id:string):CenterDTO|undefined=>marketplaceCenters.find(c=>c.id===id);
 export const teacherById=(id:string)=>marketplaceTeachers.find(t=>t.id===id);
-export const hourLabel=(h:number)=>{const x=h%12||12;return `${x}${h<12?'ص':'م'}`;};
+export const hourLabel=(h:number)=>{const x=h%12||12;return `${x} ${h<12?'ص':'م'}`;};
 export const timeRange=(s:number,dur:number)=>`${hourLabel(s)} – ${hourLabel(s+dur)}`;

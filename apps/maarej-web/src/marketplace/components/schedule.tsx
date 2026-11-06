@@ -37,7 +37,7 @@ export function WeekGrid({blocks,onFree,label}:{blocks:Block[];onFree?:(day:numb
    {shown.map(di=>{const d=days[di];const row=blocks.filter(b=>b.day===di);const taken=new Set(row.flatMap(b=>Array.from({length:b.dur},(_,k)=>b.start+k)));
     return <div key={d} className={s.row} style={{gridColumn:`1 / -1`,gridTemplateColumns:'subgrid'}}>
      <span className={s.day}>{d}</span>
-     {onFree&&hours.filter(h=>!taken.has(h)).map(h=><button key={h} type="button" className={s.free} style={{gridColumn:`${h-from+2} / span 1`}} onClick={()=>onFree(di,h)} aria-label={`احجز ${d} ${hourLabel(h)}`}><Plus size={14} aria-hidden="true"/></button>)}
+     {onFree&&hours.filter(h=>!taken.has(h)).map(h=><button key={h} type="button" className={s.free} style={{gridColumn:`${h-from+2} / span 1`}} onClick={()=>onFree(di,h)} aria-label={`احجز ${d} ${hourLabel(h)}`}><Plus size={16} aria-hidden="true"/></button>)}
      {row.map(b=>{const inner=<><b>{b.title}</b>{b.sub&&<span>{b.sub}</span>}{b.meta&&<small>{b.meta}</small>}</>,style={gridColumn:`${b.start-from+2} / span ${b.dur}`,...(b.color?{background:b.color.bg,color:b.color.fg,boxShadow:`inset 0 0 0 1.5px ${b.color.bd}`}:{})};
       return b.onClick?<button key={b.id} type="button" className={s.block} data-tone={b.tone} style={style} onClick={b.onClick}>{inner}</button>:<div key={b.id} className={s.block} data-tone={b.tone} style={style}>{inner}</div>;})}
     </div>;})}
@@ -194,7 +194,7 @@ export function TeacherSchedule({teacherId,between}:{teacherId:string;between?:R
   </section>
   {between}
   <section className={s.section} id="sec-t-ctr" aria-labelledby="t-ctr"><div className={s.head}><h2 id="t-ctr">🤝 شراكات مع السناتر</h2></div>
-   <ul className={s.centers}>{centers.map(({c,n})=><li key={c!.id}><Link href={`/centers/${c!.id}`}><img src={placePhotos('center',c!.id,400,1)[0]} alt="" loading="lazy"/><span className={s.cBody}><b>{c!.name}</b><span><MapPin size={14} aria-hidden="true"/>{c!.area} · ⭐ {c!.rating.toFixed(1)}</span><em>{n} مجموعات</em></span></Link></li>)}</ul>
+   <ul className={s.centers}>{centers.map(({c,n})=><li key={c!.id}><Link href={`/centers/${c!.id}`}><img src={placePhotos('center',c!.id,400,1)[0]} alt="" loading="lazy"/><span className={s.cBody}><b>{c!.name}</b><span><MapPin size={16} aria-hidden="true"/>{c!.area} · ⭐ {c!.rating.toFixed(1)}</span><em>{n} مجموعات</em></span></Link></li>)}</ul>
   </section>
  </>;
 }
