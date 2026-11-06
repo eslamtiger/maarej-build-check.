@@ -1,7 +1,7 @@
 import type {CSSProperties} from 'react';
 import f from './fun.module.css';
 
-export type Motion='float'|'bob'|'wiggle'|'pulse'|'spin';
+export type Motion='none'|'float'|'bob'|'wiggle'|'pulse'|'spin';
 // One emoji sticker. Pass x/y (percent) to place it inside a positioned parent.
 export function Mark({e,a='float',s='md',x,y,r,delay=0,className}:{e:string;a?:Motion;s?:'sm'|'md'|'lg'|'xl';x?:number;y?:number;r?:number;delay?:number;className?:string}){
  const placed=x!==undefined&&y!==undefined;

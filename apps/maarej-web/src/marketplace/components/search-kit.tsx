@@ -120,7 +120,7 @@ export function ResultsHead({n,unit,sortLabel,onSort}:{n:number;unit:string;sort
  </div>;
 }
 export function Empty({onReset}:{onReset:()=>void}){
- return <div className={k.empty}><span aria-hidden="true"><Mark e="🔎" a="wiggle" s="xl"/></span><p>مفيش نتايج <Mark e="🙈" a="bob" s="md"/></p><button type="button" onClick={onReset}><RotateCcw size={16} aria-hidden="true"/>اعرض الكل</button></div>;
+ return <div className={k.empty}><span aria-hidden="true"><Mark e="🔎" a="none" s="xl"/></span><p>مفيش نتايج <Mark e="🙈" a="none" s="md"/></p><button type="button" onClick={onReset}><RotateCcw size={16} aria-hidden="true"/>اعرض الكل</button></div>;
 }
 
 // Map first: on phones the map sits on top and the results follow; on desktops they sit side by side.

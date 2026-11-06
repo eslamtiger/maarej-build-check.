@@ -1,6 +1,7 @@
 /* Shared "fun kit": emoji stickers with gentle motion. Decorative only (aria-hidden); motion stops for people who prefer less. */
 .mark { display:inline-block; line-height:1; user-select:none; pointer-events:none; will-change:transform; }
 .abs { position:absolute; z-index:1; }
+.mark[data-a=none] { animation:none; }
 .mark[data-a=float] { animation:fFloat 4.2s ease-in-out infinite; }
 .mark[data-a=bob] { animation:fBob 2.6s ease-in-out infinite; }
 .mark[data-a=wiggle] { animation:fWiggle 3.4s ease-in-out infinite; }

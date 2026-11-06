@@ -1,7 +1,7 @@
 .wrap { display:grid; place-items:start center; padding:24px 0 48px; }
 .card { position:relative; width:min(100%,440px); display:grid; gap:16px; padding:28px 20px 22px; border-radius:28px; background:#fff; border:1px solid #E7E5F1; box-shadow:0 6px 0 #D9D5F2,0 18px 34px rgba(75,63,214,.12); }
 .card h1 { margin:0; text-align:center; font-family:var(--m-font-display); font-size:1.5rem; font-weight:800; color:#16133D; }
-.hero { justify-self:center; }
+.heroBox { position:relative; justify-self:center; width:64px; height:64px; display:grid; place-items:center; }
 .tabs { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:5px; border-radius:16px; background:#F3F1FF; }
 .tabs button { min-height:44px; border:0; border-radius:12px; background:transparent; font:inherit; font-weight:800; color:#625F7C; cursor:pointer; }
 .tabs button[aria-selected=true] { background:#fff; color:#4B3FD6; box-shadow:0 2px 0 #D9D5F2; }
@@ -18,3 +18,5 @@
 .ghost { min-height:44px; border:0; background:transparent; color:#625F7C; font:inherit; font-weight:700; cursor:pointer; }
 .demo { text-align:center; color:#7D7A98; }
 .done { display:grid; justify-items:center; gap:10px; }
+
+.heroWrap { position:relative; justify-self:center; width:56px; height:56px; display:grid; place-items:center; }
