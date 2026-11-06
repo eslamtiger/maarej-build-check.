@@ -42,3 +42,13 @@ export const swatches=[
  {bg:'#F3E8FF',fg:'#6B21A8',bd:'#D4B4F6'},{bg:'#E6F7F8',fg:'#0F6670',bd:'#9ED8DD'},
 ] as const;
 export const swatchFor=(key:string,order:readonly string[])=>swatches[Math.max(0,order.indexOf(key))%swatches.length];
+
+const spaceReviewText:Partial<Record<ReviewRole,string[]>>={
+ students:['المكان هادي ومناسب للمذاكرة لساعات.','النت سريع والكراسي مريحة.','الجاردن تحفة وقت البريك.'],
+ parents:['مكان آمن ومنظم، وبنطمن على الولاد فيه.'],
+};
+export function demoPlaceReviews(id:string,rating:number){
+ const h=hash(id),out:Partial<Record<ReviewRole,Review[]>>={};
+ (Object.keys(spaceReviewText) as ReviewRole[]).forEach((role,ri)=>{out[role]=spaceReviewText[role]!.map((text,i)=>({name:role==='parents'?`ولي أمر ${firstNames[(h+i)%firstNames.length]}`:firstNames[(h+ri*3+i)%firstNames.length],rating:Math.min(5,Math.max(3.5,Math.round((rating+((h+i)%5-2)*.15)*10)/10)),text}));});
+ return out;
+}

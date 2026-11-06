@@ -167,3 +167,6 @@
 .site sup { margin-inline-start:4px; padding:1px 6px; border-radius:99px; background:#FFF4E0; color:#7A4A00; font-size:.625rem; font-weight:800; }
 .contactBar { flex-wrap:wrap; overflow:visible; justify-content:space-between; }
 .contactBar ul li { flex:none; }
+/* Gold stars everywhere in reviews */
+.rHead em { color:#E59A0B; }
+.subTabs button small { color:#E59A0B; }
