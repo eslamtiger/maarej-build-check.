@@ -33,3 +33,9 @@
 .perks li { display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; background:#fff; border:1px solid #E7E5F1; font-weight:800; color:#16133D; font-size:.9375rem; }
 .card { order:1; }
 @media (min-width:900px) { .wrap { grid-template-columns:1fr 440px; align-items:center; gap:48px; justify-items:stretch; padding-top:40px; } .side { order:1; width:100%; justify-self:end; } .card { order:2; } .pics { height:240px; } .pics > img { height:180px; } }
+
+.err { text-align:center; color:#B3201F; font-weight:800; }
+.tryRow { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px; padding-top:6px; border-top:1px dashed #E2DFEE; }
+.tryRow small { color:#7D7A98; font-weight:700; width:100%; text-align:center; }
+.tryRow button { min-height:42px; padding:0 14px; border:2px solid #E2DFEE; border-radius:14px; background:#fff; font:inherit; font-weight:800; cursor:pointer; }
+.tryRow button:hover { border-color:#4B3FD6; }

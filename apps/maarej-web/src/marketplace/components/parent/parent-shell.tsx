@@ -1,48 +1,53 @@
 'use client';
-// Parent area frame: site header, a calm page body, and the section tabs (side list on desktop, bottom bar on phones).
-// Deliberately plain: neutral colours, no stickers or wallpaper — the parent needs clear numbers, not motivation.
+// Parent area frame: site header, the section tabs (side list on desktop, bottom bar on phones) and the child tabs.
+// Practical but warm: soft tints, one emoji per section, clear numbers. No stickers or animation.
 import Link from 'next/link';
 import type {ReactNode} from 'react';
 import {usePathname} from 'next/navigation';
-import {LayoutDashboard,GraduationCap,HeartHandshake,UsersRound,Wallet,Settings} from 'lucide-react';
+import {Home,BookOpen,Sprout,Award,UsersRound,Wallet,UserRound} from 'lucide-react';
 import {SiteHeader} from '@/components/site/site-header';
-import {parentDemo} from '../../adapters/parent-demo';
-import {useParent,pickChild} from '../../adapters/parent-state';
+import {pickKid} from '../../adapters/parent-data';
+import type {Kid,ParentData} from '../../adapters/parent-data';
 import p from './parent.module.css';
 
 const tabs=[
- {href:'/parent',label:'الرئيسية',Icon:LayoutDashboard},
- {href:'/parent/learning',label:'المستوى التعليمي',short:'التعليم',Icon:GraduationCap},
- {href:'/parent/upbringing',label:'التربية',Icon:HeartHandshake},
+ {href:'/parent',label:'الرئيسية',Icon:Home},
+ {href:'/parent/learning',label:'المستوى التعليمي',short:'التعليم',Icon:BookOpen},
+ {href:'/parent/upbringing',label:'التربية',Icon:Sprout},
+ {href:'/parent/rewards',label:'المكافآت والشارات',short:'المكافآت',Icon:Award},
  {href:'/parent/teachers',label:'المدرسين والسناتر',short:'المدرسين',Icon:UsersRound},
  {href:'/parent/finance',label:'المالية',Icon:Wallet},
- {href:'/parent/settings',label:'الإعدادات',Icon:Settings},
+ {href:'/parent/settings',label:'حسابي والإعدادات',short:'حسابي',Icon:UserRound},
 ] as const;
 
-export function ParentShell({title,children,childPicker=false}:{title:string;children:ReactNode;childPicker?:boolean}){
+export function ParentShell({title,emoji,children,data,kid,live,error,showKids=true}:{title:string;emoji:string;children:ReactNode;data?:ParentData|null;kid?:Kid;live?:boolean;error?:string;showKids?:boolean}){
  const path=(usePathname()??'/parent').replace(/\/$/,'')||'/parent';
  return <div className={p.shell} dir="rtl">
   <SiteHeader/>
   <div className={p.frame}>
-   <nav className={p.side} aria-label="أقسام ولي الأمر"><small>ولي الأمر</small>{tabs.map(({href,label,Icon})=><Link key={href} href={href} aria-current={path===href?'page':undefined}><Icon size={18} aria-hidden="true"/>{label}</Link>)}</nav>
+   <nav className={p.side} aria-label="أقسام ولي الأمر"><small>👨‍👩‍👧 ولي الأمر</small>{tabs.map(({href,label,Icon})=><Link key={href} href={href} aria-current={path===href?'page':undefined}><Icon size={18} aria-hidden="true"/>{label}</Link>)}</nav>
    <main className={p.main}>
-    <header className={p.pageHead}><h1>{title}</h1>{childPicker&&<ChildPicker/>}</header>
-    {children}
-    <p className={p.demo}>نسخة تجريبية · كل الأسماء والأرقام والمبالغ بيانات توضيحية، ومفيش فلوس حقيقية</p>
+    <header className={p.pageHead}><h1><span aria-hidden="true">{emoji}</span>{title}</h1><span className={p.mode} data-live={live}>{live?'● متوصّل بحسابك':'نسخة تجريبية'}</span></header>
+    {showKids&&data&&data.children.length>0&&<KidTabs kids={data.children} active={kid?.id}/>}
+    {error?<p className={p.error} role="alert">{error}</p>:!data?<p className={p.loading}>بنجيب البيانات…</p>:children}
    </main>
   </div>
   <nav className={p.bottom} aria-label="أقسام ولي الأمر">{tabs.map(({href,label,Icon,...t})=><Link key={href} href={href} aria-current={path===href?'page':undefined}><Icon size={20} aria-hidden="true"/><span>{'short' in t?t.short:label}</span></Link>)}</nav>
  </div>;
 }
 
-// Which child the page is about. The choice is remembered across the parent pages.
-export function ChildPicker(){
- const {child}=useParent();
- return <div className={p.picker} role="tablist" aria-label="اختار الابن">{parentDemo.children.map(c=><button key={c.id} type="button" role="tab" aria-selected={c.id===child.id} onClick={()=>pickChild(c.id)}><span className={p.initial} aria-hidden="true">{c.initial}</span>{c.name}</button>)}</div>;
+// The children as tabs with their photo; the choice is remembered across the parent pages.
+function KidTabs({kids,active}:{kids:Kid[];active?:string}){
+ return <div className={p.kids} role="tablist" aria-label="الأبناء">{kids.map((k,i)=><button key={k.id} type="button" role="tab" aria-selected={k.id===active} onClick={()=>pickKid(k.id)} data-tone={i%3}>
+  <KidPhoto kid={k} size={44}/><span><b>{k.name.split(' ')[0]}</b><small>{k.stage}</small></span></button>)}</div>;
 }
-export const Avatar=({c,size=44}:{c:{initial:string};size?:number})=><span className={p.avatar} style={{width:size,height:size,fontSize:size*.42}} aria-hidden="true">{c.initial}</span>;
-export function Trend({v}:{v:number}){return <span className={p.trend} data-dir={v>0?'up':v<0?'down':'flat'}>{v>0?'▲':v<0?'▼':'–'} <bdi>{Math.abs(v)}%</bdi></span>;}
-export function Meter({value,tone}:{value:number;tone?:'good'|'mid'|'low'}){const t=tone??(value>=80?'good':value>=60?'mid':'low');return <span className={p.meter} data-tone={t}><i style={{width:`${Math.max(2,Math.min(100,value))}%`}}/></span>;}
-export function Card({title,action,children,className}:{title?:string;action?:ReactNode;children:ReactNode;className?:string}){
- return <section className={`${p.card} ${className??''}`}>{(title||action)&&<div className={p.cardHead}>{title&&<h2>{title}</h2>}{action}</div>}{children}</section>;
+export function KidPhoto({kid,size=44}:{kid:{name:string;avatar?:string};size?:number}){
+ const isUrl=kid.avatar?.startsWith('http');
+ return <span className={p.photoCircle} style={{width:size,height:size,fontSize:size*.5}} aria-hidden="true">{isUrl?<img src={kid.avatar} alt=""/>:kid.avatar??kid.name.charAt(0)}</span>;
 }
+export function Card({title,emoji,tone,action,children,className,id}:{title?:string;emoji?:string;tone?:'blue'|'green'|'amber'|'pink'|'violet'|'gray';action?:ReactNode;children:ReactNode;className?:string;id?:string}){
+ return <section className={`${p.card} ${className??''}`} data-tone={tone} id={id}>{(title||action)&&<div className={p.cardHead}>{title&&<h2>{emoji&&<span className={p.cardEmoji} aria-hidden="true">{emoji}</span>}{title}</h2>}{action}</div>}{children}</section>;
+}
+export const egp=(n:number)=><><bdi>{Math.round(n).toLocaleString('ar-EG')}</bdi> ج.م</>;
+export function Meter({value}:{value:number}){const t=value>=80?'good':value>=60?'mid':'low';return <span className={p.meter} data-tone={t}><i style={{width:`${Math.max(2,Math.min(100,value))}%`}}/></span>;}
+export function Empty({children}:{children:ReactNode}){return <p className={p.empty}>{children}</p>;}
