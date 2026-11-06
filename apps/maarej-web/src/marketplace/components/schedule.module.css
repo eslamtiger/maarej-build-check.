@@ -156,3 +156,11 @@
 .centers .cBody > span { display:flex; align-items:center; gap:4px; min-width:0; }
 .centers .cBody > em { justify-self:start; }
 .centers .cBody svg { flex:none; }
+
+/* Teacher: partner centers as small pills (round photo, name, rating) instead of large cards */
+.cPills { display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; list-style:none; }
+.cPills a { display:inline-flex; align-items:center; gap:8px; min-height:42px; padding:4px 14px 4px 6px; border:1.5px solid #E6E2F8; border-radius:999px; background:#fff; color:#16133D; text-decoration:none; transition:border-color .2s; }
+.cPills a:hover, .cPills a:focus-visible { border-color:#4B3FD6; outline:none; }
+.cPills img { width:30px; height:30px; flex:none; border-radius:50%; object-fit:cover; background:#EEE; }
+.cPills b { font-size:.875rem; font-weight:800; }
+.cPills small { color:#625F7C; font-weight:700; font-size:.75rem; }

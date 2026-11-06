@@ -171,17 +171,28 @@
 .rHead em { color:#E59A0B; }
 .subTabs button small { color:#E59A0B; }
 
-/* ---------- Teacher hero: cover, round photo with name + rating + the teacher's message beside it, contact icons under them ---------- */
+/* ---------- Teacher hero: intro video as the cover; round photo on its edge; name, rating and years of experience beside the photo ---------- */
 .tHero { display:grid; gap:14px; }
-.tCover { height:110px; border-radius:24px; background:radial-gradient(120% 120% at 100% 0%,#C9C2F5 0%,transparent 55%),radial-gradient(90% 90% at 0% 100%,#FFE2A8 0%,transparent 60%),#EEEBFF; }
-.tTop { display:flex; align-items:flex-start; gap:14px; margin-top:-58px; padding:0 4px; }
-.tAvatar { width:104px; height:104px; flex:none; border-radius:50%; object-fit:cover; border:5px solid #fff; box-shadow:0 10px 24px rgba(22,19,61,.18); background:#E4E0FF; font-size:2rem; }
-.tSide { flex:1; min-width:0; display:grid; gap:6px; padding-top:66px; }
+.video.tVideo { max-width:none; border-radius:24px; }
+.tTop { display:flex; align-items:flex-start; gap:14px; margin-top:-56px; padding:0 4px; position:relative; z-index:2; }
+.tAvatar { width:104px; height:104px; flex:none; border-radius:50%; object-fit:cover; border:5px solid #fff; box-shadow:0 10px 24px rgba(22,19,61,.2); background:#E4E0FF; font-size:2rem; }
+.tSide { flex:1; min-width:0; display:grid; gap:8px; padding-top:64px; }
 .tSide h1 { display:flex; align-items:center; gap:6px; margin:0; font-family:var(--m-font-display); font-size:1.3rem; font-weight:800; line-height:1.35; color:#16133D; }
 .tSide h1 svg { color:#4B3FD6; flex:none; }
-.tSide .stars svg { width:18px; height:18px; }
-.tSide .stars b { font-size:1rem; }
-.tMsg { position:relative; margin:4px 0 0; padding:10px 14px; border-radius:6px 18px 18px 18px; background:#F3F0FF; color:#2B2850; font-size:.9375rem; font-weight:500; line-height:1.8; }
+.tTiles { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+.tRate, .tYears { display:grid; justify-items:center; align-content:center; min-height:72px; padding:6px 8px; border-radius:18px; text-align:center; }
+.tRate { background:#fff; border:2px solid #ECEAF4; box-shadow:0 3px 0 #ECEAF4; }
+.tRate b { display:inline-flex; align-items:center; gap:4px; font-family:var(--m-font-display); font-size:1.65rem; font-weight:800; line-height:1.1; color:#16133D; }
+.tRate small { color:#625F7C; font-weight:700; font-size:.75rem; }
+.tStar { color:#F59E0B; font-size:1.35rem; }
+.tYears { position:relative; overflow:hidden; background:#FFB53D; color:#2B1B00; box-shadow:0 4px 0 #D68A16; }
+.tYears b { font-family:var(--m-font-display); font-size:2.3rem; font-weight:800; line-height:1; }
+.tYears small { font-weight:800; font-size:.8125rem; }
+.tYears::after { content:""; position:absolute; inset:0; background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.6) 50%,transparent 65%); transform:translateX(120%); animation:tShine 5s ease-in-out 1.2s infinite; pointer-events:none; }
+@keyframes tShine { 0%,55% { transform:translateX(120%); } 100% { transform:translateX(-120%); } }
+@media (prefers-reduced-motion:reduce) { .tYears::after { display:none; } }
+.tMsg { position:relative; margin:0; padding:16px 18px; border-radius:20px; background:radial-gradient(120% 120% at 100% 0%,#EDEAFF 0%,transparent 60%),#F8F7FC; border:1.5px solid #E6E2F8; color:#2B2850; font-size:1.0625rem; font-weight:500; line-height:1.9; }
+.tMsg::before { content:"“"; position:absolute; top:-8px; inset-inline-start:14px; font-family:Georgia,serif; font-size:3.6rem; line-height:1; color:#C9C2F5; }
 .tHero .contactBar { display:grid; gap:10px; padding:0; }
 .tHero .contactBar ul { display:flex; flex-wrap:nowrap; justify-content:space-between; gap:4px; max-width:440px; }
 .tHero .contactBar ul a { width:46px; height:46px; }
@@ -190,8 +201,8 @@
 .tId { display:grid; gap:8px; padding:0 4px; }
 .tLine { margin:0; color:#4A4668; font-weight:600; font-size:.9375rem; line-height:1.7; }
 .tId .chips { margin:0; }
-@media (min-width:720px) { .tCover { height:190px; border-radius:28px; } .tTop { padding:0 24px; margin-top:-70px; gap:20px; } .tAvatar { width:128px; height:128px; } .tSide { padding-top:80px; } .tSide h1 { font-size:1.75rem; } .tMsg { font-size:1rem; max-width:560px; } .tHero .contactBar, .tId { padding-inline:24px; } }
-@media (max-width:380px) { .tHero .contactBar ul a { width:42px; height:42px; } .tHero .contactBar ul a svg { width:23px; height:23px; } }
+@media (min-width:720px) { .video.tVideo { aspect-ratio:21/9; } .tTop { padding:0 24px; margin-top:-64px; gap:20px; } .tAvatar { width:128px; height:128px; } .tSide { padding-top:72px; max-width:420px; } .tSide h1 { font-size:1.75rem; } .tHero .contactBar, .tId { padding-inline:24px; } .tMsg { margin-inline:24px; } }
+@media (max-width:380px) { .tHero .contactBar ul a { width:42px; height:42px; } .tHero .contactBar ul a svg { width:23px; height:23px; } .tYears b { font-size:2rem; } }
 
 /* Tips for students: numbered cards that scroll sideways on phones */
 .tips { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(220px,78%); gap:10px; margin:0; padding:2px 2px 8px; list-style:none; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; }
@@ -209,3 +220,4 @@
 .tabs a span { font-size:1.1rem; line-height:1; }
 .tips li > span { font-size:1.5rem; line-height:1; }
 .sHead h2 > span { font-size:1.35rem; line-height:1; }
+.video.tVideo .soon { top:14px; bottom:auto; }

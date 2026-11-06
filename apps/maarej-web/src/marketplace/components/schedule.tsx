@@ -194,7 +194,7 @@ export function TeacherSchedule({teacherId,between}:{teacherId:string;between?:R
   </section>
   {between}
   <section className={s.section} id="sec-t-ctr" aria-labelledby="t-ctr"><div className={s.head}><h2 id="t-ctr">🤝 شراكات مع السناتر</h2></div>
-   <ul className={s.centers}>{centers.map(({c,n})=><li key={c!.id}><Link href={`/centers/${c!.id}`}><img src={placePhotos('center',c!.id,400,1)[0]} alt="" loading="lazy"/><span className={s.cBody}><b>{c!.name}</b><span><MapPin size={16} aria-hidden="true"/>{c!.area} · ⭐ {c!.rating.toFixed(1)}</span><em>{n} مجموعات</em></span></Link></li>)}</ul>
+   <ul className={s.cPills}>{centers.map(({c,n})=><li key={c!.id}><Link href={`/centers/${c!.id}`} title={`${n} مجموعات`}><img src={placePhotos('center',c!.id,120,1)[0]} alt="" loading="lazy"/><b>{c!.name}</b><small>⭐ {c!.rating.toFixed(1)}</small></Link></li>)}</ul>
   </section>
  </>;
 }
