@@ -10,9 +10,13 @@ const provinces:Record<string,string>={'القاهرة':'القاهرة','الم
 const featureLabels:Record<string,string>={'Wi‑Fi':'واي فاي','Projector':'بروجكتور','Whiteboard':'سبورة','Smart Screen':'شاشة ذكية','TV':'شاشة عرض','Microphone':'ميكروفون','Video Conference':'اجتماعات فيديو','Lockers':'خزائن'};
 export const featureLabel=(f:string)=>featureLabels[f]??f;
 
+// Each room gets its own name and its own hourly price (bigger rooms cost more, plus a small per-room difference).
+const roomNames=['قاعة النور','قاعة الفارابي','قاعة ابن سينا','قاعة المعرفة','قاعة الإبداع','قاعة التفوق','قاعة الأمل','قاعة النجاح','قاعة الخوارزمي','قاعة الهرم','قاعة الريادة','قاعة البيان','قاعة الأفق','قاعة الطموح','قاعة العلا','قاعة الصفوة','قاعة الشروق'];
+const hashOf=(s:string)=>[...s].reduce((h,ch)=>(h*31+ch.charCodeAt(0))%9973,7);
 export const marketplaceCenters:readonly CenterDTO[]=centersRaw.map(c=>{
- const prices=c.rooms.map(r=>r.price),seats=c.rooms.map(r=>r.seats);
- return {...c,governorate:provinces[c.area]??'القاهرة',reviewsByRole:c.reviewsByRole as CenterDTO['reviewsByRole'],
+ const h=hashOf(c.id),rooms=c.rooms.map((r,i)=>({...r,name:roomNames[(h+i*5)%roomNames.length],price:Math.round((120+r.seats*6+((h>>i)%6)*25+i*10)/5)*5}));
+ const prices=rooms.map(r=>r.price),seats=rooms.map(r=>r.seats);
+ return {...c,rooms,governorate:provinces[c.area]??'القاهرة',reviewsByRole:c.reviewsByRole as CenterDTO['reviewsByRole'],
   price:{min:Math.min(...prices),max:Math.max(...prices)},maxSeats:Math.max(...seats),provenance:{kind:'demo',source:c.source}};
 });
 // Demo space names and types shown in Arabic (the V6 dataset mixes English brand-style names).
@@ -71,6 +75,11 @@ const spacePhotos=['1497366811353-6870744d04b2','1770816307817-2fa6131e3a9b','16
 export const placePhotos=(kind:'center'|'space',id:string,width=800,count=4)=>{
  const list=kind==='center'?centerPhotos:spacePhotos,n=Number(id.split('-')[1])||1;
  return Array.from({length:count},(_,k)=>`https://images.unsplash.com/photo-${list[(n-1+k*4)%list.length]}?auto=format&fit=crop&w=${width}&q=70`);
+};
+// Photos for one room of a center: the first photo differs from every other room's, so switching rooms visibly changes the picture.
+export const roomPhotos=(centerId:string,room:number,width=1000,count=4)=>{
+ const n=Number(centerId.split('-')[1])||1,len=centerPhotos.length,start=(n*4+room*7)%len;
+ return Array.from({length:count},(_,k)=>`https://images.unsplash.com/photo-${centerPhotos[(start+k*4)%len]}?auto=format&fit=crop&w=${width}&q=70`);
 };
 export const placePhoto=(kind:'center'|'space',id:string,width=800)=>{
  const list=kind==='center'?centerPhotos:spacePhotos,n=Number(id.split('-')[1])||1;

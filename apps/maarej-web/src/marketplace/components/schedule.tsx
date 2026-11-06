@@ -5,13 +5,13 @@ import Link from 'next/link';
 import {useMemo,useState,useCallback,useEffect,useRef} from 'react';
 import type {ReactNode} from 'react';
 import {CalendarDays,DoorOpen,UsersRound,CheckCircle2,Plus,Star,MapPin,Clock3} from 'lucide-react';
-import {days,OPEN,CLOSE,sessionsForCenter,sessionsForTeacher,centerById,teacherById,hourLabel,timeRange} from '../adapters/schedule';
+import {days,OPEN,CLOSE,hasProfile,sessionsForCenter,sessionsForTeacher,centerById,teacherById,hourLabel,timeRange} from '../adapters/schedule';
 import type {Session} from '../adapters/schedule';
 import {useDemoRequests,addDemoRequest,newId} from '../adapters/demo-requests';
 import {useDemoUser,loginUrl} from '../adapters/demo-auth';
 import {Mark} from './fun';
 import type {RoomRequest} from '../adapters/demo-requests';
-import {featureLabel,placePhotos} from '../adapters/places';
+import {featureLabel,placePhotos,roomPhotos} from '../adapters/places';
 import {swatchFor} from '../adapters/profile-demo';
 import {Gallery} from './gallery';
 import {emojiFor,subjectEmoji} from '../adapters/emoji';
@@ -33,7 +33,7 @@ export function WeekGrid({blocks,onFree,label}:{blocks:Block[];onFree?:(day:numb
  const shown=days.map((d,i)=>i).filter(i=>onFree||blocks.some(b=>b.day===i)); // teacher view: only days with sessions
  const box=useRef<HTMLDivElement>(null);
  // Open scrolled to the first session of the week (RTL: scrollLeft goes negative to the left).
- useEffect(()=>{const el=box.current;if(!el||!blocks.length)return;const first=Math.min(...blocks.map(b=>b.start));el.scrollLeft=-Math.max(0,(first-from-1)*96);},[from]); // eslint-disable-line react-hooks/exhaustive-deps
+ useEffect(()=>{const el=box.current;if(!el||!blocks.length)return;const first=onFree?15:Math.min(...blocks.map(b=>b.start));el.scrollLeft=-Math.max(0,(first-from-1)*96);},[from]); // eslint-disable-line react-hooks/exhaustive-deps
  return <div className={s.scroller} role="region" aria-label={label} tabIndex={0} ref={box}>
   <div className={s.grid} style={{gridTemplateColumns:`72px repeat(${hours.length},96px)`}}>
    <span className={s.corner} aria-hidden="true"/>
@@ -144,10 +144,10 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
  const blocks:Block[]=[
   ...list.map(x=>{const t=teacherById(x.teacherId);const full=x.enrolled>=x.capacity;
    return x.status==='request'?{id:x.id,day:x.day,start:x.start,dur:x.dur,tone:'request' as const,title:'طلب حجز',sub:t?.name}
-   :{id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full' as const:'booked' as const,color:swatchFor(x.teacherId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:t?.name,href:t?`/teachers/${t.id}`:undefined,count:{n:x.enrolled,cap:x.capacity},price:x.price,onClick:()=>setJoin(x)};}),
+   :{id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full' as const:'booked' as const,color:swatchFor(x.teacherId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:t?.name,href:t&&hasProfile(t.id)?`/teachers/${t.id}`:undefined,count:{n:x.enrolled,cap:x.capacity},price:x.price,onClick:()=>setJoin(x)};}),
   ...mine.flatMap(r=>r.days.map(d=>({id:`${r.id}-${d}`,day:d,start:r.start,dur:r.end-r.start,tone:'mine' as const,title:'طلبك',sub:'مستني الموافقة'}))),
  ];
- const r=c.rooms[room],all=placePhotos('center',c.id,1000,15),photos=[0,1,2,3].map(k=>all[(room*3+k)%all.length]);
+ const r=c.rooms[room],photos=roomPhotos(c.id,room,1000,4);
  const close=useCallback(()=>setBooking(null),[]),closeJoin=useCallback(()=>setJoin(null),[]);
  return <section className={s.section} aria-labelledby="sch-title" id="rooms">
   <div className={s.head}><h2 id="sch-title">🚪 القاعات</h2><button type="button" className={s.primary} onClick={()=>book(0,16)}><Plus size={18} aria-hidden="true"/>احجز قاعة</button></div>
@@ -165,7 +165,7 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
    </div>
   </div>
   <div className={s.calHead}><h3><CalendarDays size={18} aria-hidden="true"/>جدول {r.name}</h3></div>
-  <Legend items={[...order.map(id=>({color:swatchFor(id,order),label:teacherById(id)?.name??''})),{tone:'request' as const,label:'طلب حجز'},{tone:'mine' as const,label:'طلبك'}]}/>
+  <Legend items={[{tone:'request' as const,label:'طلب حجز'},{tone:'mine' as const,label:'طلبك'}]}/>
   <WeekGrid key={room} label={`جدول ${r.name}`} blocks={blocks} onFree={book}/>
   <RoomSheet key={booking?`${booking.room}-${booking.day}-${booking.hour}`:'none'} center={c} init={booking} onClose={close}/>
   <JoinSheet session={join} onClose={closeJoin}/>
