@@ -22,7 +22,7 @@ import s from './schedule.module.css';
 
 const allHours=Array.from({length:CLOSE-OPEN},(_,i)=>OPEN+i);
 type Swatch={bg:string;fg:string;bd:string};
-type Block={id:string;day:number;start:number;dur:number;tone:'booked'|'request'|'mine'|'full';title:string;sub?:string;href?:string;count?:{n:number;cap:number};price?:number;color?:Swatch;onClick?:()=>void};
+export type Block={id:string;day:number;start:number;dur:number;tone:'booked'|'request'|'mine'|'full';title:string;sub?:string;href?:string;count?:{n:number;cap:number};price?:number;color?:Swatch;onClick?:()=>void};
 export const fillOf=(n:number,cap:number)=>n>=cap?'full':n/cap>=.85?'hot':n/cap>=.6?'warm':'ok';
 
 // Without free slots to book, only the hours that have sessions are shown (one hour of margin each side).

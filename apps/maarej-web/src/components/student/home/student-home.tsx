@@ -26,6 +26,9 @@ import { resolveMissionReward, resolveMissionSource, type SourceRecord } from "@
 import { ProgressRings, SubjectTiles, subjectStyle, type RingItem } from "../v2/student-v2";
 import { homeJourneyPreview, homeLaunchpadView, type HomeAction } from "./home-launchpad-view";
 import styles from "./student-home.module.css";
+import {GameStrip} from "./game-strip";
+import {Wallpaper} from "@/marketplace/components/doodles";
+import {Marks} from "@/marketplace/components/fun";
 
 type HomeDetail = { kind: "source"; record: SourceRecord; href?: string } | { kind: "mission" } | { kind: "achievement"; id: string };
 const doneStatuses = ["تم التسليم", "تمت المراجعة"];
@@ -70,6 +73,11 @@ export function StudentHome() {
     { id: "homework", label: "الواجبات", caption: homeworkDone === studentHomework.length ? "خلّصتها كلها" : `فاضل ${studentHomework.length - homeworkDone}`, value: studentHomework.length ? homeworkDone / studentHomework.length : 0, display: `${homeworkDone}/${studentHomework.length}`, color: "#F59E0B", href: "/student/learning/tasks#homework" },
     ...(mission ? [{ id: "mission", label: "المهمة", caption: missionSteps ? `فاضل ${Number(missionSteps[2]) - Number(missionSteps[1])}` : mission.title, value: mission.value / 100, display: missionSteps ? `${missionSteps[1]}/${missionSteps[2]}` : `${mission.value}%`, color: "#6F63FF", href: "/student/journey" }] : []),
   ];
+  const quests = [
+    ...(nextAction ? [{ id: "next", e: "📝", title: nextAction.title }] : []),
+    ...(timeline.find(t => t.kind === "session") ? [{ id: "session", e: "🎓", title: `احضر ${timeline.find(t => t.kind === "session")!.title}` }] : []),
+    { id: "review", e: "⏱️", title: "راجع 15 دقيقة" },
+  ].slice(0, 3);
   const tags = nextActionContext?.split(" · ").filter(Boolean) ?? [];
   const firstName = profile.name.split(" ")[0];
   const greeting = clock.minutes < 12 * 60 ? "صباح الخير" : "مساء الخير";
@@ -79,7 +87,9 @@ export function StudentHome() {
   const rise = (i: number) => ({ initial: reduce ? false as const : { y: 10 }, animate: { y: 0 }, transition: { duration: .32, delay: reduce ? 0 : i * .05, ease: [.16, 1, .3, 1] as const } });
 
   return <StudentV101Shell active="home"><div className={styles.home} style={style}>
+    <Wallpaper/>
     <motion.section className={styles.hero} {...rise(0)} aria-labelledby="home-next-heading">
+      <Marks items={[{ e: "⭐", x: 6, y: 8, s: "md", a: "spin" }, { e: "🚀", x: 94, y: 90, s: "md", a: "float" }]}/>
       <div className={styles.heroHead}>
         <h1>{greeting} يا {firstName}</h1>
         {identity.currentIdentity?.name && <Link className={styles.identity} href="/student/journey"><span className={styles.identityEmblem}><IdentityEmblem theme={theme} size={15}/></span><span>{identity.currentIdentity.name}{identity.currentStage && <small> · مرحلة {identity.currentStage}</small>}</span></Link>}
@@ -99,13 +109,15 @@ export function StudentHome() {
       </div>
     </motion.section>
 
+    <motion.div {...rise(1)} className={styles.game}><GameStrip quests={quests} badges={journeyActionData.achievements.map(a => ({ id: a.id, name: a.name, earned: a.state === "earned", progress: achievements.find(x => x.id === a.id)?.progress }))}/></motion.div>
+
     <motion.section className={`${styles.card} ${styles.rings}`} {...rise(1)} aria-labelledby="home-rings-heading">
-      <div className={styles.head}><h2 id="home-rings-heading">حلقاتك</h2><Link href="/student/learning/performance">أداؤك <bdi dir="ltr">{snap.primaryValue}</bdi>{snap.trend && <bdi dir="ltr" className={styles.up}>{formatPerformanceChange(snap.trend.value)}</bdi>}</Link></div>
+      <div className={styles.head}><h2 id="home-rings-heading">🎯 حلقاتك</h2><Link href="/student/learning/performance">أداؤك <bdi dir="ltr">{snap.primaryValue}</bdi>{snap.trend && <bdi dir="ltr" className={styles.up}>{formatPerformanceChange(snap.trend.value)}</bdi>}</Link></div>
       <ProgressRings items={rings}/>
     </motion.section>
 
     <motion.section className={`${styles.card} ${styles.today}`} {...rise(2)} aria-labelledby="home-now-heading">
-      <div className={styles.head}><h2 id="home-now-heading">الجاي</h2><Link href="/student/learning/schedule">الجدول كامل</Link></div>
+      <div className={styles.head}><h2 id="home-now-heading">⏰ الجاي</h2><Link href="/student/learning/schedule">الجدول كامل</Link></div>
       {timeline.length ? <ol className={styles.timeline}>{timeline.map((item, i) => <li key={item.id}><button type="button" data-testid={`home-timeline-${item.id}`} className={styles.timelineItem} data-first={i === 0} onClick={() => openAction(item)}>
         <time><b>{item.time}</b>{item.date && <small dir="ltr">{item.date.slice(5).replace("-", "/")}</small>}</time>
         <span className={styles.timelineIcon} style={subjectStyle(item.context?.split(" · ")[0] ?? "")}>{item.kind === "session" ? <GraduationCap size={18}/> : item.kind === "exam" ? <ClipboardCheck size={18}/> : <BookOpenCheck size={18}/>}</span>
@@ -114,26 +126,26 @@ export function StudentHome() {
     </motion.section>
 
     {mission && <motion.section className={`${styles.card} ${styles.mission}`} {...rise(3)} aria-labelledby="home-mission-heading">
-      <div className={styles.head}><h2 id="home-mission-heading">مهمتك</h2>{missionSteps && <span className={styles.count}><bdi dir="ltr">{missionSteps[1]} / {missionSteps[2]}</bdi></span>}</div>
+      <div className={styles.head}><h2 id="home-mission-heading">🚩 مهمتك</h2>{missionSteps && <span className={styles.count}><bdi dir="ltr">{missionSteps[1]} / {missionSteps[2]}</bdi></span>}</div>
       <button type="button" className={styles.missionBody} onClick={openMission} aria-label={`متابعة المهمة: ${mission.title}`}><b>{mission.title}</b><small>{mission.context}</small></button>
       {missionSteps ? <div className={styles.steps} aria-hidden="true">{Array.from({ length: Number(missionSteps[2]) }, (_, i) => <span key={i} data-on={i < Number(missionSteps[1])}/>)}</div> : <Progress value={mission.value}/>}
       <div className={styles.missionFoot}><span>{mission.remaining}</span>{reward && <Link href="/student/rewards/attendance" className={styles.reward}><Gift size={16}/>{reward.amount} ج.م</Link>}</div>
     </motion.section>}
 
     <motion.section className={`${styles.card} ${styles.subjects}`} {...rise(4)} aria-labelledby="home-subjects-heading">
-      <div className={styles.head}><h2 id="home-subjects-heading">موادك</h2><Link href="/student/learning/subjects">كل المواد</Link></div>
+      <div className={styles.head}><h2 id="home-subjects-heading">📚 موادك</h2><Link href="/student/learning/subjects">كل المواد</Link></div>
       <SubjectTiles/>
     </motion.section>
 
     {current && <motion.section className={`${styles.card} ${styles.journey}`} {...rise(5)} aria-labelledby="home-journey-heading">
-      <div className={styles.head}><h2 id="home-journey-heading">رحلتك</h2><Link href="/student/journey">افتح الخريطة</Link></div>
+      <div className={styles.head}><h2 id="home-journey-heading">🧗 رحلتك</h2><Link href="/student/journey">افتح الخريطة</Link></div>
       <div className={styles.journeyPreview} aria-label="السابق ثم الحالي ثم القادم"><svg viewBox="0 0 360 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M 62 107 C 80 107 122 86 171 83 S 250 28 294 28" fill="none" stroke="#DCD8F5" strokeWidth="5" strokeDasharray="2 11" strokeLinecap="round"/><motion.path d="M 62 107 C 80 107 122 86 171 83" fill="none" stroke={theme.primaryColor} strokeWidth="5" strokeLinecap="round" initial={reduce ? false : { pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: .7, delay: .3 }}/></svg>
         {preview.map((node, i) => node && <JourneyLandmark key={node.id} state={i === 0 ? "completed" : i === 1 ? "current" : node.state} theme={theme} label={node.label} x={[.172, .475, .817][i]} y={[.766, .594, .203][i]} index={i} atRisk={node.attention} onOpen={() => router.push("/student/journey")}/>)}</div>
       <div className={styles.journeyLegend}><p><small>أنت هنا</small><b>{current.label}</b></p>{next && <p><small>الجاية</small><b>{next.label}</b></p>}</div>
     </motion.section>}
 
     {achievements.length > 0 && <motion.section className={`${styles.card} ${styles.wins}`} {...rise(6)} aria-labelledby="home-wins-heading">
-      <div className={styles.head}><h2 id="home-wins-heading">إنجازاتك</h2><Link href="/student/journey/achievements">الكل</Link></div>
+      <div className={styles.head}><h2 id="home-wins-heading">🏅 إنجازاتك</h2><Link href="/student/journey/achievements">الكل</Link></div>
       <div className={styles.winList}>{achievements.map(item => { const earned = item.state === "earned"; return <button key={item.id} type="button" data-testid={`home-achievement-${item.id}`} className={styles.win} data-earned={earned} onClick={() => setDetail({ kind: "achievement", id: item.id })}>
         <span className={styles.medal}><Trophy size={22}/></span><span className={styles.winText}><b>{item.name}</b><small>{earned ? (item.achievedAt ? `اتكسب ${item.achievedAt}` : "اتكسب") : <>قرّبت: <bdi dir="ltr">{item.progress ?? 0}%</bdi></>}</small>{!earned && item.progress !== undefined && <i className={styles.winBar}><i style={{ width: `${item.progress}%` }}/></i>}</span>
       </button>; })}</div>

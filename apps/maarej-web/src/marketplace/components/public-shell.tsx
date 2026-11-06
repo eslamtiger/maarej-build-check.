@@ -9,7 +9,7 @@ export type PublicSection='home'|'teachers'|'centers'|'spaces'|'about';
 // Footer: only links that work today.
 const footerCols=[
  {title:'اكتشف',links:[{href:'/teachers',label:'المدرسين',emoji:'🧑‍🏫'},{href:'/centers',label:'السناتر',emoji:'🏫'},{href:'/spaces',label:'مساحات المذاكرة',emoji:'📚'}]},
- {title:'مساحتي',links:[{href:'/student',label:'الرئيسية',emoji:'🏠'},{href:'/student/schedule',label:'جدولي',emoji:'🗓️'},{href:'/student/journey',label:'رحلتي',emoji:'🧗'},{href:'/student/performance',label:'أدائي',emoji:'📈'}]},
+ {title:'مساحتي',links:[{href:'/student',label:'الرئيسية',emoji:'🏠'},{href:'/student/schedule',label:'جدولي',emoji:'🗓️'},{href:'/student/journey',label:'رحلتي',emoji:'🧗'},{href:'/student/performance',label:'أدائي',emoji:'📈'},{href:'/parent',label:'مساحة ولي الأمر',emoji:'👨‍👩‍👧'}]},
  {title:'معارج',links:[{href:'/about',label:'عن معارج',emoji:'💡'},{href:'/',label:'الصفحة الرئيسية',emoji:'✨'}]},
 ] as const;
 

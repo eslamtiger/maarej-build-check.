@@ -132,3 +132,8 @@ button.activityRow { cursor:pointer; }
   .update, .note { grid-column:1/-1; }
 }
 @media (prefers-reduced-motion:reduce) { .go, .go svg, .win, .timelineItem { transition:none; } }
+
+/* Site spirit: pencil wallpaper behind the cards, game strip spans the board. */
+.home { position:relative; }
+.home > :not([aria-hidden]) { position:relative; z-index:1; }
+.game { grid-column:1 / -1; min-width:0; }
