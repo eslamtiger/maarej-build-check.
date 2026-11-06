@@ -79,7 +79,7 @@ a.kpi:hover { border-color:#CFCBE6; }
 .rowMain b { font-weight:800; }
 .rowMain small { color:var(--muted); font-weight:600; font-size:.8125rem; }
 .rowSide { flex:none; color:var(--muted); font-size:.8125rem; font-weight:700; text-align:end; }
-b[data-kind=topup] { color:#0E6A4B; }
+.rows b[data-kind=topup] { color:#0E6A4B; }
 
 /* Learning */
 .chart { margin:0; display:grid; gap:4px; }
