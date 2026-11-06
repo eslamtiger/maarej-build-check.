@@ -26,7 +26,6 @@ function PlaceHero({id,savedKind,placeId,logo,avatar,name,kind,rating,reviews,bi
    <span className={`${k.tAvatar} ${k.tPlace}`} aria-hidden="true"><img src={avatar} alt=""/><i>{logo}</i></span>
    <div className={k.tSide}>
     <h1><bdi>{name}</bdi></h1>
-    <p className={k.pKind}>{kind}</p>
     <OpenNow/>
     <div className={k.tTiles}>
      <div className={k.tRate}><b><span className={k.tStar} aria-hidden="true">★</span><bdi>{rating.toFixed(1)}</bdi></b><small>{reviews} تقييم</small></div>

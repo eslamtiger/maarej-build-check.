@@ -306,3 +306,11 @@
 .savedEmpty p { margin:0; font-weight:800; color:#16133D; }
 .savedEmpty div:last-child { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
 .savedEmpty a { padding:8px 16px; border-radius:999px; background:#F0EEFF; color:#4B3FD6; font-weight:800; text-decoration:none; }
+
+/* Bigger round photo */
+.tTop { margin-top:-56px; }
+.tAvatar { width:136px; height:136px; }
+.tSide { padding-top:62px; }
+.tPlace > i { width:44px; height:44px; font-size:1.4rem; }
+@media (min-width:720px) { .tTop { margin-top:-72px; } .tAvatar { width:184px; height:184px; } .tSide { padding-top:80px; } .tPlace > i { width:54px; height:54px; font-size:1.7rem; } }
+@media (max-width:380px) { .tAvatar { width:120px; height:120px; } .tSide { padding-top:56px; } }
