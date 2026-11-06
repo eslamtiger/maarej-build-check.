@@ -8,6 +8,8 @@ import {CalendarDays,DoorOpen,UsersRound,CheckCircle2,Plus,Star,MapPin,Clock3} f
 import {days,OPEN,CLOSE,sessionsForCenter,sessionsForTeacher,centerById,teacherById,hourLabel,timeRange} from '../adapters/schedule';
 import type {Session} from '../adapters/schedule';
 import {useDemoRequests,addDemoRequest,newId} from '../adapters/demo-requests';
+import {useDemoUser,loginUrl} from '../adapters/demo-auth';
+import {Mark} from './fun';
 import type {RoomRequest} from '../adapters/demo-requests';
 import {featureLabel,placePhotos} from '../adapters/places';
 import {swatchFor} from '../adapters/profile-demo';
@@ -18,10 +20,11 @@ import {Sheet} from './search-kit';
 import {TeacherPortrait} from './teacher-card';
 import s from './schedule.module.css';
 
+const dayEmoji=['🏖️','📘','✏️','🧮','🧪','🎯','🌙'];
 const allHours=Array.from({length:CLOSE-OPEN},(_,i)=>OPEN+i);
 type Swatch={bg:string;fg:string;bd:string};
 type Block={id:string;day:number;start:number;dur:number;tone:'booked'|'request'|'mine'|'full';title:string;sub?:string;href?:string;count?:{n:number;cap:number};price?:number;color?:Swatch;onClick?:()=>void};
-const fillOf=(n:number,cap:number)=>n>=cap?'full':n/cap>=.85?'hot':n/cap>=.6?'warm':'ok';
+export const fillOf=(n:number,cap:number)=>n>=cap?'full':n/cap>=.85?'hot':n/cap>=.6?'warm':'ok';
 
 // Without free slots to book, only the hours that have sessions are shown (one hour of margin each side).
 export function WeekGrid({blocks,onFree,label}:{blocks:Block[];onFree?:(day:number,hour:number)=>void;label:string}){
@@ -37,19 +40,24 @@ export function WeekGrid({blocks,onFree,label}:{blocks:Block[];onFree?:(day:numb
    {hours.map(h=><span key={h} className={s.hour}>{hourLabel(h)}</span>)}
    {shown.map(di=>{const d=days[di];const row=blocks.filter(b=>b.day===di);const taken=new Set(row.flatMap(b=>Array.from({length:b.dur},(_,k)=>b.start+k)));
     return <div key={d} className={s.row} style={{gridColumn:`1 / -1`,gridTemplateColumns:'subgrid'}}>
-     <span className={s.day}>{d}</span>
+     <span className={s.day}><i aria-hidden="true">{dayEmoji[di]}</i>{d}</span>
      {onFree&&hours.filter(h=>!taken.has(h)).map(h=><button key={h} type="button" className={s.free} style={{gridColumn:`${h-from+2} / span 1`}} onClick={()=>onFree(di,h)} aria-label={`احجز ${d} ${hourLabel(h)}`}><Plus size={16} aria-hidden="true"/></button>)}
      {row.map(b=>{const style={gridColumn:`${b.start-from+2} / span ${b.dur}`,...(b.color?{background:b.color.bg,color:b.color.fg,boxShadow:`inset 0 0 0 1.5px ${b.color.bd}`}:{})};
-      const f=b.count?fillOf(b.count.n,b.count.cap):undefined;
       return <div key={b.id} className={s.block} data-tone={b.tone} style={style}>
        {b.onClick&&<button type="button" className={s.hit} onClick={b.onClick} aria-label={`${b.title} ${b.sub??''}`}/>}
        <b>{b.title}</b>
        {b.sub&&(b.href?<Link href={b.href} className={s.who}>{b.sub}</Link>:<span className={s.who}>{b.sub}</span>)}
-       {(b.count||b.price!==undefined)&&<span className={s.stat}>{b.count&&<em className={s.cnt} data-fill={f}>{f==='full'?'🔒 كاملة':<>👥 <bdi>{b.count.n}/{b.count.cap}</bdi>{f==='hot'&&' 🔥'}</>}</em>}{b.price!==undefined&&<em className={s.price}>💰 <bdi>{b.price}</bdi></em>}</span>}
+       {(b.count||b.price!==undefined)&&<span className={s.stat}>{b.count&&<CountPill n={b.count.n} cap={b.count.cap}/>}{b.price!==undefined&&<em className={s.price}>💰 <bdi>{b.price}</bdi></em>}</span>}
       </div>;})}
     </div>;})}
   </div>
  </div>;
+}
+
+// Student count of a group: green while there is room, yellow when it fills, flashing warning when nearly full, lock when full.
+export function CountPill({n,cap,className}:{n:number;cap:number;className?:string}){
+ const f=fillOf(n,cap);
+ return <em className={`${s.cnt} ${className??''}`} data-fill={f}>{f==='full'?'🔒 كاملة':<>{f==='hot'&&<span className={s.warn} aria-hidden="true">⚠️</span>}👥 <bdi>{n}/{cap}</bdi></>}</em>;
 }
 
 export function Legend({items}:{items:{tone?:Block['tone'];color?:Swatch;label:string}[]}){
@@ -127,6 +135,9 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
  const [booking,setBooking]=useState<{room:number;day:number;hour:number}|null>(null);
  const [join,setJoin]=useState<Session|null>(null);
  const requests=useDemoRequests();
+ const user=useDemoUser();
+ // Anyone can reserve a room (student, parent or teacher), but only when signed in; otherwise they are sent to the sign-in page and come back here.
+ const book=(day:number,hour:number)=>{if(!user){location.assign(loginUrl(`${location.pathname}#rooms`));return;}setBooking({room,day,hour});};
  const list=sessionsForCenter(c.id).filter(x=>x.room===room);
  const order=[...new Set(list.filter(x=>x.status==='booked').map(x=>x.teacherId))];
  const mine=requests.filter((r):r is RoomRequest=>r.kind==='room'&&r.centerId===c.id&&r.room===room);
@@ -139,7 +150,7 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
  const r=c.rooms[room],all=placePhotos('center',c.id,1000,15),photos=[0,1,2,3].map(k=>all[(room*3+k)%all.length]);
  const close=useCallback(()=>setBooking(null),[]),closeJoin=useCallback(()=>setJoin(null),[]);
  return <section className={s.section} aria-labelledby="sch-title" id="rooms">
-  <div className={s.head}><h2 id="sch-title">🚪 القاعات</h2><button type="button" className={s.primary} onClick={()=>setBooking({room,day:0,hour:16})}><Plus size={18} aria-hidden="true"/>احجز قاعة</button></div>
+  <div className={s.head}><h2 id="sch-title">🚪 القاعات</h2><button type="button" className={s.primary} onClick={()=>book(0,16)}><Plus size={18} aria-hidden="true"/>احجز قاعة</button></div>
   <div className={s.roomTabs} role="tablist" aria-label="القاعات">{c.rooms.map((x,i)=><button key={x.name} type="button" role="tab" aria-selected={i===room} onClick={()=>setRoom(i)}><b>{x.name}</b><span>👥 {x.seats} · <bdi>{x.price}</bdi> ج.م</span></button>)}</div>
   <div className={s.roomPanel} key={room}>
    <div className={s.roomGallery}><Gallery photos={photos} size="hero"/></div>
@@ -155,7 +166,7 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
   </div>
   <div className={s.calHead}><h3><CalendarDays size={18} aria-hidden="true"/>جدول {r.name}</h3></div>
   <Legend items={[...order.map(id=>({color:swatchFor(id,order),label:teacherById(id)?.name??''})),{tone:'request' as const,label:'طلب حجز'},{tone:'mine' as const,label:'طلبك'}]}/>
-  <WeekGrid key={room} label={`جدول ${r.name}`} blocks={blocks} onFree={(day,hour)=>setBooking({room,day,hour})}/>
+  <WeekGrid key={room} label={`جدول ${r.name}`} blocks={blocks} onFree={book}/>
   <RoomSheet key={booking?`${booking.room}-${booking.day}-${booking.hour}`:'none'} center={c} init={booking} onClose={close}/>
   <JoinSheet session={join} onClose={closeJoin}/>
  </section>;
@@ -168,16 +179,18 @@ export function CenterTeachers({center:c}:{center:CenterDTO}){
  if(!byTeacher.length)return null;
  const groups=open?byTeacher.find(([id])=>id===open)?.[1]??[]:[];
  const [more,setMore]=useState(false);
- const visible=more?byTeacher:byTeacher.slice(0,6);
+ const visible=more?byTeacher:byTeacher.slice(0,8);
  const t=open?teacherById(open):undefined;
  return <section className={s.section} id="sec-our-t" aria-labelledby="our-t"><div className={s.head}><h2 id="our-t">🧑‍🏫 مدرسينا</h2></div>
   <ul className={s.teachers}>{visible.map(([id,list])=>{const x=teacherById(id);if(!x)return null;return <li key={id}>
-   <Link href={`/teachers/${id}`} className={s.tLink}><TeacherPortrait teacher={x} className={s.tPhoto}/><span><b>{x.name}</b><small>{subjectEmoji(x.subjects[0]??'')} {x.subjects[0]}{x.rating!==undefined&&<> · ⭐ {x.rating.toFixed(1)}</>}</small>{x.price&&<small><bdi>{x.price.min} – {x.price.max}</bdi> ج.م</small>}</span></Link>
-   <button type="button" className={s.subscribe} onClick={()=>setOpen(id)}>اشترك <em>{list.length}</em></button>
+   <button type="button" className={s.tCard} onClick={()=>setOpen(id)} aria-label={`حصص ${x.name}`}><TeacherPortrait teacher={x} className={s.tPhoto}/><b>{x.name}</b><em>{list.length}</em></button>
   </li>;})}</ul>
-  {byTeacher.length>6&&<button type="button" className={s.moreBtn} onClick={()=>setMore(v=>!v)}>{more?'أقل':`كل المدرسين (${byTeacher.length})`}</button>}
+  {byTeacher.length>8&&<button type="button" className={s.moreBtn} onClick={()=>setMore(v=>!v)}>{more?'أقل':`كل المدرسين (${byTeacher.length})`}</button>}
   <Sheet open={!!open&&!join} icon={UsersRound} title={t?`مجموعات ${t.name}`:''} onClose={()=>setOpen(null)}>
-   <ul className={s.groups}>{groups.map(x=>{const left=x.capacity-x.enrolled;return <li key={x.id}><div><b>{days[x.day]} · {timeRange(x.start,x.dur)}</b><span>{subjectEmoji(x.subject)} {x.subject} · {x.stage}</span></div><div className={s.gSide}><b><bdi>{x.price}</bdi> ج.م</b>{left>0?<em className={s.left}>باقي {left}</em>:<em className={s.fullTag}>كاملة</em>}</div>{left>0&&<button type="button" className={s.subscribe} onClick={()=>setJoin(x)}>انضم</button>}</li>;})}</ul>
+   <ul className={s.groups}>{groups.map(x=>{const full=x.enrolled>=x.capacity;return <li key={x.id}><button type="button" className={s.gBtn} onClick={()=>setJoin(x)} aria-label={`تفاصيل حصة ${x.subject} ${days[x.day]}`}>
+    <span className={s.gMain}><b>{days[x.day]} · {timeRange(x.start,x.dur)}</b><span>{subjectEmoji(x.subject)} {x.subject} · {x.stage}</span></span>
+    <span className={s.gSide}><b><bdi>{x.price}</bdi> ج.م</b><CountPill n={x.enrolled} cap={x.capacity}/></span>
+    <span className={s.gGo}>{full?'تفاصيل':'طلب انضمام'}</span></button></li>;})}</ul>
   </Sheet>
   <JoinSheet session={join} onClose={()=>{setJoin(null);}}/>
  </section>;

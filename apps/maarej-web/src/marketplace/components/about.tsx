@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import {GraduationCap,Building2,DoorOpen,Route,Search,Scale,BookOpenCheck,ShieldCheck,ArrowLeft,HeartHandshake,Eye,Gift,CalendarCheck} from 'lucide-react';
+import {Mark,Marks} from './fun';
 import {PublicMarketplaceShell} from './public-shell';
 import {SectionTabs} from './profile-kit';
 import a from './about.module.css';
@@ -26,20 +27,21 @@ const steps=[
 export function AboutMaarej(){
  return <PublicMarketplaceShell active="about">
   <section className={a.hero}>
+   <Marks items={[{e:'⭐',x:3,y:3,s:'md',a:'spin'},{e:'🎓',x:3,y:88,s:'lg',a:'float'}]}/>
    <h1>معارج: تعليمك كله في مكان واحد</h1>
    <p>للطالب ولولي الأمر: المدرس والسنتر ومساحة المذاكرة المناسبين، ورحلة تعلم واضحة تتابعوها سوا.</p>
    <div className={a.actions}><Link href="/teachers" className={a.primary}>ابحث عن مدرس<ArrowLeft size={18} aria-hidden="true"/></Link><Link href="/student" className={a.secondary}>ادخل مساحتي</Link></div>
   </section>
-  <section className={a.block} id="sec-about-who" aria-labelledby="about-who"><h2 id="about-who">معارج لمين؟</h2>
+  <section className={a.block} id="sec-about-who" aria-labelledby="about-who"><h2 id="about-who"><Mark e="🤔" a="bob" s="md"/> معارج لمين؟</h2>
    <div className={a.grid}>{audiences.map(({Icon,title,text})=><article key={title} className={a.card}><span className={a.icon}><Icon size={22} aria-hidden="true"/></span><h3>{title}</h3><p>{text}</p></article>)}</div>
   </section>
-  <section className={`${a.block} ${a.parents}`} id="sec-about-parents" aria-labelledby="about-parents"><h2 id="about-parents">معارج لولي الأمر</h2>
+  <section className={`${a.block} ${a.parents}`} id="sec-about-parents" aria-labelledby="about-parents"><h2 id="about-parents"><Mark e="👨‍👩‍👧" a="bob" s="md"/> معارج لولي الأمر</h2>
    <div className={a.grid}>{forParents.map(({Icon,title,text})=><article key={title} className={a.card}><span className={a.icon}><Icon size={22} aria-hidden="true"/></span><h3>{title}</h3><p>{text}</p></article>)}</div>
   </section>
-  <section className={a.block} id="sec-about-how" aria-labelledby="about-how"><h2 id="about-how">بيشتغل إزاي؟</h2>
+  <section className={a.block} id="sec-about-how" aria-labelledby="about-how"><h2 id="about-how"><Mark e="⚙️" a="bob" s="md"/> بيشتغل إزاي؟</h2>
    <ol className={a.steps}>{steps.map(({Icon,title,text},i)=><li key={title}><span className={a.num}>{i+1}</span><div><h3><Icon size={18} aria-hidden="true"/>{title}</h3><p>{text}</p></div></li>)}</ol>
   </section>
-  <section className={`${a.block} ${a.values}`} id="sec-about-values" aria-labelledby="about-values"><h2 id="about-values">رحلة الطالب في معارج</h2>
+  <section className={`${a.block} ${a.values}`} id="sec-about-values" aria-labelledby="about-values"><h2 id="about-values"><Mark e="🚀" a="bob" s="md"/> رحلة الطالب في معارج</h2>
    <ul>
     <li><ShieldCheck size={18} aria-hidden="true"/>هويتك بتكبر بسلوكك عبر الوقت، ومش بتنزل بسبب أسبوع ضعيف.</li>
     <li><ShieldCheck size={18} aria-hidden="true"/>مفيش ترتيب عام بين الطلاب. كل واحد بيتقارن بنفسه.</li>

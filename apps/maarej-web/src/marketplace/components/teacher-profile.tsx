@@ -4,6 +4,7 @@ import type {TeacherSearchDTO} from '../types/teacher';
 import {PublicMarketplaceShell} from './public-shell';
 import {TeacherPortrait} from './teacher-card';
 import {TeacherSchedule} from './schedule';
+import {Scribble,Group} from './fun';
 import {Section,ContactBar,Reviews,MapEmbed,SectionTabs} from './profile-kit';
 import {demoContact,demoTeacherReviews,demoTeacherTips} from '../adapters/profile-demo';
 import {subjectEmoji} from '../adapters/emoji';
@@ -39,11 +40,10 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
    <ContactBar info={demoContact(t.id)}/>
    {p&&<blockquote className={k.tMsg}><em className={k.spark} aria-hidden="true">😊</em>{p.bio}</blockquote>}
    <div className={k.tId}>
-    <ul className={k.chips}>{t.subjects.map(x=><li key={x}>{subjectEmoji(x)} {x}</li>)}{t.systems.map(x=><li key={x} data-tone="system">🏫 {x}</li>)}{t.stages.map(x=><li key={x} data-tone="stage">🎓 {x}</li>)}</ul>
-    <ul className={k.tRows}>
-     <li><span aria-hidden="true">📍</span><b>{t.areas.join('، ')}</b></li>
-     {prices.length>0&&<li><span aria-hidden="true">💰</span><b>الحصة <bdi dir="rtl">{lo===hi?`${lo}`:`${lo} – ${hi}`}</bdi> ج.م</b></li>}
-    </ul>
+    <Group emoji="📚" title="المواد"><ul className={k.chips}>{t.subjects.map(x=><li key={x}>{subjectEmoji(x)} {x}</li>)}</ul></Group>
+    {t.systems.length>0&&<Group emoji="🏫" title="النظام التعليمي"><ul className={k.chips}>{t.systems.map(x=><li key={x} data-tone="system">🏫 {x}</li>)}</ul></Group>}
+    {t.stages.length>0&&<Group emoji="🎓" title="المراحل"><ul className={k.chips}>{t.stages.map(x=><li key={x} data-tone="stage">🎓 {x}</li>)}</ul></Group>}
+    <Scribble items={[...t.areas.map(a=>({emoji:'📍',text:a})),...(prices.length>0?[{emoji:'💰',text:`الحصة ${lo===hi?lo:`${lo} – ${hi}`} ج.م`,hl:'amber' as const}]:[])]}/>
    </div>
   </header>
   <TeacherSchedule teacherId={t.id} between={

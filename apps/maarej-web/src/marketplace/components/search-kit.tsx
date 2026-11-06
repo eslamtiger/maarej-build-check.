@@ -6,6 +6,7 @@ import {useEffect,useRef} from 'react';
 import type {ReactNode,CSSProperties} from 'react';
 import type {LucideIcon} from 'lucide-react';
 import {Search,X,ChevronDown,Check,RotateCcw,Star,ArrowUpDown} from 'lucide-react';
+import {Mark} from './fun';
 import k from './search-kit.module.css';
 
 type IconT=LucideIcon;
@@ -119,7 +120,7 @@ export function ResultsHead({n,unit,sortLabel,onSort}:{n:number;unit:string;sort
  </div>;
 }
 export function Empty({onReset}:{onReset:()=>void}){
- return <div className={k.empty}><span aria-hidden="true"><Search size={28}/></span><p>مفيش نتايج</p><button type="button" onClick={onReset}><RotateCcw size={16} aria-hidden="true"/>اعرض الكل</button></div>;
+ return <div className={k.empty}><span aria-hidden="true"><Mark e="🔎" a="wiggle" s="xl"/></span><p>مفيش نتايج <Mark e="🙈" a="bob" s="md"/></p><button type="button" onClick={onReset}><RotateCcw size={16} aria-hidden="true"/>اعرض الكل</button></div>;
 }
 
 // Map first: on phones the map sits on top and the results follow; on desktops they sit side by side.

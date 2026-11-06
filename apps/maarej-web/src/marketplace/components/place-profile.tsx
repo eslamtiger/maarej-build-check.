@@ -1,18 +1,18 @@
-import type {ReactNode,CSSProperties} from 'react';
+import type {ReactNode} from 'react';
 import type {CenterDTO,SpaceDTO} from '../types/place';
 import {featureLabel,placePhotos} from '../adapters/places';
 import {emojiFor} from '../adapters/emoji';
 import {PublicMarketplaceShell} from './public-shell';
 import {CenterSchedule,CenterTeachers} from './schedule';
 import {Gallery} from './gallery';
-import {Section,ContactBar,InfoList,Chips,Reviews,MapEmbed,SectionTabs} from './profile-kit';
-import {demoBranches,managerNote,demoContact,demoPlaceReviews} from '../adapters/profile-demo';
-import {sessionsForCenter,hourLabel,OPEN,CLOSE} from '../adapters/schedule';
+import {Section,ContactBar,Chips,Reviews,MapEmbed,SectionTabs} from './profile-kit';
+import {Scribble} from './fun';
+import {managerNote,demoContact,demoPlaceReviews} from '../adapters/profile-demo';
+import {hourLabel,OPEN,CLOSE} from '../adapters/schedule';
 import k from './profile-kit.module.css';
 import styles from './places.module.css';
 
 const mapsLink=(lat:number,lng:number)=>`https://www.google.com/maps?q=${lat},${lng}`;
-const Dir=({lat,lng}:{lat:number;lng:number})=><a className={k.dirLink} href={mapsLink(lat,lng)} target="_blank" rel="noopener noreferrer">افتح في الخرائط</a>;
 
 // Same top as the teacher page (Google Business order): photos on top with the round logo on their edge; beside the logo the name,
 // kind, a rating tile and the amber "big number" tile → contact icons → the manager's word → key info as rows → equipment chips.
@@ -35,40 +35,14 @@ function PlaceHero({id,logo,name,kind,rating,reviews,big,bigLabel,photos,contact
  </header>;
 }
 
-// Busy hours (Google Business style), computed from the center's weekly timetable: how many booked groups run in each hour.
-function Busy({id}:{id:string}){
- const booked=sessionsForCenter(id).filter(x=>x.status==='booked');
- const hours=Array.from({length:CLOSE-OPEN},(_,i)=>OPEN+i);
- const n=hours.map(h=>booked.filter(x=>x.start<=h&&h<x.start+x.dur).length);
- const max=Math.max(1,...n),peak=n.indexOf(max);
- return <Section id="busy" emoji="📊" title="أوقات الزحمة">
-  <div className={k.busy} role="img" aria-label={`ذروة الزحمة ${hourLabel(hours[peak])}`}>
-   <div className={k.bars}>{hours.map((h,i)=><span key={h} style={{'--h':`${Math.round(n[i]/max*100)}%`} as CSSProperties} data-peak={i===peak}/>)}</div>
-   <div className={k.busyHours}><span>{hourLabel(OPEN)}</span><span>{hourLabel(OPEN+4)}</span><span>{hourLabel(OPEN+8)}</span><span>{hourLabel(CLOSE)}</span></div>
-  </div>
- </Section>;
-}
-
 // Center profile: hero → manager word → key info → equipment → rooms (photos, timetable, booking) → teachers → reviews → map.
 export function CenterProfile({center:c}:{center:CenterDTO}){
- const branches=demoBranches(c),note=managerNote(c),photos=placePhotos('center',c.id,1000,15);
- const groups=sessionsForCenter(c.id).filter(x=>x.status==='booked'),teachersN=new Set(groups.map(x=>x.teacherId)).size;
+ const note=managerNote(c),photos=placePhotos('center',c.id,1000,15);
  return <PublicMarketplaceShell active="centers"><div className={styles.profile}>
   <PlaceHero id="sec-about" logo="🏫" name={c.name} kind={`${c.type} · ${c.area}`} rating={c.rating} reviews={c.reviews} big={c.rooms.length} bigLabel="قاعات" photos={photos.slice(0,6)} contact={demoContact(c.id)}>
    <blockquote className={k.tMsg}><em className={k.spark} aria-hidden="true">😊</em>{note.text}</blockquote>
-   <InfoList rows={[
-    {emoji:'📍',label:'العنوان',value:c.address},
-    {emoji:'🧭',label:'الاتجاهات',value:<Dir lat={c.lat} lng={c.lng}/>},
-    {emoji:'🕙',label:'مواعيد العمل',value:<bdi dir="rtl">{hourLabel(OPEN)} – {hourLabel(CLOSE)}</bdi>},
-    {emoji:'👥',label:'أكبر قاعة',value:`${c.maxSeats} طالب`},
-    {emoji:'💰',label:'سعر الساعة',value:<><bdi dir="rtl">{c.price.min} – {c.price.max}</bdi> ج.م</>},
-    {emoji:'🧑‍🏫',label:'المدرسين',value:teachersN},
-    {emoji:'📚',label:'المجموعات في الأسبوع',value:groups.length},
-    ...(branches.length?[{emoji:'🏢',label:'فروع تانية',value:branches.join('، ')}]:[]),
-   ]}/>
-   <Chips items={c.features.map(f=>{const l=featureLabel(f);return {emoji:emojiFor(l),label:l};})}/>
+   <Scribble items={[{emoji:'📍',text:c.address},{emoji:'🕙',text:`${hourLabel(OPEN)} – ${hourLabel(CLOSE)}`,hl:'green'},{emoji:'💰',text:`الساعة ${c.price.min} – ${c.price.max} ج.م`,hl:'amber'},{emoji:'🧭',text:'الاتجاهات',href:mapsLink(c.lat,c.lng),hl:'indigo'}]}/>
   </PlaceHero>
-  <Busy id={c.id}/>
   <CenterSchedule center={c}/>
   <CenterTeachers center={c}/>
   <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={c.reviewsByRole} total={c.rating} count={c.reviews}/></Section>
@@ -83,15 +57,9 @@ export function SpaceProfile({space:s}:{space:SpaceDTO}){
  const photos=placePhotos('space',s.id,1000,15),address=`${s.area}، ${s.governorate}`;
  return <PublicMarketplaceShell active="spaces"><div className={styles.profile}>
   <PlaceHero id="sec-about" logo="📚" name={s.name} kind={`${s.type} · ${s.area}`} rating={s.rating} reviews={s.reviews} big={s.units} bigLabel="وحدات" photos={photos.slice(0,6)} contact={demoContact(s.id)}>
-   <InfoList rows={[
-    {emoji:'📍',label:'العنوان',value:address},
-    {emoji:'🧭',label:'الاتجاهات',value:<Dir lat={s.lat} lng={s.lng}/>},
-    {emoji:'👥',label:'السعة',value:s.capacity===1?'فرد واحد':`حتى ${s.capacity} أفراد`},
-    {emoji:'💰',label:'السعر',value:<><bdi dir="rtl">{s.price.min} – {s.price.max}</bdi> ج.م</>},
-   ]}/>
-   <Chips items={s.features.map(f=>{const l=featureLabel(f);return {emoji:emojiFor(l),label:l};})}/>
+   <Scribble items={[{emoji:'📍',text:address},{emoji:'👥',text:s.capacity===1?'فرد واحد':`حتى ${s.capacity} أفراد`,hl:'green'},{emoji:'💰',text:`${s.price.min} – ${s.price.max} ج.م`,hl:'amber'},{emoji:'🧭',text:'الاتجاهات',href:mapsLink(s.lat,s.lng),hl:'indigo'}]}/>
   </PlaceHero>
-  {s.zones.length>0&&<Section id="zones" emoji="🌿" title="الأماكن جوه المساحة"><Chips tone="green" items={s.zones.map(z=>({emoji:emojiFor(z),label:z}))}/></Section>}
+  {s.zones.length>0&&<Section id="zones" emoji="🌿" title="الأماكن جوه المساحة"><Chips tone="green" items={s.zones.map(z=>({emoji:emojiFor(z),label:z}))}/>{s.features.length>0&&<Chips items={s.features.map(f=>{const l=featureLabel(f);return {emoji:emojiFor(l),label:l};})}/>}</Section>}
   <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={demoPlaceReviews(s.id,s.rating)} total={s.rating} count={s.reviews}/></Section>
   <Section id="loc-title" emoji="📍" title="الموقع"><p className={k.addr}>{address}</p><MapEmbed query={`${s.lat},${s.lng}`} label={`خريطة ${s.name}`}/></Section>
  </div>
