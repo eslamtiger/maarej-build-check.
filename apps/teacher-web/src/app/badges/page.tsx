@@ -12,7 +12,7 @@ const Ic = ({ k, size = 24 }: { k: string; size?: number }) => { const C = ICONS
 export default function Badges() {
   const { data: d, error, reload } = useLoad(loadBadges);
   const [sel, setSel] = useState<string | null>(null);
-  const [f, setF] = useState({ student: "", note: "", bonus: "", cond: "" });
+  const [f, setF] = useState({ student: "", note: "", bonus: "", cond: "", funding: "wallet" as "wallet" | "cash" });
   const [nb, setNb] = useState({ name: "", icon: "star", desc: "" });
   if (!d) return <Loading error={error} />;
   const badge = d.defs.find((b) => b.id === sel);
@@ -37,7 +37,7 @@ export default function Badges() {
         <form className="card form" onSubmit={async (e) => {
           e.preventDefault();
           if (!badge) return;
-          await run(awardBadge(badge.id, f.student, f.note, Number(f.bonus || 0), f.cond), "اتمنح البادج", () => { setF({ student: "", note: "", bonus: "", cond: "" }); reload(); });
+          await run(awardBadge(badge.id, f.student, f.note, Number(f.bonus || 0), f.cond, f.funding), "اتمنح البادج", () => { setF({ student: "", note: "", bonus: "", cond: "", funding: "wallet" }); reload(); });
         }}>
           <h2>امنح بادج{badge ? `: ${badge.name}` : ""}</h2>
           {!badge && <div className="lbl">اختار بادج من البنك فوق الأول.</div>}
@@ -52,6 +52,15 @@ export default function Badges() {
             <label className="field">مكافأة مالية (ج.م)<input className="inp" type="number" min={0} step="0.01" value={f.bonus} onChange={(e) => setF({ ...f, bonus: e.target.value })} placeholder="من غير مكافأة" /></label>
             <label className="field">شرط الصرف<input className="inp" value={f.cond} onChange={(e) => setF({ ...f, cond: e.target.value })} placeholder="مثال: حضور ٩٠٪" /></label>
           </div>
+          {Number(f.bonus || 0) > 0 && (
+            <label className="field">تمويل المكافأة
+              <select className="inp" value={f.funding} onChange={(e) => setF({ ...f, funding: e.target.value as "wallet" | "cash" })}>
+                <option value="wallet">من رصيدي</option>
+                <option value="cash">كاش (بسلّمها بإيدي وتتسجّل)</option>
+                <option value="gateway" disabled>من وسائل الدفع (هتتفعل مع بوابة الدفع)</option>
+              </select>
+            </label>
+          )}
           <div><button className="btn p" disabled={!badge}>منح البادج</button></div>
         </form>
 

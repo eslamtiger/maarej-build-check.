@@ -43,9 +43,9 @@ export default function Payments() {
       )}
 
       <div className="card scroll">
-        {list.length === 0 ? <div className="empty">مفيش فواتير هنا. ولّد فواتير الشهر من صفحة المجموعة.</div> : (
+        {list.length === 0 ? <div className="empty">مفيش فواتير هنا. الفاتورة بتتعمل لكل حصة أول ما تسجّل حضور الطالب.</div> : (
           <table className="tbl">
-            <thead><tr><th>الطالب</th><th>المجموعة</th><th>الشهر</th><th>المطلوب</th><th>المدفوع</th><th>المتبقي</th><th>الاستحقاق</th><th>الحالة</th><th></th></tr></thead>
+            <thead><tr><th>الطالب</th><th>المجموعة</th><th>الحصة</th><th>المطلوب</th><th>المدفوع</th><th>المتبقي</th><th>الاستحقاق</th><th>الحالة</th><th></th></tr></thead>
             <tbody>
               {list.map((i) => (
                 <tr key={i.id}>

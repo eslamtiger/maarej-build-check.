@@ -257,8 +257,8 @@ export const makeSessions = (groupId: string, from: string, to: string) => act(a
   if (r.error) throw new Error(r.error.message);
   return r.data as number;
 });
-export const makeInvoices = (groupId: string, month: string) => act(async () => {
-  const r = await sb().rpc("generate_invoices", { p_group_id: groupId, p_month: month });
+export const makeInvoices = (groupId: string, from: string, to: string) => act(async () => {
+  const r = await sb().rpc("generate_invoices", { p_group_id: groupId, p_from: from, p_to: to });
   if (r.error) throw new Error(r.error.message);
   return r.data as number;
 });
@@ -343,8 +343,8 @@ export const createBadge = (name: string, icon: string, description: string) => 
   const r = await sb().from("badge_definitions").insert({ issuer_type: "teacher", issuer_id: me, name, icon, description: description || null });
   if (r.error) throw new Error(r.error.message);
 });
-export const awardBadge = (badgeId: string, studentId: string, note: string, bonus: number, condition: string) => act(async () => {
-  const r = await sb().rpc("award_badge", { p_badge_id: badgeId, p_student_id: studentId, p_session_id: null, p_note: note || null, p_bonus: bonus, p_reward_title: null, p_reward_condition: condition || null });
+export const awardBadge = (badgeId: string, studentId: string, note: string, bonus: number, condition: string, funding: "wallet" | "cash" = "wallet") => act(async () => {
+  const r = await sb().rpc("award_badge", { p_badge_id: badgeId, p_student_id: studentId, p_session_id: null, p_note: note || null, p_bonus: bonus, p_reward_title: null, p_reward_condition: condition || null, p_funding: funding });
   if (r.error) throw new Error(r.error.message);
 });
 export const releaseReward = (id: string) => act(async () => {

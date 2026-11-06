@@ -93,7 +93,7 @@ function Detail({ id }: { id: string }) {
   const { data: d, error, reload } = useLoad(() => loadGroup(id));
   const [sch, setSch] = useState({ day: 0, start: "16:30", end: "18:00" });
   const [gen, setGen] = useState({ from: today(), to: plus(30) });
-  const [month, setMonth] = useState(today().slice(0, 7));
+  const [bill, setBill] = useState({ from: plus(-30), to: today() });
   const [hw, setHw] = useState({ title: "", due: "" });
   const [ex, setEx] = useState({ title: "", date: "", max: "100" });
   if (!d) return <Loading error={error} />;
@@ -164,9 +164,12 @@ function Detail({ id }: { id: string }) {
 
         <section className="card form">
           <h2>الفواتير</h2>
-          <p className="lbl">فاتورة كل طالب = سعر الحصة × عدد حصص الشهر (من غير الملغية).</p>
-          <label className="field">الشهر<input className="inp" type="month" value={month} onChange={(e) => setMonth(e.target.value)} dir="ltr" /></label>
-          <div><button className="btn p" onClick={() => run(makeInvoices(id, `${month}-01`), "اتولّدت الفواتير", reload)}>ولّد فواتير الشهر</button></div>
+          <p className="lbl">كل حصة لها فاتورة لكل طالب بسعر الحصة. الفاتورة بتتعمل تلقائي لما تسجّل حضور الطالب، وتقدر تولّد فواتير حصص فاتت من هنا (الغايب والمعذور بيتخطوا).</p>
+          <div className="frow">
+            <label className="field">من<input className="inp" type="date" value={bill.from} onChange={(e) => setBill({ ...bill, from: e.target.value })} dir="ltr" /></label>
+            <label className="field">إلى<input className="inp" type="date" value={bill.to} onChange={(e) => setBill({ ...bill, to: e.target.value })} dir="ltr" /></label>
+          </div>
+          <div><button className="btn p" onClick={() => run(makeInvoices(id, bill.from, bill.to), "اتولّدت الفواتير", reload)}>ولّد فواتير الحصص</button></div>
         </section>
 
         <section className="card form">
