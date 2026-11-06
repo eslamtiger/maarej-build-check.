@@ -37,7 +37,7 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
     </div>
    </div>
    <ContactBar info={demoContact(t.id)}/>
-   {p&&<blockquote className={k.tMsg}>{p.bio}</blockquote>}
+   {p&&<blockquote className={k.tMsg}><em className={k.spark} aria-hidden="true">😊</em>{p.bio}</blockquote>}
    <div className={k.tId}>
     <ul className={k.chips}>{t.subjects.map(x=><li key={x}>{subjectEmoji(x)} {x}</li>)}{t.systems.map(x=><li key={x} data-tone="system">🏫 {x}</li>)}{t.stages.map(x=><li key={x} data-tone="stage">🎓 {x}</li>)}</ul>
     <ul className={k.tRows}>
@@ -48,7 +48,7 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
   </header>
   <TeacherSchedule teacherId={t.id} between={
    <Section id="tips" emoji="💡" title="نصايح للطلاب">
-    <ol className={k.thinks}>{tips.map((x,i)=><li key={x.title} data-c={i%4}><span className={k.tEmo} aria-hidden="true">{x.emoji}</span><i className={k.dots} aria-hidden="true"/><div className={k.cloud}><b>{x.title}</b><p>{x.text}</p></div></li>)}</ol>
+    <ol className={k.thinks}>{tips.map((x,i)=><li key={x.title} data-c={i%4}><span className={k.tEmo} aria-hidden="true">{x.mark}</span><i className={k.dots} aria-hidden="true"/><div className={k.cloud}><em className={k.spark} aria-hidden="true">{x.spark}</em><b>{x.title}</b><p>{x.text}</p></div></li>)}</ol>
    </Section>}/>
   <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={demoTeacherReviews(t)} total={t.rating??4.5} count={t.reviewCount}/></Section>
   <Section id="loc-title" emoji="📍" title="الموقع"><p className={k.addr}>{t.areas.join('، ')}</p><MapEmbed query={`${area}، ${gov||'مصر'}`} label={`خريطة ${area}`}/></Section>

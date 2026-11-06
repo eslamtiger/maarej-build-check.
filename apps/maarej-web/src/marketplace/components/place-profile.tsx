@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import type {ReactNode,CSSProperties} from 'react';
 import type {CenterDTO,SpaceDTO} from '../types/place';
 import {featureLabel,placePhotos} from '../adapters/places';
 import {emojiFor} from '../adapters/emoji';
@@ -35,13 +35,27 @@ function PlaceHero({id,logo,name,kind,rating,reviews,big,bigLabel,photos,contact
  </header>;
 }
 
+// Busy hours (Google Business style), computed from the center's weekly timetable: how many booked groups run in each hour.
+function Busy({id}:{id:string}){
+ const booked=sessionsForCenter(id).filter(x=>x.status==='booked');
+ const hours=Array.from({length:CLOSE-OPEN},(_,i)=>OPEN+i);
+ const n=hours.map(h=>booked.filter(x=>x.start<=h&&h<x.start+x.dur).length);
+ const max=Math.max(1,...n),peak=n.indexOf(max);
+ return <Section id="busy" emoji="📊" title="أوقات الزحمة">
+  <div className={k.busy} role="img" aria-label={`ذروة الزحمة ${hourLabel(hours[peak])}`}>
+   <div className={k.bars}>{hours.map((h,i)=><span key={h} style={{'--h':`${Math.round(n[i]/max*100)}%`} as CSSProperties} data-peak={i===peak}/>)}</div>
+   <div className={k.busyHours}><span>{hourLabel(OPEN)}</span><span>{hourLabel(OPEN+4)}</span><span>{hourLabel(OPEN+8)}</span><span>{hourLabel(CLOSE)}</span></div>
+  </div>
+ </Section>;
+}
+
 // Center profile: hero → manager word → key info → equipment → rooms (photos, timetable, booking) → teachers → reviews → map.
 export function CenterProfile({center:c}:{center:CenterDTO}){
  const branches=demoBranches(c),note=managerNote(c),photos=placePhotos('center',c.id,1000,15);
  const groups=sessionsForCenter(c.id).filter(x=>x.status==='booked'),teachersN=new Set(groups.map(x=>x.teacherId)).size;
  return <PublicMarketplaceShell active="centers"><div className={styles.profile}>
   <PlaceHero id="sec-about" logo="🏫" name={c.name} kind={`${c.type} · ${c.area}`} rating={c.rating} reviews={c.reviews} big={c.rooms.length} bigLabel="قاعات" photos={photos.slice(0,6)} contact={demoContact(c.id)}>
-   <blockquote className={k.tMsg}>{note.text}</blockquote>
+   <blockquote className={k.tMsg}><em className={k.spark} aria-hidden="true">😊</em>{note.text}</blockquote>
    <InfoList rows={[
     {emoji:'📍',label:'العنوان',value:c.address},
     {emoji:'🧭',label:'الاتجاهات',value:<Dir lat={c.lat} lng={c.lng}/>},
@@ -54,6 +68,7 @@ export function CenterProfile({center:c}:{center:CenterDTO}){
    ]}/>
    <Chips items={c.features.map(f=>{const l=featureLabel(f);return {emoji:emojiFor(l),label:l};})}/>
   </PlaceHero>
+  <Busy id={c.id}/>
   <CenterSchedule center={c}/>
   <CenterTeachers center={c}/>
   <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={c.reviewsByRole} total={c.rating} count={c.reviews}/></Section>

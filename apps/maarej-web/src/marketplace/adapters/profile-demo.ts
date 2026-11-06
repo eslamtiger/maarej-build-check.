@@ -37,12 +37,12 @@ export function demoTeacherReviews(t:TeacherSearchDTO){
 
 // Teacher's tips for students (demo until teachers write their own): two general + two picked by the teacher's id.
 const tipPool=[
- {emoji:'📝',title:'لخّص بإيدك',text:'بعد كل حصة اكتب أهم 3 نقط في ورقة واحدة، وراجعها قبل الحصة الجاية.'},
- {emoji:'⏰',title:'مذاكرة قصيرة كل يوم',text:'نص ساعة كل يوم أحسن من 4 ساعات يوم الامتحان.'},
- {emoji:'❓',title:'اسأل من غير كسوف',text:'لو حاجة مش واضحة قولها في الحصة أو ابعتها رسالة. مفيش سؤال وحش.'},
- {emoji:'🔁',title:'حل امتحانات قديمة',text:'حل امتحان كامل كل أسبوع في وقته، وبعدين صحّح لنفسك.'},
- {emoji:'😴',title:'نام كويس',text:'النوم بيثبّت اللي ذاكرته. متسهرش ليلة الامتحان.'},
- {emoji:'🎯',title:'حط هدف صغير',text:'قسّم الباب لأجزاء، وكل يوم خلّص جزء واحد بس.'},
+ {mark:'✅',spark:'😉',title:'لخّص بإيدك',text:'بعد كل حصة اكتب أهم 3 نقط في ورقة واحدة، وراجعها قبل الحصة الجاية.'},
+ {mark:'😄',spark:'✔️',title:'مذاكرة قصيرة كل يوم',text:'نص ساعة كل يوم أحسن من 4 ساعات يوم الامتحان.'},
+ {mark:'❓',spark:'😊',title:'اسأل من غير كسوف',text:'لو حاجة مش واضحة قولها في الحصة أو ابعتها رسالة. مفيش سؤال وحش.'},
+ {mark:'😎',spark:'✔️',title:'حل امتحانات قديمة',text:'حل امتحان كامل كل أسبوع في وقته، وبعدين صحّح لنفسك.'},
+ {mark:'😴',spark:'😉',title:'نام كويس',text:'النوم بيثبّت اللي ذاكرته. متسهرش ليلة الامتحان.'},
+ {mark:'💯',spark:'😄',title:'حط هدف صغير',text:'قسّم الباب لأجزاء، وكل يوم خلّص جزء واحد بس.'},
 ];
 export function demoTeacherTips(t:Pick<TeacherSearchDTO,'id'>){const h=hash(t.id);return [tipPool[0],tipPool[1],tipPool[2+(h%4)],tipPool[2+((h+1)%4)]];}
 

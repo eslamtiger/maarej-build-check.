@@ -266,3 +266,19 @@
 .cloud p { margin:4px 0 0; font-size:.9375rem; font-weight:600; line-height:1.75; }
 @media (prefers-reduced-motion:reduce) { .tEmo { animation:none; } }
 @media (min-width:900px) { .thinks { grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px 18px; } .thinks li { width:100%; } .thinks li:nth-child(even) { flex-direction:row; justify-self:start; } }
+
+/* ---------- Round 4: photo fills its column, website full width, expression marks on clouds, busy hours ---------- */
+.tTop { margin-top:-48px; }
+.tAvatar { width:132px; height:auto; min-height:150px; align-self:stretch; border-radius:32px; }
+.tSide { padding-top:56px; }
+.tHero .site { justify-self:stretch; justify-content:center; min-height:50px; font-size:1rem; }
+@media (min-width:720px) { .tTop { margin-top:-64px; } .tAvatar { width:176px; min-height:200px; border-radius:40px; } .tSide { padding-top:74px; } }
+@media (max-width:380px) { .tAvatar { width:112px; min-height:140px; } .tRate b { font-size:1.4rem; } .tYears b { font-size:1.9rem; } }
+.spark { position:absolute; top:-15px; inset-inline-end:18px; font-style:normal; font-size:1.55rem; line-height:1; transform:rotate(12deg); filter:drop-shadow(0 2px 0 rgba(22,19,61,.12)); pointer-events:none; }
+.cloud { position:relative; }
+.tEmo { font-size:1.9rem; }
+.busy { display:grid; gap:6px; }
+.bars { display:flex; align-items:flex-end; gap:5px; height:96px; padding:0 2px; }
+.bars span { flex:1; height:var(--h); min-height:5px; border-radius:7px 7px 3px 3px; background:#D9D5F2; }
+.bars span[data-peak=true] { background:#4B3FD6; box-shadow:0 3px 0 #3328A8; }
+.busyHours { display:flex; justify-content:space-between; color:#7D7A98; font-weight:700; font-size:.8125rem; }
