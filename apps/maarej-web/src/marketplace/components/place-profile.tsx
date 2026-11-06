@@ -11,6 +11,8 @@ import {SaveButton} from './save-button';
 import {OpenNow} from './live';
 import {managerNote,demoContact,demoPlaceReviews} from '../adapters/profile-demo';
 import {hourLabel,OPEN,CLOSE} from '../adapters/schedule';
+import {marketplaceCenters,placePhoto} from '../adapters/places';
+import Link from 'next/link';
 import k from './profile-kit.module.css';
 import styles from './places.module.css';
 
@@ -25,8 +27,7 @@ function PlaceHero({id,savedKind,placeId,logo,avatar,name,kind,rating,reviews,bi
   <div className={k.tTop}>
    <span className={`${k.tAvatar} ${k.tPlace}`} aria-hidden="true"><img src={avatar} alt=""/><i>{logo}</i></span>
    <div className={k.tSide}>
-    <h1><bdi>{name}</bdi></h1>
-    <OpenNow/>
+    <div className={k.nameRow}><h1><bdi>{name}</bdi></h1><OpenNow className={k.openSm}/></div>
     <div className={k.tTiles}>
      <div className={k.tRate}><b><span className={k.tStar} aria-hidden="true">★</span><bdi>{rating.toFixed(1)}</bdi></b><small>{reviews} تقييم</small></div>
      <div className={k.tYears}><b><bdi>{big}</bdi></b><small>{bigLabel}</small></div>
@@ -36,6 +37,14 @@ function PlaceHero({id,savedKind,placeId,logo,avatar,name,kind,rating,reviews,bi
   <ContactBar info={contact}/>
   {children}
  </header>;
+}
+
+// Other branches: two other centers shown as cards (demo: the same brand is imagined in other areas).
+function Branches({center:c}:{center:CenterDTO}){
+ const n=marketplaceCenters.length,i=marketplaceCenters.findIndex(x=>x.id===c.id);
+ const others=[5,11,17].map(d=>marketplaceCenters[(i+d)%n]).filter((x,k,a)=>x.id!==c.id&&x.area!==c.area&&a.findIndex(y=>y.area===x.area)===k).slice(0,2);
+ if(!others.length)return null;
+ return <Section id="branches" emoji="🏢" title="الفروع الأخرى"><ul className={k.branches}>{others.map(b=><li key={b.id}><Link href={`/centers/${b.id}`}><img src={placePhoto('center',b.id,400)} alt="" loading="lazy"/><span><b>{b.name}</b><small>📍 {b.area}</small></span></Link></li>)}</ul></Section>;
 }
 
 // Center profile: hero → manager word → key info → equipment → rooms (photos, timetable, booking) → teachers → reviews → map.
@@ -48,10 +57,11 @@ export function CenterProfile({center:c}:{center:CenterDTO}){
   </PlaceHero>
   <CenterSchedule center={c}/>
   <CenterTeachers center={c}/>
-  <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={c.reviewsByRole} total={c.rating} count={c.reviews}/></Section>
+  <Branches center={c}/>
+  <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={c.reviewsByRole} total={c.rating} count={c.reviews} target={`center:${c.id}`}/></Section>
   <Section id="loc-title" emoji="📍" title="الموقع"><p className={k.addr}>{c.address}</p><MapEmbed query={`${c.lat},${c.lng}`} label={`خريطة ${c.name}`}/></Section>
  </div>
- <SectionTabs items={[{id:'sec-about',label:'التعريف',emoji:'💬'},{id:'rooms',label:'المواعيد',emoji:'📅'},{id:'sec-our-t',label:'المدرسين',emoji:'🧑‍🏫'},{id:'sec-rev-title',label:'التقييمات',emoji:'⭐'}]}/>
+ <SectionTabs items={[{id:'sec-about',label:'التعريف',emoji:'💬'},{id:'rooms',label:'المواعيد',emoji:'📅'},{id:'sec-our-t',label:'المدرسين',emoji:'🧑‍🏫'},{id:'sec-branches',label:'الفروع',emoji:'🏢'},{id:'sec-rev-title',label:'التقييمات',emoji:'⭐'}]}/>
  </PublicMarketplaceShell>;
 }
 
@@ -63,7 +73,7 @@ export function SpaceProfile({space:s}:{space:SpaceDTO}){
    <Scribble items={[{emoji:'📍',text:address},{emoji:'👥',text:s.capacity===1?'فرد واحد':`حتى ${s.capacity} أفراد`,hl:'green'},{emoji:'💰',text:`${s.price.min} – ${s.price.max} ج.م`,hl:'amber'},{emoji:'🧭',text:'الاتجاهات',href:mapsLink(s.lat,s.lng),hl:'indigo'}]}/>
   </PlaceHero>
   <SpaceSchedule space={s}/>
-  <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={demoPlaceReviews(s.id,s.rating)} total={s.rating} count={s.reviews}/></Section>
+  <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={demoPlaceReviews(s.id,s.rating)} total={s.rating} count={s.reviews} target={`space:${s.id}`}/></Section>
   <Section id="loc-title" emoji="📍" title="الموقع"><p className={k.addr}>{address}</p><MapEmbed query={`${s.lat},${s.lng}`} label={`خريطة ${s.name}`}/></Section>
  </div>
  <SectionTabs items={[{id:'sec-about',label:'التعريف',emoji:'💬'},{id:'rooms',label:'القاعات',emoji:'📅'},{id:'sec-rev-title',label:'التقييمات',emoji:'⭐'},{id:'sec-loc-title',label:'الموقع',emoji:'📍'}]}/>

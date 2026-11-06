@@ -5,6 +5,8 @@ import {useEffect,useState} from 'react';
 import type {ReactNode,CSSProperties} from 'react';
 import type {LucideIcon} from 'lucide-react';
 import {Star,Phone,Globe,Mail} from 'lucide-react';
+import {useDemoUser,loginUrl} from '../adapters/demo-auth';
+import {useMyReviews,addMyReview} from '../adapters/my-reviews';
 import p from './profile-kit.module.css';
 
 export function Section({id,emoji,title,children,aside}:{id:string;emoji:string;title:string;children:ReactNode;aside?:ReactNode}){
@@ -58,21 +60,40 @@ export type Review={name:string;rating:number;text:string};
 export type ReviewRole='students'|'parents'|'teachers'|'centers';
 const roleLabel:Record<ReviewRole,string>={students:'الطلاب',parents:'أولياء الأمور',teachers:'المدرسين',centers:'السناتر'};
 const avg=(l:readonly Review[])=>l.length?l.reduce((s,r)=>s+r.rating,0)/l.length:0;
-export function Reviews({byRole,total,count}:{byRole:Partial<Record<ReviewRole,readonly Review[]>>;total:number;count?:number}){
- const roles=(Object.keys(roleLabel) as ReviewRole[]).filter(r=>(byRole[r]?.length??0)>0);
+const PAGE=10;
+const roleOf={student:'students',parent:'parents',teacher:'teachers'} as const;
+export function Reviews({byRole,total,count,target}:{byRole:Partial<Record<ReviewRole,readonly Review[]>>;total:number;count?:number;target:string}){
+ const mine=useMyReviews(target);
+ const user=useDemoUser();
+ const merged:Partial<Record<ReviewRole,readonly Review[]>>={...byRole};
+ for(const m of mine)merged[m.role]=[{name:m.name,rating:m.rating,text:m.text},...(merged[m.role]??[])];
+ const roles=(Object.keys(roleLabel) as ReviewRole[]).filter(r=>(merged[r]?.length??0)>0);
  const [tab,setTab]=useState<ReviewRole|'all'>('all');
- const [all,setAll]=useState(false);
- if(!roles.length)return null;
- const list=(tab==='all'?roles:[tab]).flatMap(r=>(byRole[r]??[]).map(x=>({...x,role:r})));
- const shown=all?list:list.slice(0,3);
+ const [page,setPage]=useState(0);
+ const [stars,setStars]=useState(0);
+ const [text,setText]=useState('');
+ const [thanks,setThanks]=useState(false);
+ const list=(tab==='all'?roles:[tab]).flatMap(r=>(merged[r]??[]).map(x=>({...x,role:r})));
+ const pages=Math.max(1,Math.ceil(list.length/PAGE)),cur=Math.min(page,pages-1);
+ const shown=list.slice(cur*PAGE,cur*PAGE+PAGE);
+ const all=Object.values(merged).flat() as Review[];
+ const shownTotal=mine.length?avg(all):total,shownCount=(count??all.length-mine.length)+mine.length;
+ const submit=()=>{if(!user){location.assign(loginUrl(`${location.pathname}#rev-title`));return;}if(!stars||text.trim().length<2)return;
+  addMyReview({target,name:user.name,role:roleOf[user.role],rating:stars,text:text.trim(),at:new Date().toISOString()});setStars(0);setText('');setThanks(true);setTab('all');setPage(0);};
  return <div className={p.reviews}>
-  <div className={p.rSummary}><b><bdi>{total.toFixed(1)}</bdi></b><span><span className={p.rStars} aria-hidden="true">{'★★★★★'.slice(0,Math.round(total))}<i>{'★★★★★'.slice(Math.round(total))}</i></span>{count!==undefined&&<small>{count} تقييم</small>}</span></div>
+  <div className={p.rSummary}><b><bdi>{shownTotal.toFixed(1)}</bdi></b><span><span className={p.rStars} aria-hidden="true">{'★★★★★'.slice(0,Math.round(shownTotal))}<i>{'★★★★★'.slice(Math.round(shownTotal))}</i></span><small>{shownCount} تقييم</small></span></div>
+  <form className={p.rForm} onSubmit={e=>{e.preventDefault();submit();}} aria-label="أضف تقييمك">
+   <b>✍️ أضف تقييمك</b>
+   <div className={p.pick} role="radiogroup" aria-label="عدد النجوم">{[1,2,3,4,5].map(n=><button key={n} type="button" role="radio" aria-checked={stars===n} aria-label={`${n} نجوم`} data-on={n<=stars} onClick={()=>{setStars(n);setThanks(false);}}>★</button>)}</div>
+   <textarea value={text} onChange={e=>{setText(e.target.value);setThanks(false);}} rows={3} maxLength={400} placeholder="اكتب رأيك" aria-label="تعليقك"/>
+   <div className={p.rFoot}><button type="submit" className={p.rSend} disabled={!!user&&(!stars||text.trim().length<2)}>{user?'انشر تقييمي':'سجّل دخولك عشان تقيّم'}</button>{thanks&&<span className={p.rThanks}>🎉 شكرًا، تقييمك اتضاف</span>}</div>
+  </form>
   <div className={p.subTabs} role="tablist" aria-label="الآراء حسب الفئة">
-   <button type="button" role="tab" aria-selected={tab==='all'} onClick={()=>{setTab('all');setAll(false);}}>الكل</button>
-   {roles.map(r=><button key={r} type="button" role="tab" aria-selected={tab===r} onClick={()=>{setTab(r);setAll(false);}}>{roleLabel[r]} <small>★ <bdi>{avg(byRole[r]!).toFixed(1)}</bdi></small></button>)}
+   <button type="button" role="tab" aria-selected={tab==='all'} onClick={()=>{setTab('all');setPage(0);}}>الكل</button>
+   {roles.map(r=><button key={r} type="button" role="tab" aria-selected={tab===r} onClick={()=>{setTab(r);setPage(0);}}>{roleLabel[r]} <small>★ <bdi>{avg(merged[r]!).toFixed(1)}</bdi></small></button>)}
   </div>
-  <ul className={p.rList}>{shown.map((x,i)=><li key={i}><div className={p.rHead}><span className={p.qAvatar} aria-hidden="true">{x.name.trim().charAt(0)}</span><span><b>{x.name}</b><small>{roleLabel[x.role]}</small></span><em>★ <bdi>{x.rating.toFixed(1)}</bdi></em></div><p>{x.text}</p></li>)}</ul>
-  {list.length>3&&<button type="button" className={p.moreBtn} onClick={()=>setAll(v=>!v)}>{all?'أقل':`كل الآراء (${list.length})`}</button>}
+  <ul className={p.rList}>{shown.map((x,i)=><li key={`${cur}-${i}`}><div className={p.rHead}><span className={p.qAvatar} aria-hidden="true">{x.name.trim().charAt(0)}</span><span><b>{x.name}</b><small>{roleLabel[x.role]}</small></span><em>★ <bdi>{x.rating.toFixed(1)}</bdi></em></div><p>{x.text}</p></li>)}</ul>
+  {pages>1&&<nav className={p.pager} aria-label="صفحات التقييمات">{Array.from({length:pages},(_,n)=><button key={n} type="button" aria-current={n===cur?'page':undefined} onClick={()=>setPage(n)}>{n+1}</button>)}</nav>}
  </div>;
 }
 

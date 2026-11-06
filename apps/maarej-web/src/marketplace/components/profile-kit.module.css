@@ -314,3 +314,51 @@
 .tPlace > i { width:44px; height:44px; font-size:1.4rem; }
 @media (min-width:720px) { .tTop { margin-top:-72px; } .tAvatar { width:184px; height:184px; } .tSide { padding-top:80px; } .tPlace > i { width:54px; height:54px; font-size:1.7rem; } }
 @media (max-width:380px) { .tAvatar { width:120px; height:120px; } .tSide { padding-top:56px; } }
+
+/* Reviews: add form + pages */
+.rForm { display:grid; gap:10px; padding:14px; border-radius:20px; background:#fff; border:1.5px dashed #C9C2F5; }
+.rForm > b { color:#16133D; font-size:1rem; }
+.pick { display:flex; gap:4px; }
+.pick button { width:44px; height:44px; border:0; border-radius:12px; background:#F3F1FF; color:#C9C5E8; font-size:1.7rem; line-height:1; cursor:pointer; transition:transform .15s, color .15s; }
+.pick button[data-on=true] { color:#F5A300; background:#FFF1D6; }
+.pick button:active { transform:scale(.9); }
+.rForm textarea { width:100%; padding:12px 14px; border-radius:14px; border:2px solid #ECEAF4; background:#FBFAFF; font:inherit; resize:vertical; }
+.rForm textarea:focus { outline:3px solid #A59CFF; border-color:#4B3FD6; }
+.rFoot { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.rSend { min-height:46px; padding:0 20px; border:0; border-radius:14px; background:#4B3FD6; color:#fff; font:inherit; font-weight:800; box-shadow:0 4px 0 #3328A8; cursor:pointer; }
+.rSend:active { transform:translateY(3px); box-shadow:0 1px 0 #3328A8; }
+.rSend:disabled { background:#C9C5E8; box-shadow:0 4px 0 #B3AEDB; cursor:not-allowed; }
+.rThanks { color:#0E6A4B; font-weight:800; }
+.pager { display:flex; gap:6px; flex-wrap:wrap; }
+.pager button { min-width:44px; min-height:44px; border:2px solid #E2DFEE; border-radius:12px; background:#fff; color:#4B3FD6; font:inherit; font-weight:800; cursor:pointer; }
+.pager button[aria-current=page] { background:#4B3FD6; border-color:#4B3FD6; color:#fff; }
+
+/* Name row with the small open-now chip beside the name; bigger round photo; other branches */
+.nameRow { display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; }
+.openSm { padding:1px 8px !important; font-size:.7rem !important; gap:5px !important; }
+.openSm i { width:6px !important; height:6px !important; }
+.tTop { margin-top:-64px; }
+.tAvatar { width:156px; height:156px; }
+.tSide { padding-top:70px; }
+.tPlace > i { width:48px; height:48px; font-size:1.5rem; }
+@media (min-width:720px) { .tTop { margin-top:-84px; } .tAvatar { width:208px; height:208px; } .tSide { padding-top:92px; } .tPlace > i { width:58px; height:58px; font-size:1.8rem; } }
+@media (max-width:380px) { .tAvatar { width:132px; height:132px; } .tSide { padding-top:60px; } }
+.branches { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin:0; padding:0; list-style:none; }
+.branches a { display:flex; align-items:center; gap:12px; padding:10px; border-radius:20px; background:#fff; border:1.5px solid #ECEAF4; box-shadow:0 3px 0 #ECEAF4; color:inherit; text-decoration:none; }
+.branches img { width:76px; height:76px; border-radius:16px; object-fit:cover; background:#FFE9BE; flex:none; }
+.branches span { display:grid; gap:2px; min-width:0; }
+.branches b { font-family:var(--m-font-display); color:#16133D; font-size:1.05rem; }
+.branches small { color:#625F7C; font-weight:700; }
+.branches a:active { transform:translateY(2px); box-shadow:none; }
+
+/* Tips written by hand on lined paper, signed by the teacher */
+.paper { position:relative; padding:26px 20px 22px; border-radius:6px 16px 8px 14px; background:#FFFDF3; background-image:repeating-linear-gradient(transparent 0 35px,#D9E3F5 35px 36px); box-shadow:0 8px 20px rgba(22,19,61,.12); transform:rotate(-.6deg); font-family:'Aref Ruqaa','Reem Kufi',var(--m-font-ar),serif; color:#26307A; }
+.paper::before { content:""; position:absolute; inset-block:0; inset-inline-start:34px; width:2px; background:rgba(226,92,92,.35); }
+.tape { position:absolute; top:-12px; left:50%; width:90px; height:26px; margin-left:-45px; background:rgba(255,193,77,.55); transform:rotate(-3deg); }
+.hello { margin:0 0 4px; padding-inline-start:30px; font-size:1.35rem; font-weight:700; line-height:36px; }
+.hand { display:grid; margin:0; padding:0 30px 0 0; padding-inline-start:46px; padding-inline-end:6px; font-size:1.2rem; line-height:36px; }
+.hand li { padding-inline-start:0; }
+.hand b { font-weight:700; color:#B3201F; }
+.sign { display:grid; justify-items:end; margin:10px 0 0; padding-inline-end:6px; line-height:1.2; }
+.sign span { font-size:1.05rem; opacity:.8; }
+.sign em { margin-top:4px; font-style:normal; font-size:1.9rem; font-weight:700; color:#3328A8; transform:rotate(-4deg); border-bottom:3px wavy rgba(51,40,168,.45); padding:0 6px 4px; text-decoration:none; }

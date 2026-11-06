@@ -1,6 +1,6 @@
 'use client';
 import {useEffect,useMemo,useState,useCallback} from 'react';
-import {MapPin,Map as MapIcon,Banknote,UsersRound,Sparkles,ArrowUpDown,Star,Building2,DoorOpen} from 'lucide-react';
+import {MapPin,Map as MapIcon,Banknote,UsersRound,Sparkles,ArrowUpDown,Star} from 'lucide-react';
 import {marketplaceCenters,marketplaceSpaces,emptyPlaceFilters,filterPlaces,placeOptions,activePlaceFilters,parsePlaceQuery,serializePlaceQuery,featureLabel,placePhoto,governorates} from '../adapters/places';
 import {governorateFromUrl,withGovernorate} from '../adapters/location';
 import type {PlaceFilters} from '../types/place';
@@ -60,7 +60,7 @@ export function PlaceSearch({kind}:{kind:'centers'|'spaces'}){
  return <PublicMarketplaceShell active={kind}>
   <h1 className={k.srOnly}>المنشآت التعليمية: {t.title}</h1>
   <SearchTop>
-   <Segmented items={[{href:'/centers',label:'سناتر',count:marketplaceCenters.length,icon:Building2,active:kind==='centers'},{href:'/spaces',label:'مساحات مذاكرة',count:marketplaceSpaces.length,icon:DoorOpen,active:kind==='spaces'}]}/>
+   <Segmented items={[{href:'/centers',label:'سناتر',count:marketplaceCenters.length,emoji:'🏫',active:kind==='centers'},{href:'/spaces',label:'مساحات مذاكرة',count:marketplaceSpaces.length,emoji:'📚',active:kind==='spaces'}]}/>
    <SearchBox id={`${kind}-q`} value={f.q} onChange={q=>set({q})} placeholder={t.search}/>
   </SearchTop>
 
