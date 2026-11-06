@@ -20,3 +20,16 @@
 .done { display:grid; justify-items:center; gap:10px; }
 
 .heroWrap { position:relative; justify-self:center; width:56px; height:56px; display:grid; place-items:center; }
+.wrap { grid-template-columns:1fr; gap:18px; justify-items:center; }
+.side { position:relative; display:grid; gap:12px; justify-items:center; width:min(100%,440px); order:2; padding:8px 0; }
+.side h2 { margin:0; font-family:var(--m-font-display); font-size:1.25rem; color:#16133D; }
+.pics { position:relative; width:100%; height:150px; }
+.pics > img { position:absolute; width:46%; height:110px; object-fit:cover; border-radius:16px; border:4px solid #fff; box-shadow:0 8px 16px rgba(22,19,61,.18); background:#FFE9BE; }
+.pics > img:nth-of-type(1) { inset-inline-start:2%; top:6px; rotate:-5deg; }
+.pics > img:nth-of-type(2) { inset-inline-end:2%; top:0; rotate:4deg; }
+.faces { position:absolute; inset-inline-start:34%; bottom:0; display:flex; padding-inline-start:12px; z-index:2; }
+.faces img { width:44px; height:44px; margin-inline-start:-12px; border-radius:50%; object-fit:cover; border:3px solid #fff; background:#E4E0FF; }
+.perks { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
+.perks li { display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; background:#fff; border:1px solid #E7E5F1; font-weight:800; color:#16133D; font-size:.9375rem; }
+.card { order:1; }
+@media (min-width:900px) { .wrap { grid-template-columns:1fr 440px; align-items:center; gap:48px; justify-items:stretch; padding-top:40px; } .side { order:1; width:100%; justify-self:end; } .card { order:2; } .pics { height:240px; } .pics > img { height:180px; } }

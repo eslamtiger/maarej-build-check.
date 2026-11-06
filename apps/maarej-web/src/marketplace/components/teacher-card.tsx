@@ -20,7 +20,6 @@ export function TeacherPortrait({teacher:t,className=''}:{teacher:Pick<TeacherSe
   :<span className={`${styles.initials} ${className}`} style={{background:teacherGradient(t.id),color:'#fff',display:'grid',placeItems:'center',fontWeight:800}} aria-hidden="true">{initialsOf(t.name)}</span>;
 }
 
-import {NextSlot} from './live';
 export function TeacherCard({teacher:t,returnTo='/teachers',active=false,picked=false,onHover,index=0}:{teacher:TeacherSearchDTO;returnTo?:string;active?:boolean;picked?:boolean;onHover?:(id:string|null)=>void;index?:number}){
  const [failed,setFailed]=useState(false);
  const {hot,setHot,handlers,ref,centered}=useCardMotion();
@@ -38,7 +37,6 @@ export function TeacherCard({teacher:t,returnTo='/teachers',active=false,picked=
    <CardHead name={t.name} area={t.areas[0]??'—'} href={href} onFocus={()=>onHover?.(t.id)} onBlur={()=>onHover?.(null)}/>
    <Tags tags={[...t.subjects.slice(0,2).map(s=>({emoji:subjectEmoji(s),label:s})),...t.systems.slice(0,1).map(s=>({emoji:'🏫',label:s,tone:'system' as const}))]} kind="subjects" label="المواد والنظام"/>
    <Facts facts={facts}/>
-   <NextSlot teacherId={t.id}/>
   </div>
  </article>;
 }

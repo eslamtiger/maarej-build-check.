@@ -5,7 +5,6 @@ import {PublicMarketplaceShell} from './public-shell';
 import {TeacherPortrait} from './teacher-card';
 import {TeacherSchedule} from './schedule';
 import {Scribble,Group} from './fun';
-import {NextSlot} from './live';
 import {Section,ContactBar,Reviews,MapEmbed,SectionTabs} from './profile-kit';
 import {demoContact,demoTeacherReviews,demoTeacherTips} from '../adapters/profile-demo';
 import {subjectEmoji} from '../adapters/emoji';
@@ -32,7 +31,6 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
     <TeacherPortrait teacher={t} className={k.tAvatar}/>
     <div className={k.tSide}>
      <h1>{t.name}{p?.verified&&<BadgeCheck size={22} aria-label="ملف موثّق"/>}</h1>
-     <NextSlot teacherId={t.id}/>
      <div className={k.tTiles}>
       {t.rating!==undefined&&<div className={k.tRate}><b><span className={k.tStar} aria-hidden="true">★</span><bdi>{t.rating.toFixed(1)}</bdi></b><small>{t.reviewCount??0} تقييم</small></div>}
       {Number.isFinite(years)&&<div className={k.tYears}><b><bdi>{years}</bdi></b><small>سنوات خبرة</small></div>}

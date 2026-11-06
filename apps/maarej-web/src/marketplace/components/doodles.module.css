@@ -1,0 +1,14 @@
+.doodle { overflow:visible; fill:none; stroke:#4B3FD6; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; filter:url(#pencil); }
+.alt { stroke-width:1.6; opacity:.45; }
+.wall { position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden; background:#F6F5FB; }
+.defs { position:absolute; }
+.spot { position:absolute; opacity:.42; translate:-50% -50%; animation:dWobble 9s ease-in-out infinite; }
+.spot:nth-of-type(3n) { stroke:#D68A16; }
+.spot:nth-of-type(4n+2) { stroke:#3A9D74; }
+.wide { display:none; }
+@media (min-width:900px) { .wide { display:block; } }
+@keyframes dWobble { 0%,100% { transform:translateY(0) rotate(-2deg); } 50% { transform:translateY(-8px) rotate(3deg); } }
+.arrow { overflow:visible; fill:none; stroke:#16133D; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; opacity:.55; }
+.line { stroke-dasharray:5 7; }
+.head { stroke-dasharray:none; }
+@media (prefers-reduced-motion:reduce) { .spot { animation:none; } }
