@@ -167,7 +167,8 @@ export function ParentTeachers(){
   </div></div>}
  </>}</ParentShell>;
 }
-const monthName=(iso:string)=>{const d=new Date(iso);return isNaN(+d)?iso:d.toLocaleDateString('ar-EG',{month:'long',year:'numeric'});};
+// One invoice per session (teacher app rule): label each with its session date.
+const monthName=(iso:string)=>{const d=new Date(iso);return isNaN(+d)?iso:d.toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long'});};
 function InvoiceLedger({g}:{g:Group}){
  return g.invoices.length?<ul className={p.ledger}>{g.invoices.map(i=><li key={i.id} data-s={i.status}><span className={p.rowMain}><b>{monthName(i.period)}</b><small>{i.payments.length?i.payments.map(x=>`اتدفع ${x.amount} (${x.method==='wallet'?'من رصيده':x.method==='cash'?'كاش':x.method})${x.at?' · '+when(x.at):''}`).join('، '):i.due?`آخر ميعاد ${when(i.due)}`:''}</small></span>
   <span className={p.payCol}><b>{egp(i.amount)}</b><em className={p.status} data-s={i.status}>{i.status==='paid'?'مدفوع':i.status==='overdue'?'متأخر':i.status==='partial'?`باقي ${i.amount-i.paid}`:'مستحق'}</em></span></li>)}</ul>:<Empty>مفيش فواتير</Empty>;
