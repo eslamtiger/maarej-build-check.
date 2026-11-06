@@ -127,19 +127,11 @@
 }
 @media (max-width:440px) { .seg a { gap:6px; font-size:.9375rem; white-space:nowrap; } .seg a > svg { display:none; } .seg a b { min-width:24px; padding:1px 6px; } }
 /* The other kind of place is a call to action: amber, raised, with a soft pulse so first-time visitors notice it */
-.seg a:not([aria-current=page]) { background:linear-gradient(150deg,#FFC45E,#FF9A3D); color:#2B1B00; font-weight:800; box-shadow:0 4px 0 #D68A16, 0 10px 20px rgba(255,154,61,.35); animation:segPulse 2.8s ease-in-out infinite; }
-.seg a:not([aria-current=page]) b { background:rgba(255,255,255,.55); color:#7A4A00; }
-@keyframes segPulse { 0%,100% { box-shadow:0 4px 0 #D68A16, 0 0 0 0 rgba(255,154,61,.45); } 50% { box-shadow:0 4px 0 #D68A16, 0 0 0 7px rgba(255,154,61,0); } }
-@media (hover:hover) { .seg a:not([aria-current=page]):hover { background:linear-gradient(150deg,#FFCF75,#FFA850); color:#2B1B00; transform:translateY(-1px); } }
-@media (prefers-reduced-motion:reduce) { .seg a:not([aria-current=page]) { animation:none; } }
 
-/* Centers ↔ study spaces switch: two big sticker-like buttons; the chosen one is solid indigo. */
-.seg { gap:8px; padding:6px; border-radius:24px; background:#E4E0FF; }
-.seg a { flex-direction:column; gap:2px; min-height:78px; padding:8px 6px; border-radius:18px; background:#fff; color:#4A4668; box-shadow:0 4px 0 #CFC9F3; }
-.seg a > .segEmoji { font-size:1.9rem; line-height:1; }
-.seg a > .segText { font-size:.9375rem; font-weight:800; }
-.seg a[aria-current=page] { background:#4B3FD6; color:#fff; box-shadow:0 4px 0 #3328A8, 0 10px 20px rgba(75,63,214,.28); transform:translateY(-1px); }
-.seg a[aria-current=page] b { background:#FFB53D; color:#16133D; }
-.seg a:active { transform:translateY(3px); box-shadow:0 1px 0 #CFC9F3; }
-@media (hover:hover) { .seg a:not([aria-current=page]):hover { background:#fff; transform:translateY(-2px); } }
-@media (max-width:440px) { .seg a { gap:2px; font-size:.9375rem; } .seg a > svg { display:none; } }
+/* Centers ↔ study spaces switch: the chosen page is a darker indigo than the site colour, with a light sweeping across it. */
+.seg a { position:relative; overflow:hidden; }
+.seg a[aria-current=page] { background:linear-gradient(135deg,#4B3FD6,#2A1F8F); color:#fff; box-shadow:0 4px 0 #1F1770, 0 10px 22px rgba(42,31,143,.32); }
+.seg a[aria-current=page] b { background:rgba(255,255,255,.22); color:#fff; }
+.seg a[aria-current=page]::after { content:""; position:absolute; inset:0; background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.38) 48%,transparent 66%); transform:translateX(-120%); animation:segShine 3.2s ease-in-out infinite; pointer-events:none; }
+@keyframes segShine { 0%,55% { transform:translateX(-120%); } 85%,100% { transform:translateX(120%); } }
+@media (prefers-reduced-motion:reduce) { .seg a[aria-current=page]::after { animation:none; opacity:0; } }

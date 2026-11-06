@@ -50,11 +50,8 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
   </header>
   <TeacherSchedule teacherId={t.id} between={
    <Section id="tips" emoji="💡" title="نصايح للطلاب">
-    <div className={k.paper}><i className={k.tape} aria-hidden="true"/>
-     <p className={k.hello}>أصحابي الأعزاء،</p>
-     <ol className={k.hand}>{tips.map((x,i)=><li key={x.title}><b>{x.title}:</b> {x.text}</li>)}</ol>
-     <p className={k.sign}><span>مع تمنياتي بالتوفيق</span><em>{t.name}</em></p>
-    </div>
+    <ol className={`${k.thinks} ${k.handFont}`}>{tips.map((x,i)=><li key={x.title} data-c={i%4}><span className={k.tEmo} aria-hidden="true">{x.mark}</span><i className={k.dots} aria-hidden="true"/><div className={k.cloud}><em className={k.spark} aria-hidden="true">{x.spark}</em><b>{x.title}</b><p>{x.text}</p></div></li>)}</ol>
+    <p className={k.sign}><span>مع تمنياتي بالتوفيق ✍️</span><em>{t.name}</em></p>
    </Section>}/>
   <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={demoTeacherReviews(t)} total={t.rating??4.5} count={t.reviewCount} target={`teacher:${t.id}`}/></Section>
   <Section id="loc-title" emoji="📍" title="الموقع"><p className={k.addr}>{t.areas.join('، ')}</p><MapEmbed query={`${area}، ${gov||'مصر'}`} label={`خريطة ${area}`}/></Section>

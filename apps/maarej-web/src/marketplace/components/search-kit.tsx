@@ -104,9 +104,9 @@ export function RangeSheet({open,icon,title,bounds,step,value,onChange,onClose,c
 }
 
 // Centers | study spaces
-export function Segmented({items}:{items:readonly {href:string;label:string;count:number;emoji:string;active:boolean}[]}){
- return <nav className={k.seg} aria-label="نوع المنشأة">{items.map(({href,label,count,emoji,active})=>
-  <Link key={href} href={href} aria-current={active?'page':undefined}><span className={k.segEmoji} aria-hidden="true">{emoji}</span><span className={k.segText}>{label}</span><b><bdi dir="ltr">{count}</bdi></b></Link>)}</nav>;
+export function Segmented({items}:{items:readonly {href:string;label:string;count:number;icon:IconT;active:boolean}[]}){
+ return <nav className={k.seg} aria-label="نوع المنشأة">{items.map(({href,label,count,icon:Icon,active})=>
+  <Link key={href} href={href} aria-current={active?'page':undefined}><Icon size={18} aria-hidden="true"/>{label}<b><bdi dir="ltr">{count}</bdi></b></Link>)}</nav>;
 }
 
 export function SearchTop({children}:{children:ReactNode}){return <div className={k.top}>{children}</div>;}

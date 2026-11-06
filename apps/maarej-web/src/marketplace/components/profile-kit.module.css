@@ -351,14 +351,10 @@
 .branches small { color:#625F7C; font-weight:700; }
 .branches a:active { transform:translateY(2px); box-shadow:none; }
 
-/* Tips written by hand on lined paper, signed by the teacher */
-.paper { position:relative; padding:26px 20px 22px; border-radius:6px 16px 8px 14px; background:#FFFDF3; background-image:repeating-linear-gradient(transparent 0 35px,#D9E3F5 35px 36px); box-shadow:0 8px 20px rgba(22,19,61,.12); transform:rotate(-.6deg); font-family:'Aref Ruqaa','Reem Kufi',var(--m-font-ar),serif; color:#26307A; }
-.paper::before { content:""; position:absolute; inset-block:0; inset-inline-start:34px; width:2px; background:rgba(226,92,92,.35); }
-.tape { position:absolute; top:-12px; left:50%; width:90px; height:26px; margin-left:-45px; background:rgba(255,193,77,.55); transform:rotate(-3deg); }
-.hello { margin:0 0 4px; padding-inline-start:30px; font-size:1.35rem; font-weight:700; line-height:36px; }
-.hand { display:grid; margin:0; padding:0 30px 0 0; padding-inline-start:46px; padding-inline-end:6px; font-size:1.2rem; line-height:36px; }
-.hand li { padding-inline-start:0; }
-.hand b { font-weight:700; color:#B3201F; }
-.sign { display:grid; justify-items:end; margin:10px 0 0; padding-inline-end:6px; line-height:1.2; }
-.sign span { font-size:1.05rem; opacity:.8; }
-.sign em { margin-top:4px; font-style:normal; font-size:1.9rem; font-weight:700; color:#3328A8; transform:rotate(-4deg); border-bottom:3px wavy rgba(51,40,168,.45); padding:0 6px 4px; text-decoration:none; }
+/* Tips: the same thought clouds, written in a handwriting font, then the teacher's signature on its own. */
+.handFont .cloud b, .handFont .cloud p { font-family:'Aref Ruqaa',var(--m-font-ar),serif; }
+.handFont .cloud b { font-size:1.3rem; font-weight:700; }
+.handFont .cloud p { font-size:1.15rem; font-weight:400; line-height:1.7; }
+.sign { justify-self:end; display:grid; justify-items:center; gap:2px; margin:4px 8px 0 0; padding:12px 22px 14px; border-radius:16px 22px 14px 20px; background:#fff; border:2px dashed #C9C2F5; transform:rotate(-2deg); font-family:'Aref Ruqaa',var(--m-font-ar),serif; color:#3328A8; }
+.sign span { font-size:1.05rem; opacity:.75; }
+.sign em { font-style:normal; font-size:1.9rem; font-weight:700; line-height:1.3; padding:0 6px 4px; border-bottom:3px solid rgba(51,40,168,.4); border-radius:0 0 60% 40% / 0 0 14px 10px; }
