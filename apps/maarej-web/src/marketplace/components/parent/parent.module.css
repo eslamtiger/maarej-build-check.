@@ -86,7 +86,7 @@
 .rowSide { flex:none; color:var(--muted); font-size:.8125rem; font-weight:700; text-align:end; }
 .person { display:flex; align-items:center; gap:12px; min-width:0; }
 .badgeIcon { flex:none; display:grid; place-items:center; width:38px; height:38px; border-radius:12px; background:var(--amber); font-size:1.2rem; }
-b[data-dir=in] { color:var(--greenInk); }
+.rows b[data-dir=in] { color:var(--greenInk); }
 .moveIcon { flex:none; display:grid; place-items:center; width:36px; height:36px; border-radius:50%; background:var(--violet); color:var(--accent); }
 .moveIcon[data-dir=in] { background:var(--green); color:var(--greenInk); }
 
