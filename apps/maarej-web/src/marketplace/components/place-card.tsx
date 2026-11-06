@@ -67,6 +67,7 @@ export function CardHead({name,area,href,onFocus,onBlur}:{name:string;area:strin
  return <div className={c.head}><h3><Link href={href} className={c.cover} onFocus={onFocus} onBlur={onBlur}><bdi>{name}</bdi></Link></h3><span className={c.area}><MapPin size={16} aria-hidden="true"/>{area}</span></div>;
 }
 
+import {OpenNow} from './live';
 function PlaceCard({kind,id,href,name,area,rating,reviews,price,unit,facts,tags,tagKind,active,picked,onHover,index=0}:Props){
  const Kind=kind==='center'?Building2:DoorOpen;
  const {hot,setHot,nudge,handlers,ref,centered}=useCardMotion();
@@ -80,6 +81,7 @@ function PlaceCard({kind,id,href,name,area,rating,reviews,price,unit,facts,tags,
   </div>
   <div className={c.body}>
    <CardHead name={name} area={area} href={href} onFocus={()=>onHover?.(id)} onBlur={()=>onHover?.(null)}/>
+   <OpenNow/>
    <Facts facts={facts}/>
    <Tags tags={tags} kind={tagKind} label={tagKind==='zones'?'الأماكن':'التجهيزات'}/>
   </div>

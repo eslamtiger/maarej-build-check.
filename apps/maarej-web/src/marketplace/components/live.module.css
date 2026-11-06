@@ -1,0 +1,11 @@
+.open { display:inline-flex; align-items:center; gap:6px; padding:2px 10px; border-radius:999px; font-size:.8125rem; font-weight:800; }
+.open[data-open=true] { background:#D5F2E2; color:#0E6A4B; }
+.open[data-open=false] { background:#FDE4E4; color:#9B1C1C; }
+.open i { width:8px; height:8px; border-radius:50%; background:currentColor; }
+.open[data-open=true] i { animation:liveDot 1.6s ease-in-out infinite; }
+.next { display:inline-flex; align-items:center; gap:5px; flex-wrap:wrap; padding:2px 10px; border-radius:999px; background:#FFF1D6; color:#7A4A00; font-size:.8125rem; font-weight:700; }
+.next b { font-weight:800; }
+.next em { font-style:normal; padding:0 7px; border-radius:99px; background:#FFD3D3; color:#B3201F; font-size:.75rem; font-weight:800; }
+.next[data-full=true] { background:#F1F0F5; color:#625F7C; }
+@keyframes liveDot { 50% { box-shadow:0 0 0 4px rgba(14,106,75,.25); } }
+@media (prefers-reduced-motion:reduce) { .open i { animation:none !important; } }

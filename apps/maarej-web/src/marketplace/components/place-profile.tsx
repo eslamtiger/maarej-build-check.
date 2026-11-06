@@ -7,6 +7,7 @@ import {CenterSchedule,CenterTeachers} from './schedule';
 import {Gallery} from './gallery';
 import {Section,ContactBar,Chips,Reviews,MapEmbed,SectionTabs} from './profile-kit';
 import {Scribble} from './fun';
+import {OpenNow} from './live';
 import {managerNote,demoContact,demoPlaceReviews} from '../adapters/profile-demo';
 import {hourLabel,OPEN,CLOSE} from '../adapters/schedule';
 import k from './profile-kit.module.css';
@@ -24,6 +25,7 @@ function PlaceHero({id,logo,name,kind,rating,reviews,big,bigLabel,photos,contact
    <div className={k.tSide}>
     <h1><bdi>{name}</bdi></h1>
     <p className={k.pKind}>{kind}</p>
+    <OpenNow/>
     <div className={k.tTiles}>
      <div className={k.tRate}><b><span className={k.tStar} aria-hidden="true">★</span><bdi>{rating.toFixed(1)}</bdi></b><small>{reviews} تقييم</small></div>
      <div className={k.tYears}><b><bdi>{big}</bdi></b><small>{bigLabel}</small></div>
