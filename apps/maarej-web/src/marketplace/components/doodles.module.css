@@ -1,14 +1,14 @@
-.doodle { overflow:visible; fill:none; stroke:#4B3FD6; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; filter:url(#pencil); }
+.doodle { overflow:visible; fill:none; stroke:#4B3FD6; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .alt { stroke-width:1.6; opacity:.45; }
-.wall { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+/* In the page flow so it scrolls with the content. */
+.wall { --tile-h:1000px; position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.tile { position:absolute; inset-inline:0; height:var(--tile-h); }
 .defs { position:absolute; }
-.spot { position:absolute; opacity:.55; translate:-50% -50%; animation:dWobble 9s ease-in-out infinite; }
+/* Site colours only: indigo with some amber. */
+.spot { position:absolute; opacity:.32; translate:-50% -50%; }
 .spot:nth-of-type(3n) { stroke:#D68A16; }
-.spot:nth-of-type(4n+2) { stroke:#3A9D74; }
 .wide { display:none; }
 @media (min-width:900px) { .wide { display:block; } }
-@keyframes dWobble { 0%,100% { transform:translateY(0) rotate(-2deg); } 50% { transform:translateY(-8px) rotate(3deg); } }
 .arrow { overflow:visible; fill:none; stroke:#16133D; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; opacity:.55; }
 .line { stroke-dasharray:5 7; }
 .head { stroke-dasharray:none; }
-@media (prefers-reduced-motion:reduce) { .spot { animation:none; } }

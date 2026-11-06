@@ -41,17 +41,19 @@ export function Arrow({className,mirror=false,w=90}:{className?:string;mirror?:b
 }
 
 type Spot={n:DoodleName;x:number;y:number;s:number;r:number;wide?:boolean};
+// One screen-height tile of doodles; the wallpaper repeats it down the whole page (mirrored every other tile), so it scrolls with the content.
 const spots:readonly Spot[]=[
- {n:'star',x:6,y:9,s:58,r:-12},{n:'rocket',x:90,y:14,s:80,r:28},{n:'ladder',x:94,y:44,s:84,r:8},{n:'book',x:7,y:36,s:70,r:-8},
- {n:'pencil',x:6,y:62,s:70,r:14},{n:'atom',x:91,y:72,s:68,r:0},{n:'bulb',x:12,y:88,s:62,r:-6},{n:'magnifier',x:86,y:92,s:62,r:-12},
- {n:'planet',x:44,y:5,s:60,r:-10,wide:true},{n:'cap',x:70,y:26,s:56,r:8,wide:true},{n:'clock',x:26,y:20,s:48,r:0,wide:true},{n:'ruler',x:30,y:60,s:56,r:-14,wide:true},
- {n:'flask',x:62,y:52,s:52,r:6,wide:true},{n:'globe',x:48,y:80,s:54,r:0,wide:true},{n:'trophy',x:76,y:82,s:50,r:6,wide:true},{n:'squiggle',x:20,y:46,s:60,r:-6,wide:true},
- {n:'sparkle',x:18,y:12,s:26,r:0},{n:'plus',x:80,y:52,s:26,r:12,wide:true},{n:'spiral',x:56,y:34,s:40,r:0,wide:true},{n:'plane',x:36,y:92,s:50,r:-20,wide:true},
+ {n:'star',x:6,y:8,s:46,r:-12},{n:'rocket',x:92,y:14,s:62,r:28},{n:'ladder',x:94,y:50,s:64,r:8},{n:'book',x:6,y:38,s:54,r:-8},
+ {n:'pencil',x:5,y:68,s:54,r:14},{n:'atom',x:93,y:84,s:52,r:0},{n:'bulb',x:8,y:92,s:48,r:-6},{n:'magnifier',x:90,y:30,s:48,r:-12},
+ {n:'planet',x:46,y:6,s:48,r:-10,wide:true},{n:'cap',x:72,y:22,s:44,r:8,wide:true},{n:'clock',x:24,y:20,s:40,r:0,wide:true},{n:'ruler',x:30,y:60,s:46,r:-14,wide:true},
+ {n:'flask',x:64,y:54,s:42,r:6,wide:true},{n:'globe',x:48,y:84,s:44,r:0,wide:true},{n:'trophy',x:78,y:76,s:40,r:6,wide:true},{n:'sparkle',x:20,y:46,s:26,r:0,wide:true},
 ];
-// Fixed full-screen wallpaper behind the whole site; sits under content and never takes clicks.
+const TILES=8;
+// Wallpaper behind the whole page: simple pencil doodles in the site's own colours; lives in the page flow (not fixed) so it moves with the content.
 export function Wallpaper(){
  return <div className={d.wall} aria-hidden="true">
-  <svg width="0" height="0" className={d.defs}><filter id="pencil"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter></svg>
-  {spots.map((s,i)=><Doodle key={i} n={s.n} size={s.s} className={`${d.spot} ${s.wide?d.wide:''}`} style={{left:`${s.x}%`,top:`${s.y}%`,rotate:`${s.r}deg`,animationDelay:`${(i*0.9)%6}s`}}/>)}
+  {Array.from({length:TILES},(_,t)=><div key={t} className={d.tile} style={{top:`calc(${t} * var(--tile-h))`}}>
+   {spots.map((s,i)=><Doodle key={i} n={s.n} size={s.s} className={`${d.spot} ${s.wide?d.wide:''}`} style={{left:`${t%2?100-s.x:s.x}%`,top:`${s.y}%`,rotate:`${t%2?-s.r:s.r}deg`}}/>)}
+  </div>)}
  </div>;
 }

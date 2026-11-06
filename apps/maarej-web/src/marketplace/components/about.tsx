@@ -1,3 +1,4 @@
+import {Fragment} from 'react';
 import Link from 'next/link';
 import {ArrowLeft} from 'lucide-react';
 import {Mark,Marks} from './fun';
@@ -46,7 +47,7 @@ export function AboutMaarej(){
    <div className={a.chips}>{audiences.map(({e,title,text})=><article key={title} className={a.chip}><Mark e={e} a="none" s="lg"/><div><b>{title}</b><p>{text}</p></div></article>)}</div>
   </section>
   <section className={a.block} id="sec-about-how" aria-labelledby="about-how"><h2 id="about-how"><Mark e="⚙️" a="none" s="md"/> بيشتغل إزاي؟</h2>
-   <ol className={h.flow}>{steps.map(({e,title,text},i)=><><li key={title} className={h.step}><Mark e={e} a="bob" s="xl" className={h.big}/><b>{title}</b><small>{text}</small></li>{i<steps.length-1&&<li key={`${title}-a`} className={h.between} aria-hidden="true"><Arrow w={70}/></li>}</>)}</ol>
+   <ol className={h.flow}>{steps.map(({e,title,text},i)=><Fragment key={title}><li className={h.step}><Mark e={e} a="bob" s="xl" className={h.big}/><b>{title}</b><small>{text}</small></li>{i<steps.length-1&&<li className={h.between} aria-hidden="true"><Arrow w={70}/></li>}</Fragment>)}</ol>
   </section>
   <section className={`${a.block} ${a.parents}`} id="sec-about-parents" aria-labelledby="about-parents"><h2 id="about-parents"><Mark e="👨‍👩‍👧" a="none" s="md"/> معارج لولي الأمر</h2>
    <div className={a.chips}>{forParents.map(({e,title,text})=><article key={title} className={a.chip}><Mark e={e} a="none" s="lg"/><div><b>{title}</b><p>{text}</p></div></article>)}</div>

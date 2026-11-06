@@ -151,7 +151,7 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
  return <section className={s.section} aria-labelledby="sch-title" id="rooms">
   <div className={s.head}><h2 id="sch-title">🚪 القاعات</h2><button type="button" className={s.primary} onClick={()=>book(0,16)}><Plus size={18} aria-hidden="true"/>احجز قاعة</button></div>
   <div className={s.roomTabs} role="tablist" aria-label="القاعات">{c.rooms.map((x,i)=><button key={x.name} type="button" role="tab" aria-selected={i===room} onClick={()=>setRoom(i)}><b>{x.name}</b><span>👥 {x.seats} · <bdi>{x.price}</bdi> ج.م</span></button>)}</div>
-  <div className={s.roomPanel} key={room}>
+  <div className={s.roomPanel} key={`panel-${room}`}>
    <div className={s.roomGallery}><Gallery photos={photos} size="hero"/></div>
    <div className={s.roomInfo}>
     <h3>{r.name}</h3>
@@ -165,7 +165,7 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
   </div>
   <div className={s.calHead}><h3><CalendarDays size={18} aria-hidden="true"/>جدول {r.name}</h3></div>
   <Legend items={[{tone:'request' as const,label:'طلب حجز'},{tone:'mine' as const,label:'طلبك'}]}/>
-  <WeekGrid key={room} label={`جدول ${r.name}`} blocks={blocks} onFree={book}/>
+  <WeekGrid key={`grid-${room}`} label={`جدول ${r.name}`} blocks={blocks} onFree={book}/>
   <RoomSheet key={booking?`${booking.room}-${booking.day}-${booking.hour}`:'none'} center={c} init={booking} onClose={close}/>
   <JoinSheet session={join} onClose={closeJoin}/>
  </section>;
@@ -236,7 +236,7 @@ export function SpaceSchedule({space:sp}:{space:SpaceDTO}){
  const close=useCallback(()=>setBooking(null),[]);
  return <section className={s.section} id="rooms" aria-labelledby="sp-sch"><div className={s.head}><h2 id="sp-sch">🚪 القاعات</h2><button type="button" className={s.primary} onClick={()=>book(0,16)}><Plus size={18} aria-hidden="true"/>احجز مكان</button></div>
   <div className={s.roomTabs} role="tablist" aria-label="القاعات">{rooms.map((x,i)=><button key={x.name} type="button" role="tab" aria-selected={i===room} onClick={()=>setRoom(i)}><b>{x.name}</b><span>👥 {x.seats} · <bdi>{x.price}</bdi> ج.م</span></button>)}</div>
-  <div className={s.roomPanel} key={room}>
+  <div className={s.roomPanel} key={`panel-${room}`}>
    <div className={s.roomGallery}><Gallery photos={photos} size="hero" controls={false}/></div>
    <div className={s.roomInfo}><h3>{r.name}</h3>
     <dl className={s.roomRows}><div><dt>👥 السعة</dt><dd>{r.seats} فرد</dd></div><div><dt>💰 سعر الساعة</dt><dd><bdi>{r.price}</bdi> ج.م</dd></div></dl>
@@ -244,7 +244,7 @@ export function SpaceSchedule({space:sp}:{space:SpaceDTO}){
    </div>
   </div>
   <div className={s.calHead}><h3><CalendarDays size={18} aria-hidden="true"/>جدول {r.name}</h3></div>
-  <WeekGrid key={room} label={`جدول ${r.name}`} blocks={blocks} onFree={book}/>
+  <WeekGrid key={`grid-${room}`} label={`جدول ${r.name}`} blocks={blocks} onFree={book}/>
   <SpaceSheet space={sp} room={room} roomName={r.name} price={r.price} init={booking} onClose={close}/>
  </section>;
 }

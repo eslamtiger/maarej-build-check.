@@ -15,7 +15,7 @@ const footerCols=[
 
 // Every public page shares the site header (also used in the student space) and this footer.
 export function PublicMarketplaceShell({children,active='home'}:{children:ReactNode;active?:PublicSection}){
- return <div className={styles.shell} dir="rtl" style={{background:'transparent'}}>
+ return <div className={styles.shell} dir="rtl" style={{background:'transparent',position:'relative'}}>
   <Wallpaper/>
   <div style={{position:'relative',zIndex:1}}>
   <SiteHeader/>
