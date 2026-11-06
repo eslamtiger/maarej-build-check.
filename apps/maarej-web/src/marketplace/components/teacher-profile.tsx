@@ -39,14 +39,16 @@ export function PublicTeacherProfile({teacher:t}:{teacher:TeacherSearchDTO}){
    <ContactBar info={demoContact(t.id)}/>
    {p&&<blockquote className={k.tMsg}>{p.bio}</blockquote>}
    <div className={k.tId}>
-    <p className={k.tLine}>{t.subjects.map(s=>`${subjectEmoji(s)} ${s}`).join(' · ')}</p>
-    <ul className={k.chips}>{t.systems.map(s=><li key={s} data-tone="system">🏫 {s}</li>)}{t.stages.map(s=><li key={s} data-tone="stage">🎓 {s}</li>)}</ul>
-    <p className={k.tLine}>📍 {t.areas.join('، ')}{prices.length>0&&<> · 💰 الحصة <bdi dir="rtl">{lo===hi?`${lo}`:`${lo} – ${hi}`}</bdi> ج.م</>}</p>
+    <ul className={k.chips}>{t.subjects.map(x=><li key={x}>{subjectEmoji(x)} {x}</li>)}{t.systems.map(x=><li key={x} data-tone="system">🏫 {x}</li>)}{t.stages.map(x=><li key={x} data-tone="stage">🎓 {x}</li>)}</ul>
+    <ul className={k.tRows}>
+     <li><span aria-hidden="true">📍</span><b>{t.areas.join('، ')}</b></li>
+     {prices.length>0&&<li><span aria-hidden="true">💰</span><b>الحصة <bdi dir="rtl">{lo===hi?`${lo}`:`${lo} – ${hi}`}</bdi> ج.م</b></li>}
+    </ul>
    </div>
   </header>
   <TeacherSchedule teacherId={t.id} between={
    <Section id="tips" emoji="💡" title="نصايح للطلاب">
-    <ol className={k.tips}>{tips.map(x=><li key={x.title}><span aria-hidden="true">{x.emoji}</span><b>{x.title}</b><p>{x.text}</p></li>)}</ol>
+    <ol className={k.thinks}>{tips.map((x,i)=><li key={x.title} data-c={i%4}><span className={k.tEmo} aria-hidden="true">{x.emoji}</span><i className={k.dots} aria-hidden="true"/><div className={k.cloud}><b>{x.title}</b><p>{x.text}</p></div></li>)}</ol>
    </Section>}/>
   <Section id="rev-title" emoji="⭐" title="التقييمات"><Reviews byRole={demoTeacherReviews(t)} total={t.rating??4.5} count={t.reviewCount}/></Section>
   <Section id="loc-title" emoji="📍" title="الموقع"><p className={k.addr}>{t.areas.join('، ')}</p><MapEmbed query={`${area}، ${gov||'مصر'}`} label={`خريطة ${area}`}/></Section>
