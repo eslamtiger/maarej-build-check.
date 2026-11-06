@@ -35,6 +35,17 @@ export function demoTeacherReviews(t:TeacherSearchDTO){
  return out;
 }
 
+// Teacher's tips for students (demo until teachers write their own): two general + two picked by the teacher's id.
+const tipPool=[
+ {emoji:'📝',title:'لخّص بإيدك',text:'بعد كل حصة اكتب أهم 3 نقط في ورقة واحدة، وراجعها قبل الحصة الجاية.'},
+ {emoji:'⏰',title:'مذاكرة قصيرة كل يوم',text:'نص ساعة كل يوم أحسن من 4 ساعات يوم الامتحان.'},
+ {emoji:'❓',title:'اسأل من غير كسوف',text:'لو حاجة مش واضحة قولها في الحصة أو ابعتها رسالة. مفيش سؤال وحش.'},
+ {emoji:'🔁',title:'حل امتحانات قديمة',text:'حل امتحان كامل كل أسبوع في وقته، وبعدين صحّح لنفسك.'},
+ {emoji:'😴',title:'نام كويس',text:'النوم بيثبّت اللي ذاكرته. متسهرش ليلة الامتحان.'},
+ {emoji:'🎯',title:'حط هدف صغير',text:'قسّم الباب لأجزاء، وكل يوم خلّص جزء واحد بس.'},
+];
+export function demoTeacherTips(t:Pick<TeacherSearchDTO,'id'>){const h=hash(t.id);return [tipPool[0],tipPool[1],tipPool[2+(h%4)],tipPool[2+((h+1)%4)]];}
+
 // One colour per teacher / center in timetables, so groups are easy to tell apart.
 export const swatches=[
  {bg:'#EEEBFF',fg:'#3328A8',bd:'#C9C2F5'},{bg:'#E3F6EC',fg:'#0E6A4B',bd:'#9ED9BC'},{bg:'#FFF1D6',fg:'#7A4A00',bd:'#F6CF8A'},

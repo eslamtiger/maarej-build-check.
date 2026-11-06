@@ -170,3 +170,43 @@
 /* Gold stars everywhere in reviews */
 .rHead em { color:#E59A0B; }
 .subTabs button small { color:#E59A0B; }
+
+/* ---------- Teacher hero, Facebook / Instagram order: cover, round photo with numbers + contact beside it, then name ---------- */
+.tHero { display:grid; gap:12px; }
+.tCover { height:150px; border-radius:24px; background:radial-gradient(120% 120% at 100% 0%,#C9C2F5 0%,transparent 55%),radial-gradient(90% 90% at 0% 100%,#FFE2A8 0%,transparent 60%),#EEEBFF; }
+.tTop { display:flex; align-items:flex-end; gap:14px; margin-top:-62px; padding:0 4px; }
+.tAvatar { width:124px; height:124px; flex:none; border-radius:50%; object-fit:cover; border:5px solid #fff; box-shadow:0 10px 24px rgba(22,19,61,.18); background:#E4E0FF; font-size:2rem; }
+.tSide { flex:1; min-width:0; display:grid; gap:8px; padding-bottom:4px; }
+.tStats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; padding:0; list-style:none; text-align:center; }
+.tStats li { display:grid; gap:0; }
+.tStats b { display:inline-flex; justify-content:center; align-items:center; gap:3px; font-family:var(--m-font-display); font-size:1.2rem; font-weight:800; color:#16133D; }
+.tStats small { color:#625F7C; font-weight:600; font-size:.75rem; }
+.tStar { color:#F59E0B; }
+.tSide .contactBar { padding:0; justify-content:flex-start; }
+.tSide .contactBar ul a { width:34px; height:34px; }
+.tSide .contactBar ul a svg { width:17px; height:17px; }
+.tId { display:grid; gap:6px; padding:0 4px; }
+.tId h1 { display:flex; align-items:center; gap:8px; margin:0; font-family:var(--m-font-display); font-size:clamp(1.4rem,4.6vw,2rem); font-weight:800; line-height:1.3; color:#16133D; }
+.tId h1 svg { color:#4B3FD6; flex:none; }
+.tLine { margin:0; color:#4A4668; font-weight:600; font-size:.9375rem; line-height:1.7; }
+.tId .chips { margin:0; }
+/* Phones: like Instagram, the numbers sit beside the photo and the contact icons go full width under them */
+@media (max-width:719px) {
+  .tCover { height:120px; }
+  .tTop { flex-wrap:wrap; margin-top:-56px; gap:10px 12px; }
+  .tAvatar { width:100px; height:100px; }
+  .tSide { display:contents; }
+  .tStats { flex:1; min-width:0; align-self:flex-end; padding-bottom:6px; }
+  .tSide .contactBar { width:100%; }
+}
+@media (min-width:720px) { .tCover { border-radius:28px; height:190px; } .tTop { padding:0 24px; margin-top:-70px; } .tId { padding:0 24px; } .tStats { max-width:360px; } }
+
+/* Tips for students: numbered cards that scroll sideways on phones */
+.tips { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(220px,78%); gap:10px; margin:0; padding:2px 2px 8px; list-style:none; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; }
+.tips::-webkit-scrollbar { display:none; }
+.tips li { scroll-snap-align:start; display:grid; align-content:start; gap:6px; padding:16px; border-radius:20px; background:#FFFBF2; border:1.5px solid #F6E3BC; }
+.tips li > span { font-size:1.6rem; }
+.tips b { font-family:var(--m-font-display); font-size:1.05rem; color:#16133D; }
+.tips p { margin:0; color:#4A4668; line-height:1.8; font-size:.9375rem; }
+@media (min-width:900px) { .tips { grid-auto-flow:row; grid-template-columns:repeat(4,minmax(0,1fr)); overflow:visible; } }
+@media (min-width:720px) { .tTop { align-items:flex-start; } .tSide { padding-top:80px; } }

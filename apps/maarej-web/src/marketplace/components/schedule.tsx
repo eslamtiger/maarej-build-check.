@@ -177,11 +177,12 @@ export function CenterTeachers({center:c}:{center:CenterDTO}){
 }
 
 /* ---------- Teacher: own week + where he teaches ---------- */
-export function TeacherSchedule({teacherId}:{teacherId:string}){
+// `between` is rendered after the timetable and before the centers (the teacher page puts the tips there).
+export function TeacherSchedule({teacherId,between}:{teacherId:string;between?:ReactNode}){
  const [join,setJoin]=useState<Session|null>(null);
  const list=sessionsForTeacher(teacherId);
  const closeJoin=useCallback(()=>setJoin(null),[]);
- if(!list.length)return null;
+ if(!list.length)return <>{between}</>;
  const order=[...new Set(list.map(x=>x.centerId))];
  const blocks:Block[]=list.map(x=>{const c=centerById(x.centerId);const full=x.enrolled>=x.capacity;return {id:x.id,day:x.day,start:x.start,dur:x.dur,tone:full?'full':'booked',color:swatchFor(x.centerId,order),title:`${subjectEmoji(x.subject)} ${x.subject} · ${x.stage}`,sub:c?.name,meta:`👥 ${x.enrolled}/${x.capacity} · ${x.price} ج.م${full?' · كاملة':''}`,onClick:()=>setJoin(x)};});
  const centers=[...new Set(list.map(x=>x.centerId))].map(id=>({c:centerById(id),n:list.filter(x=>x.centerId===id).length})).filter(x=>x.c);
@@ -191,7 +192,8 @@ export function TeacherSchedule({teacherId}:{teacherId:string}){
    <WeekGrid label="جدول حصص المدرس" blocks={blocks}/>
    <JoinSheet session={join} onClose={closeJoin}/>
   </section>
-  <section className={s.section} id="sec-t-ctr" aria-labelledby="t-ctr"><div className={s.head}><h2 id="t-ctr">🏫 بيدرّس في</h2></div>
+  {between}
+  <section className={s.section} id="sec-t-ctr" aria-labelledby="t-ctr"><div className={s.head}><h2 id="t-ctr">🤝 شراكات مع السناتر</h2></div>
    <ul className={s.centers}>{centers.map(({c,n})=><li key={c!.id}><Link href={`/centers/${c!.id}`}><img src={placePhotos('center',c!.id,400,1)[0]} alt="" loading="lazy"/><span className={s.cBody}><b>{c!.name}</b><span><MapPin size={14} aria-hidden="true"/>{c!.area} · ⭐ {c!.rating.toFixed(1)}</span><em>{n} مجموعات</em></span></Link></li>)}</ul>
   </section>
  </>;
