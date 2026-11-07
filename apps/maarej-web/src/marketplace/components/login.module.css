@@ -39,3 +39,30 @@
 .tryRow small { color:#7D7A98; font-weight:700; width:100%; text-align:center; }
 .tryRow button { min-height:42px; padding:0 14px; border:2px solid #E2DFEE; border-radius:14px; background:#fff; font:inherit; font-weight:800; cursor:pointer; }
 .tryRow button:hover { border-color:#4B3FD6; }
+
+.optional { margin:-8px 0 0; text-align:center; font-size:.875rem; font-weight:700; color:#5B53B8; background:#F3F1FF; border-radius:12px; padding:6px 10px; }
+.skip { justify-self:center; color:#4B3FD6; font-weight:800; text-decoration:none; padding:6px 10px; }
+.skip:hover { text-decoration:underline; }
+.card { width:min(100%,520px); }
+.field select { min-height:50px; padding:0 12px; border-radius:14px; border:2px solid #ECEAF4; font:inherit; font-size:1rem; background:#FBFAFF; }
+.field small { font-weight:600; }
+.steps { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+.steps li { display:grid; justify-items:center; gap:4px; font-size:.8125rem; font-weight:800; color:#9A97B3; }
+.steps li span { width:30px; height:30px; display:grid; place-items:center; border-radius:50%; background:#F1F0F7; color:#9A97B3; }
+.steps li[data-state=now] { color:#4B3FD6; }
+.steps li[data-state=now] span { background:#4B3FD6; color:#fff; box-shadow:0 3px 0 #3328A8; }
+.steps li[data-state=done] { color:#1F8A5B; }
+.steps li[data-state=done] span { background:#DDF5E8; color:#1F8A5B; }
+.roles4 { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+.roles4 button { display:grid; justify-items:center; gap:2px; padding:12px 4px; border-radius:16px; border:2px solid #ECEAF4; background:#fff; font:inherit; cursor:pointer; }
+.roles4 button b { font-size:1rem; color:#16133D; }
+.roles4 button small { font-size:.75rem; color:#8A87A5; font-weight:700; }
+.roles4 button[aria-checked=true] { border-color:#4B3FD6; background:#F0EEFF; box-shadow:0 3px 0 #D9D5F2; }
+.grid { display:grid; grid-template-columns:1fr; gap:12px; }
+.grid .field input, .grid .field select { min-width:0; width:100%; }
+@media (min-width:480px) { .grid { grid-template-columns:1fr 1fr; } .roles4 { grid-template-columns:repeat(4,1fr); } }
+.full { grid-column:1 / -1; }
+.nav { display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:center; }
+.check { display:flex; align-items:center; gap:8px; font-weight:700; color:#3D3A5C; font-size:.9375rem; }
+.check input { width:20px; height:20px; accent-color:#4B3FD6; }
+a.primary { display:grid; place-items:center; text-decoration:none; }

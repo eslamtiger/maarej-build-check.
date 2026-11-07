@@ -358,3 +358,6 @@
 .sign { justify-self:end; display:grid; justify-items:center; gap:2px; margin:4px 8px 0 0; padding:12px 22px 14px; border-radius:16px 22px 14px 20px; background:#fff; border:2px dashed #C9C2F5; transform:rotate(-2deg); font-family:'Aref Ruqaa',var(--m-font-ar),serif; color:#3328A8; }
 .sign span { font-size:1.05rem; opacity:.75; }
 .sign em { font-style:normal; font-size:1.9rem; font-weight:700; line-height:1.3; padding:0 6px 4px; border-bottom:3px solid rgba(51,40,168,.4); border-radius:0 0 60% 40% / 0 0 14px 10px; }
+
+.rName { min-height:46px; padding:0 14px; border-radius:14px; border:2px solid #ECEAF4; background:#FBFAFF; font:inherit; }
+.rName:focus { outline:3px solid #A59CFF; border-color:#4B3FD6; }

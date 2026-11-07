@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useMemo,useState,useCallback} from 'react';
+import {useTrackSearch} from '../adapters/activity';
 import {BookOpen,GraduationCap,MapPin,Map as MapIcon,Banknote,School,ArrowUpDown,Star} from 'lucide-react';
 import {marketplaceTeachers} from '../adapters/teachers';
 import {marketplaceCenters,marketplaceSpaces,areaGovernorate,governorates} from '../adapters/places';
@@ -44,6 +45,7 @@ export function TeacherSearch(){
  const set=(patch:Partial<SearchFilters>)=>{setF(prev=>({...prev,...patch}));setSelectedId(null);};
  const close=useCallback(()=>setSheet(null),[]);
  const results=filterTeachers(marketplaceTeachers,f),active=activeFilterCount({...f,q:'',governorate:''}),returnTo=`/teachers?${query}`;
+ useTrackSearch('teachers',f,results.length);
  const ordered=selectedId?[...results.filter(t=>t.id===selectedId),...results.filter(t=>t.id!==selectedId)]:results;
  const mapItems:MapItem[]=useMemo(()=>results.filter(t=>t.areas.length).map(t=>{const area=(f.area&&t.areas.includes(f.area)?f.area:t.areas.find(a=>!f.governorate||areaGovernorate.get(a)===f.governorate))??t.areas[0];
   return {id:t.id,name:t.name,area,...spot(area,t.id),rating:t.rating??0,reviews:t.reviewCount??0,priceLabel:t.price?String(t.price.min):'—',priceNote:'من',href:'',photo:t.image?.replace('w=600&h=600','w=120&h=120'),fallback:{text:initials(t.name),bg:teacherGradient(t.id)}};}),[results,f.area,f.governorate]);

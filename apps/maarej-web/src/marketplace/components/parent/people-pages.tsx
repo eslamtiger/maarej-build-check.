@@ -6,7 +6,7 @@ import Link from 'next/link';
 import {useEffect,useState} from 'react';
 import type {ReactNode} from 'react';
 import {SiteHeader} from '@/components/site/site-header';
-import {hasBackend,useSession,rpc,select,update,signOut} from '../../adapters/backend';
+import {hasBackend,useSession,rpc,select,update,signOut,ensureDemo} from '../../adapters/backend';
 import {ProfileCard} from './parent-pages';
 import {Card,egp,Empty} from './parent-shell';
 import type {Me} from '../../adapters/parent-data';
@@ -26,16 +26,18 @@ export function MePage(){
  const [money,setMoney]=useState<{balance:number;reward:number;free:number}|null>(null);
  const [reqs,setReqs]=useState<any[]>([]);const [links,setLinks]=useState<any[]>([]);
  const [msg,setMsg]=useState('');const [err,setErr]=useState('');const [tick,setTick]=useState(0);
+ useEffect(()=>{if(hasBackend&&!session)ensureDemo('student').catch(e=>setErr(e.message));},[session]);
  useEffect(()=>{if(!hasBackend||!session)return;(async()=>{try{
   const [r]=await select('profiles',`id=eq.${session.user.id}&select=${cols}`);setMe(toMe(r));setRole(r.role);
   if(r.role==='student'){const m:any=await rpc('child_money',{p_student_id:session.user.id});setMoney({balance:+m.balance,reward:+m.reward,free:+m.free});
    setReqs(await rpc<any[]>('my_withdrawal_requests'));setLinks(await select('guardian_links',`student_id=eq.${session.user.id}&status=eq.pending&select=guardian_id`));}
  }catch(e:any){setErr(e.message);}})();},[session?.user.id,tick]);
  if(!hasBackend)return <Frame title="حسابي" emoji="👤"><Empty>الموقع مش متوصّل بالداتابيز هنا.</Empty></Frame>;
- if(!session)return <Frame title="حسابي" emoji="👤"><Card><p>سجّل دخولك الأول.</p><Link href="/login?next=/me" className={p.primary}>تسجيل الدخول</Link></Card></Frame>;
+ if(!session)return <Frame title="حسابي" emoji="👤"><Card><p>⏳ بنفتحلك الحساب التجريبي…</p></Card></Frame>;
  const act=async(fn:()=>Promise<unknown>,ok:string)=>{setErr('');setMsg('');try{await fn();setMsg(ok);setTick(t=>t+1);}catch(e:any){setErr(e.message);}};
  return <Frame title="حسابي" emoji="👤">
   {err&&<p className={p.error} role="alert">{err}</p>}{msg&&<p className={p.okMsg} role="status">{msg}</p>}
+  {session.demo&&<p className={p.okMsg}>🧪 ده حساب تجريبي مشترك. <Link href="/login?next=/me">اعمل حسابك</Link> لو عايز بياناتك.</p>}
   {role==='parent'&&<Card><Link href="/parent" className={p.linkBtn}>افتح مساحة ولي الأمر ←</Link></Card>}
   {money&&<Card title="رصيدك" emoji="💰" tone="amber"><div className={p.split}><div><small>🔓 فلوسك العادية</small><b>{egp(money.free)}</b></div><div data-k="lock"><small>🔒 فلوس مكافآتك</small><b>{egp(money.reward)}</b></div></div>
    <small className={p.muted}>فلوس المكافآت بتاعتك، ومحدش يقدر يسحبها غير لو إنت وافقت.</small></Card>}

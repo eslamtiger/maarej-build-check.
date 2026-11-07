@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useMemo,useState,useCallback} from 'react';
+import {useTrackSearch} from '../adapters/activity';
 import {MapPin,Map as MapIcon,Banknote,UsersRound,Sparkles,ArrowUpDown,Star,Building2,DoorOpen} from 'lucide-react';
 import {marketplaceCenters,marketplaceSpaces,emptyPlaceFilters,filterPlaces,placeOptions,activePlaceFilters,parsePlaceQuery,serializePlaceQuery,featureLabel,placePhoto,governorates} from '../adapters/places';
 import {governorateFromUrl,withGovernorate} from '../adapters/location';
@@ -42,6 +43,7 @@ export function PlaceSearch({kind}:{kind:'centers'|'spaces'}){
  const centerRows=kind==='centers'?filterPlaces(marketplaceCenters,f):[];
  const spaceRows=kind==='spaces'?filterPlaces(marketplaceSpaces,f):[];
  const count=kind==='centers'?centerRows.length:spaceRows.length;
+ useTrackSearch(kind,f,count);
  const active=activePlaceFilters({...f,q:'',governorate:''}),returnTo=`/${kind}?${query}`;
  const mapItems:MapItem[]=kind==='centers'?centerRows.map(x=>({id:x.id,name:x.name,area:x.area,lat:x.lat,lng:x.lng,rating:x.rating,reviews:x.reviews,priceLabel:String(x.price.min),priceNote:'من',href:'',photo:placePhoto('center',x.id,160)}))
   :spaceRows.map(x=>({id:x.id,name:x.name,area:x.area,lat:x.lat,lng:x.lng,rating:x.rating,reviews:x.reviews,priceLabel:String(x.price.min),priceNote:'من',href:'',photo:placePhoto('space',x.id,160)}));

@@ -3,7 +3,7 @@
 // Live mode: guardian_overview() + the money / badge / goal functions. Demo mode: the same actions change a copy
 // kept in memory only, so the pages behave the same and nothing pretends to be saved.
 import {useCallback,useEffect,useState,useSyncExternalStore} from 'react';
-import {hasBackend,useSession,rpc,update,insert} from './backend';
+import {hasBackend,useSession,rpc,update,insert,ensureDemo} from './backend';
 import {parentDemo} from './parent-demo';
 import {teacherById,centerById} from './schedule';
 import {demoContact} from './profile-demo';
@@ -16,11 +16,16 @@ export type Group={id:string;name:string;subject:string;price:number;online:bool
 export type Badge={id:string;name:string;icon:string;category:'study'|'behavior';from?:string;fromRole?:string;note?:string;at:string};
 export type Reward={id:string;title:string;condition?:string;amount:number;status:'funded'|'released'|'cancelled';kind:'reward'|'goal';due?:string;mine:boolean;at:string};
 export type Withdrawal={id:string;amount:number;status:'pending'|'approved'|'rejected';at:string;note?:string};
+export type Payment={invoice:string;amount:number;method:string;at:string;by:'me'|'child'|'cash'|'other';subject:string;teacher:string;session?:string};
+export type Rules={monthly_limit?:number;child_can_pay?:boolean};
 export type Kid={id:string;name:string;avatar?:string;phone?:string;stage?:string;school?:string;money:Money;groups:Group[];badges:Badge[];rewards:Reward[];withdrawals:Withdrawal[];
+ rules?:Rules;spentThisMonth?:number;upcoming30?:number;payments?:Payment[];
  extra?:{domains:{name:string;level:number;note:string}[];habits:{label:string;value:number}[];strengths:string[];watch:string[];activities:{name:string;note:string}[];identity:{name:string;stage:string;next:string;steps:number;of:number};yearTrend:{label:string;score:number}[]}};
 export type Me={id:string;name:string;phone?:string;phone2?:string;whatsapp?:string;avatar?:string;job?:string;birthYear?:number;area?:string;address?:string;lat?:number;lng?:number;availableHours?:string;about?:string};
 export type Ledger={id:string;kind:string;ref?:string;amount:number;dir:'in'|'out';note?:string;at:string;other?:string};
-export type ParentData={me:Me;wallet:number;ledger:Ledger[];behaviorBadges:{id:string;name:string;icon:string;mine:boolean}[];children:Kid[]};
+export type Settings={autopay:boolean;remind_days:number;notify_absence:boolean;notify_grades:boolean;notify_payments:boolean;weekly_report:boolean;default_child?:string|null};
+export const defaultSettings:Settings={autopay:false,remind_days:3,notify_absence:true,notify_grades:true,notify_payments:true,weekly_report:false,default_child:null};
+export type ParentData={me:Me;email?:string;wallet:number;ledger:Ledger[];behaviorBadges:{id:string;name:string;icon:string;mine:boolean}[];children:Kid[];settings:Settings};
 
 /* ---------- helpers used by the pages ---------- */
 export const kidAvg=(k:Kid)=>{const s=k.groups.flatMap(g=>g.exams.filter(e=>e.score!==null).map(e=>(e.score as number)/e.max*100));return s.length?Math.round(s.reduce((a,b)=>a+b,0)/s.length):null;};
@@ -48,9 +53,11 @@ function demoData():ParentData{
     invoices:c.payments.filter(p=>p.subject===s.subject).map((p,i)=>({id:p.id,period:months[i]?.[0]??'2026-09-01',amount:p.amount,paid:p.status==='paid'?p.amount:0,status:(p.status==='late'?'overdue':p.status==='due'?'due':'paid') as Invoice['status'],due:undefined,payments:p.status==='paid'?[{amount:p.amount,method:p.payer==='child'?'wallet':'cash',at:''}]:[]}))};}),
   badges:[{id:`${c.id}-b1`,name:'ملتزم',icon:'🛡️',category:'study' as const,from:c.recognitions[0]?.from,fromRole:'teacher',note:c.recognitions[0]?.text,at:'2026-10-12'},...(ci===0?[{id:`${c.id}-b2`,name:'مرتّب',icon:'🧹',category:'behavior' as const,from:'إنتِ',fromRole:'parent',note:'رتبت أوضتها لوحدها',at:'2026-11-02'}]:[])],
   rewards:ci===1?[{id:`${c.id}-g1`,title:'يجيب 18 من 20 في رياضيات نوفمبر',condition:'اختبار نوفمبر',amount:200,status:'funded' as const,kind:'goal' as const,due:'2026-11-30',mine:true,at:'2026-11-01'}]:ci===2?[{id:`${c.id}-r1`,title:'مكافأة المبادرة',condition:'حل كل مسائل الوحدة',amount:100,status:'released' as const,kind:'reward' as const,mine:false,at:'2026-10-20'}]:[],
-  withdrawals:[],extra:{domains:c.domains,habits:c.habits,strengths:c.strengths,watch:c.watch,activities:c.activities,identity:c.identity,yearTrend:c.yearTrend}}));
+  withdrawals:[],rules:{monthly_limit:0,child_can_pay:true},spentThisMonth:0,upcoming30:c.subjects.reduce((a,x)=>a+x.session.price*4,0),
+  payments:c.payments.filter(x=>x.status==='paid').map(x=>({invoice:x.id,amount:x.amount,method:x.payer==='child'?'wallet':'cash',at:'2026-10-05',by:(x.payer==='child'?'child':'me') as Payment['by'],subject:x.subject,teacher:x.teacher,session:x.month})),extra:{domains:c.domains,habits:c.habits,strengths:c.strengths,watch:c.watch,activities:c.activities,identity:c.identity,yearTrend:c.yearTrend}}));
  return {me:{id:'demo-parent',name:parentDemo.name,phone:'01011112222',whatsapp:'01011112222',phone2:'01222223333',job:'مهندسة ديكور',birthYear:1984,area:'مصر الجديدة',address:'ش الحجاز، مصر الجديدة',lat:30.0911,lng:31.3302,availableHours:'يوميًا من 6 م لـ 9 م',about:'أم لتلات أبناء. بفضّل التواصل على واتساب.'},
   wallet:parentDemo.wallet,ledger:[{id:'d1',kind:'top_up',amount:3000,dir:'in',note:'رصيد تجريبي',at:'2026-11-01'},...parentDemo.children.map((c,i)=>({id:`d${i+2}`,kind:'transfer',ref:'guardian_deposit',amount:c.wallet,dir:'out' as const,at:'2026-11-02',other:c.name}))],
+  settings:{...defaultSettings},
   behaviorBadges:[['مطيع','🙏'],['مرتّب','🧹'],['صادق','🤍'],['إيد مساعدة','🤲'],['صاحي بدري','⏰'],['أخ كبير','🫶']].map(([name,icon],i)=>({id:`bb${i}`,name,icon,mine:false})),children};
 }
 
@@ -66,18 +73,20 @@ let demoCache:ParentData|null=null;
 const DEVT='maarej-parent-demo';
 export function useParentData(){
  const session=useSession();
+ // Sign-in is optional for now: without a parent account the page opens the shared demo parent (real database, labelled).
  const live=hasBackend&&session?.role==='parent';
  const [data,setData]=useState<ParentData|null>(null);
  const [error,setError]=useState('');
  const [tick,setTick]=useState(0);
  const reload=useCallback(()=>setTick(t=>t+1),[]);
+ useEffect(()=>{if(hasBackend&&(!session||(session.demo&&session.role!=='parent')))ensureDemo('parent').catch(e=>setError(e.message));},[session?.user.id]); // eslint-disable-line react-hooks/exhaustive-deps
  useEffect(()=>{let off=false;
-  if(live){rpc<ParentData>('guardian_overview').then(d=>{if(!off){setData(normalize(d));setError('');}}).catch(e=>!off&&setError(e.message));}
-  else{demoCache??=demoData();setData(demoCache);}
+  if(live){Promise.all([rpc<any>('guardian_overview'),rpc<any>('guardian_extras').catch(()=>null)]).then(([d,x])=>{if(!off){setData(normalize(d,x));setError('');}}).catch(e=>!off&&setError(e.message));}
+  else if(!hasBackend||(session&&!session.demo)){demoCache??=demoData();setData(demoCache);}
   const on=()=>{if(!live)setData({...demoCache!});};addEventListener(DEVT,on);
-  return()=>{off=true;removeEventListener(DEVT,on);};},[live,tick,session?.user.id]);
+  return()=>{off=true;removeEventListener(DEVT,on);};},[live,tick,session?.user.id]); // eslint-disable-line react-hooks/exhaustive-deps
  const kidId=useKidId();
- const kid=data?.children.find(c=>c.id===kidId)??data?.children[0];
+ const kid=data?.children.find(c=>c.id===kidId)??data?.children.find(c=>c.id===data?.settings.default_child)??data?.children[0];
  const run=async(liveFn:()=>Promise<unknown>,demoFn:(d:ParentData)=>void)=>{
   if(live){await liveFn();reload();return;}
   demoCache??=demoData();demoFn(demoCache);dispatchEvent(new Event(DEVT));
@@ -93,15 +102,20 @@ export function useParentData(){
   awardBadge:(kidId:string,badgeId:string,note:string)=>run(()=>rpc('guardian_award_badge',{p_badge_id:badgeId,p_student_id:kidId,p_note:note||null}),d=>{const b=d.behaviorBadges.find(x=>x.id===badgeId)!;k(kidId).badges.unshift({id:`a${Date.now()}`,name:b.name,icon:b.icon,category:'behavior',from:'إنتَ',fromRole:'parent',note,at:new Date().toISOString()});}),
   message:(teacherId:string,kidId:string,body:string)=>run(()=>insert('messages',{sender_id:session!.user.id,recipient_id:teacherId,student_id:kidId,body}),()=>{}),
   saveMe:(patch:Partial<Me>)=>run(()=>update('profiles',`id=eq.${session!.user.id}`,{full_name:patch.name,phone:patch.phone||null,phone2:patch.phone2||null,whatsapp:patch.whatsapp||null,job:patch.job||null,birth_year:patch.birthYear||null,area:patch.area||null,address:patch.address||null,available_hours:patch.availableHours||null,about:patch.about||null,avatar_url:patch.avatar||null}),d=>{d.me={...d.me,...patch};}),
+  payInvoice:(kidId:string,invoiceId:string)=>run(()=>rpc('guardian_pay_invoice',{p_invoice_id:invoiceId}),d=>{const c=k(kidId);for(const g of c.groups){const i=g.invoices.find(x=>x.id===invoiceId);if(i){const rest=i.amount-i.paid;if(rest>d.wallet)throw new Error('الرصيد غير كافٍ');d.wallet-=rest;i.paid=i.amount;i.status='paid';c.payments=[{invoice:i.id,amount:rest,method:'wallet',at:new Date().toISOString(),by:'me',subject:g.subject,teacher:g.teacher.name,session:i.period},...(c.payments??[])];d.ledger.unshift({id:`p${Date.now()}`,kind:'payment',ref:'invoice',amount:rest,dir:'out',at:new Date().toISOString(),note:g.subject});}}}),
+  payAll:(kidId?:string)=>run(()=>rpc('guardian_pay_all',{p_student_id:kidId??null}),d=>{for(const c of d.children)if(!kidId||c.id===kidId)for(const g of c.groups)for(const i of g.invoices){const rest=i.amount-i.paid;if(i.status!=='paid'&&rest>0&&rest<=d.wallet){d.wallet-=rest;i.paid=i.amount;i.status='paid';d.ledger.unshift({id:`p${Date.now()}${i.id}`,kind:'payment',ref:'invoice',amount:rest,dir:'out',at:new Date().toISOString(),note:g.subject});}}}),
+  saveSettings:(patch:Partial<Settings>)=>run(()=>insert('guardian_settings?on_conflict=guardian_id',{guardian_id:session!.user.id,...data!.settings,...patch,updated_at:new Date().toISOString()},true),d=>{d.settings={...d.settings,...patch};}),
+  setRules:(kidId:string,rules:Rules)=>run(()=>rpc('guardian_set_child_rules',{p_student_id:kidId,p_monthly_limit:rules.monthly_limit??0,p_child_can_pay:rules.child_can_pay??true}),()=>{k(kidId).rules={...k(kidId).rules,...rules};}),
   linkChild:(phone:string)=>run(()=>rpc('guardian_link_child_by_phone',{p_phone:phone}),()=>{throw new Error('ربط ابن حقيقي محتاج تسجيل دخول بحساب ولي أمر');}),
  };
  return {data,kid,live,error,reload,actions,session};
 }
 // Numbers arrive as strings from Postgres numeric; convert once.
-function normalize(d:any):ParentData{
- const n=(x:any)=>Number(x??0);
- return {...d,wallet:n(d.wallet),me:d.me??{},ledger:(d.ledger??[]).map((l:any)=>({...l,amount:n(l.amount)})),
-  children:(d.children??[]).map((c:any)=>({...c,money:{balance:n(c.money?.balance),reward:n(c.money?.reward),free:n(c.money?.free)},
+function normalize(d:any,x?:any):ParentData{
+ const n=(v:any)=>Number(v??0);
+ const ex=(id:string)=>(x?.children??[]).find((c:any)=>c.id===id)??{};
+ return {...d,wallet:n(d.wallet),me:d.me??{},email:x?.email,settings:{...defaultSettings,...(x?.settings??{})},ledger:(d.ledger??[]).map((l:any)=>({...l,amount:n(l.amount)})),
+  children:(d.children??[]).map((c:any)=>({...c,rules:ex(c.id).permissions,spentThisMonth:n(ex(c.id).spentThisMonth),upcoming30:n(ex(c.id).upcoming30),payments:(ex(c.id).payments??[]).map((p:any)=>({...p,amount:n(p.amount)})),money:{balance:n(c.money?.balance),reward:n(c.money?.reward),free:n(c.money?.free)},
    rewards:(c.rewards??[]).map((r:any)=>({...r,amount:n(r.amount)})),withdrawals:(c.withdrawals??[]).map((w:any)=>({...w,amount:n(w.amount)})),
    groups:(c.groups??[]).map((g:any)=>({...g,price:n(g.price),monthSessions:n(g.monthSessions),exams:(g.exams??[]).map((e:any)=>({...e,max:n(e.max),score:e.score===null?null:n(e.score)})),
     invoices:(g.invoices??[]).map((i:any)=>({...i,amount:n(i.amount),paid:n(i.paid),payments:(i.payments??[]).map((p:any)=>({...p,amount:n(p.amount)}))}))}))}))};

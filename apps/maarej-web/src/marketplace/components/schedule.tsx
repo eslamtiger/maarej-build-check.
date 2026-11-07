@@ -8,7 +8,6 @@ import {CalendarDays,DoorOpen,UsersRound,CheckCircle2,Plus,Star,MapPin,Clock3} f
 import {days,OPEN,CLOSE,hasProfile,sessionsForCenter,sessionsForTeacher,centerById,teacherById,hourLabel,timeRange,spaceRooms} from '../adapters/schedule';
 import type {Session} from '../adapters/schedule';
 import {useDemoRequests,addDemoRequest,newId} from '../adapters/demo-requests';
-import {useDemoUser,loginUrl} from '../adapters/demo-auth';
 import {Mark} from './fun';
 import type {RoomRequest} from '../adapters/demo-requests';
 import {featureLabel,placePhotos,roomPhotos} from '../adapters/places';
@@ -134,9 +133,7 @@ export function CenterSchedule({center:c}:{center:CenterDTO}){
  const [booking,setBooking]=useState<{room:number;day:number;hour:number}|null>(null);
  const [join,setJoin]=useState<Session|null>(null);
  const requests=useDemoRequests();
- const user=useDemoUser();
- // Anyone can reserve a room (student, parent or teacher), but only when signed in; otherwise they are sent to the sign-in page and come back here.
- const book=(day:number,hour:number)=>{if(!user){location.assign(loginUrl(`${location.pathname}#rooms`));return;}setBooking({room,day,hour});};
+ const book=(day:number,hour:number)=>setBooking({room,day,hour}); // sign-in is optional for now
  const list=sessionsForCenter(c.id).filter(x=>x.room===room);
  const order=[...new Set(list.filter(x=>x.status==='booked').map(x=>x.teacherId))];
  const mine=requests.filter((r):r is RoomRequest=>r.kind==='room'&&r.centerId===c.id&&r.room===room);
@@ -224,8 +221,7 @@ export function SpaceSchedule({space:sp}:{space:SpaceDTO}){
  const [room,setRoom]=useState(0);
  const [booking,setBooking]=useState<{day:number;hour:number}|null>(null);
  const requests=useDemoRequests();
- const user=useDemoUser();
- const book=(day:number,hour:number)=>{if(!user){location.assign(loginUrl(`${location.pathname}#rooms`));return;}setBooking({day,hour});};
+ const book=(day:number,hour:number)=>setBooking({day,hour});
  const r=rooms[room];
  const mine=requests.filter((x):x is RoomRequest=>x.kind==='room'&&x.centerId===sp.id&&x.room===room);
  const blocks:Block[]=[

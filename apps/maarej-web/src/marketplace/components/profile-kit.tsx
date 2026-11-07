@@ -5,7 +5,7 @@ import {useEffect,useState} from 'react';
 import type {ReactNode,CSSProperties} from 'react';
 import type {LucideIcon} from 'lucide-react';
 import {Star,Phone,Globe,Mail} from 'lucide-react';
-import {useDemoUser,loginUrl} from '../adapters/demo-auth';
+import {useDemoUser} from '../adapters/demo-auth';
 import {useMyReviews,addMyReview} from '../adapters/my-reviews';
 import p from './profile-kit.module.css';
 
@@ -73,20 +73,23 @@ export function Reviews({byRole,total,count,target}:{byRole:Partial<Record<Revie
  const [stars,setStars]=useState(0);
  const [text,setText]=useState('');
  const [thanks,setThanks]=useState(false);
+ const [guest,setGuest]=useState('');
  const list=(tab==='all'?roles:[tab]).flatMap(r=>(merged[r]??[]).map(x=>({...x,role:r})));
  const pages=Math.max(1,Math.ceil(list.length/PAGE)),cur=Math.min(page,pages-1);
  const shown=list.slice(cur*PAGE,cur*PAGE+PAGE);
  const all=Object.values(merged).flat() as Review[];
  const shownTotal=mine.length?avg(all):total,shownCount=(count??all.length-mine.length)+mine.length;
- const submit=()=>{if(!user){location.assign(loginUrl(`${location.pathname}#rev-title`));return;}if(!stars||text.trim().length<2)return;
-  addMyReview({target,name:user.name,role:roleOf[user.role],rating:stars,text:text.trim(),at:new Date().toISOString()});setStars(0);setText('');setThanks(true);setTab('all');setPage(0);};
+ // Sign-in is optional: a visitor just writes their name.
+ const submit=()=>{const name=user?.name??guest.trim();if(!stars||text.trim().length<2||!name)return;
+  addMyReview({target,name,role:user?roleOf[user.role]:'students',rating:stars,text:text.trim(),at:new Date().toISOString()});setStars(0);setText('');setThanks(true);setTab('all');setPage(0);};
  return <div className={p.reviews}>
   <div className={p.rSummary}><b><bdi>{shownTotal.toFixed(1)}</bdi></b><span><span className={p.rStars} aria-hidden="true">{'★★★★★'.slice(0,Math.round(shownTotal))}<i>{'★★★★★'.slice(Math.round(shownTotal))}</i></span><small>{shownCount} تقييم</small></span></div>
   <form className={p.rForm} onSubmit={e=>{e.preventDefault();submit();}} aria-label="أضف تقييمك">
    <b>✍️ أضف تقييمك</b>
    <div className={p.pick} role="radiogroup" aria-label="عدد النجوم">{[1,2,3,4,5].map(n=><button key={n} type="button" role="radio" aria-checked={stars===n} aria-label={`${n} نجوم`} data-on={n<=stars} onClick={()=>{setStars(n);setThanks(false);}}>★</button>)}</div>
+   {!user&&<input className={p.rName} value={guest} onChange={e=>setGuest(e.target.value)} placeholder="اسمك" aria-label="اسمك" maxLength={80}/>}
    <textarea value={text} onChange={e=>{setText(e.target.value);setThanks(false);}} rows={3} maxLength={400} placeholder="اكتب رأيك" aria-label="تعليقك"/>
-   <div className={p.rFoot}><button type="submit" className={p.rSend} disabled={!!user&&(!stars||text.trim().length<2)}>{user?'انشر تقييمي':'سجّل دخولك عشان تقيّم'}</button>{thanks&&<span className={p.rThanks}>🎉 شكرًا، تقييمك اتضاف</span>}</div>
+   <div className={p.rFoot}><button type="submit" className={p.rSend} disabled={!stars||text.trim().length<2||(!user&&!guest.trim())}>انشر تقييمي</button>{thanks&&<span className={p.rThanks}>🎉 شكرًا، تقييمك اتضاف</span>}</div>
   </form>
   <div className={p.subTabs} role="tablist" aria-label="الآراء حسب الفئة">
    <button type="button" role="tab" aria-selected={tab==='all'} onClick={()=>{setTab('all');setPage(0);}}>الكل</button>

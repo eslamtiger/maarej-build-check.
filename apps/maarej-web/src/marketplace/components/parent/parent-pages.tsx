@@ -5,7 +5,7 @@ import {useState} from 'react';
 import type {ReactNode} from 'react';
 import {ChevronLeft,AlertTriangle,CheckCircle2,Phone,MessageCircle,Mail,Send,ArrowDownLeft,ArrowUpRight,Lock,MapPin,Clock3,LogOut} from 'lucide-react';
 import {ParentShell,KidPhoto,Card,egp,Meter,Empty} from './parent-shell';
-import {useParentData,kidAvg,kidAttendance,kidHomework,kidDue,kidExpected,groupDue,siteDay,hm} from '../../adapters/parent-data';
+import {useParentData,pickKid,kidAvg,kidAttendance,kidHomework,kidDue,kidExpected,groupDue,siteDay,hm} from '../../adapters/parent-data';
 import type {Kid,Group,ParentData,Me} from '../../adapters/parent-data';
 import {signOut} from '../../adapters/backend';
 import {days} from '../../adapters/schedule';
@@ -46,12 +46,12 @@ function HomeBody({data,k}:{data:ParentData;k:Kid}){
    <Tile e="✅" label="الحضور" value={att===null?'—':`${att}%`} href="/parent/learning" tone="green"/>
    <Tile e="📝" label="الواجبات" value={hw===null?'—':`${hw}%`} href="/parent/learning" tone="violet"/>
    <Tile e="💰" label="رصيده" value={egp(k.money.balance)} href="/parent/finance" tone="amber"/>
-   <Tile e="📅" label="مستحق عليه" value={egp(due)} href="/parent/finance" tone={due?'pink':'gray'}/>
+   <Tile e="📅" label="مستحق للمدرسين" value={egp(due)} href="/parent/finance" tone={due?'pink':'gray'}/>
    <Tile e="🏅" label="شاراته" value={String(k.badges.length)} href="/parent/rewards" tone="violet"/>
   </div>
   <Card title="محتاج انتباهك" emoji="🔔" tone={alerts.length?'pink':'green'}>{alerts.length?<ul className={p.alerts}>{alerts.map(a=><li key={a.text}><Link href={a.href}>{a.text}<ChevronLeft size={16}/></Link></li>)}</ul>:<p className={p.okMsg}><CheckCircle2 size={16}/> كله تمام</p>}</Card>
   <div className={p.twoCol}>
-   <Card title="حصصه في الأسبوع" emoji="🗓️" tone="blue">{next.length?<ul className={p.rows}>{next.map(({g,s})=><li key={g.id+s.day}><span className={p.rowMain}><b>{g.subject}</b><small>{g.teacher.name}{g.center?` · ${g.center}`:''}</small></span><span className={p.rowSide}>{days[siteDay(s.day)]} · {hm(s.start)}</span></li>)}</ul>:<Empty>مفيش حصص لسه</Empty>}</Card>
+   <Card title="مواعيده في الأسبوع" emoji="🗓️" tone="blue">{next.length?<ul className={p.rows}>{next.map(({g,s})=><li key={g.id+s.day}><span className={p.rowMain}><b>{g.subject}</b><small>{g.teacher.name}{g.center?` · ${g.center}`:''}</small></span><span className={p.rowSide}>{days[siteDay(s.day)]} · {hm(s.start)}</span></li>)}</ul>:<Empty>مفيش حصص لسه</Empty>}</Card>
    <Card title="آخر الشارات" emoji="🏅" tone="amber">{k.badges.length?<ul className={p.rows}>{k.badges.slice(0,3).map(b=><li key={b.id}><span className={p.badgeIcon} aria-hidden="true">{b.icon.length<=2?b.icon:'🏅'}</span><span className={p.rowMain}><b>{b.name}</b><small>{b.from}{b.note?` · ${b.note}`:''}</small></span></li>)}</ul>:<Empty>لسه مفيش شارات</Empty>}</Card>
   </div>
   {data.children.length>1&&<Card title="كل الأبناء" emoji="👨‍👩‍👧" tone="gray"><ul className={p.rows}>{data.children.map(c=>{const vv=verdict(c);return <li key={c.id}><span className={p.person}><KidPhoto kid={c} size={36}/><span className={p.rowMain}><b>{c.name}</b><small>{vv.e} {vv.text}</small></span></span><span className={p.rowSide}>مستحق {egp(kidDue(c))}</span></li>;})}</ul></Card>}
@@ -69,7 +69,7 @@ export function ParentLearning(){
    <Tile e="✅" label="الحضور" value={kidAttendance(k)===null?'—':`${kidAttendance(k)}%`} href="#subjects" tone="green"/>
    <Tile e="📝" label="الواجبات" value={kidHomework(k)===null?'—':`${kidHomework(k)}%`} href="#subjects" tone="violet"/>
   </div>
-  {k.extra?.yearTrend&&<Card title="التطور على مدار السنة" emoji="📊" tone="blue"><LineChart points={k.extra.yearTrend}/></Card>}
+  {(()=>{const pts=k.extra?.yearTrend??examTrend(k);return pts.length>=2?<Card title="التطور على مدار السنة" emoji="📊" tone="blue"><LineChart points={pts}/></Card>:null;})()}
   <Card title="المواد" emoji="📖" tone="gray" id="subjects">{k.groups.length?<ul className={p.subjects}>{k.groups.map(g=>{const sc=g.exams.filter(e=>e.score!==null),last=sc[sc.length-1],prev=sc[sc.length-2];
    const pct=last?Math.round((last.score as number)/last.max*100):null,diff=last&&prev?pct!-Math.round((prev.score as number)/prev.max*100):0;
    return <li key={g.id}><button type="button" className={p.subjectRow} aria-expanded={open===g.id} onClick={()=>setOpen(v=>v===g.id?null:g.id)}>
@@ -82,6 +82,9 @@ export function ParentLearning(){
     </div></div>}</li>;})}</ul>:<Empty>{k.name.split(' ')[0]} مش مشترك في مجموعات لسه</Empty>}</Card>
  </>}</ParentShell>;
 }
+// Monthly average of published exam scores, oldest first (used when the data comes from the database).
+function examTrend(k:Kid){const by=new Map<string,number[]>();for(const g of k.groups)for(const e of g.exams)if(e.score!==null&&e.date){const m=e.date.slice(0,7);by.set(m,[...(by.get(m)??[]),(e.score as number)/e.max*100]);}
+ return [...by.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([m,v])=>({label:new Date(m+'-01').toLocaleDateString('ar-EG',{month:'long'}),score:Math.round(v.reduce((a,b)=>a+b,0)/v.length)}));}
 function LineChart({points}:{points:{label:string;score:number}[]}){
  const W=420,H=200,pad=26,min=Math.min(...points.map(x=>x.score))-6,max=Math.max(...points.map(x=>x.score))+4;
  const x=(i:number)=>W-pad-(i*(W-pad*2))/(points.length-1),y=(v:number)=>H-pad-((v-min)/(max-min))*(H-pad*2);
@@ -106,9 +109,16 @@ export function ParentUpbringing(){
    <div className={p.twoCol}><Card title="شاطر في" emoji="💪" tone="green"><ul className={p.tags}>{k.extra.strengths.map(x=><li key={x} data-tone="good">{x}</li>)}</ul></Card><Card title="محتاج متابعة" emoji="👀" tone="amber"><ul className={p.tags}>{k.extra.watch.map(x=><li key={x} data-tone="mid">{x}</li>)}</ul></Card></div>
    <Card title="عادات المذاكرة" emoji="⏱️" tone="gray"><ul className={p.habits}>{k.extra.habits.map(x=><li key={x.label}><span>{x.label}</span><Meter value={x.value}/><b><bdi>{x.value}%</bdi></b></li>)}</ul></Card>
    <Card title="أنشطة برّه المذاكرة" emoji="⚽" tone="pink"><ul className={p.mini}>{k.extra.activities.map(a=><li key={a.name}><span>{a.name}</span><small>{a.note}</small></li>)}</ul></Card>
-  </>:<Card title="تقييم المدرسين لشخصيته" emoji="🧩" tone="gray"><Empty>لسه المدرسين ما سجلوش تقييمات للشخصية والعادات. أول ما يسجلوا هتظهر هنا.</Empty></Card>}
+  </>:<>
+   <Card title="عادات المذاكرة (من سجل الحصص)" emoji="⏱️" tone="gray"><ul className={p.habits}>{liveHabits(k).map(x=><li key={x.label}><span>{x.label}</span><Meter value={x.value}/><b><bdi>{x.value}%</bdi></b></li>)}</ul></Card>
+   <Card title="جوانب الشخصية" emoji="🧩" tone="blue"><Empty>لسه المدرسين ما سجلوش تقييم للشخصية. أول ما يسجلوا هيظهر هنا.</Empty></Card>
+  </>}
  </>}</ParentShell>;
 }
+
+function liveHabits(k:Kid){const pr=k.groups.reduce((a,g)=>a+g.attendance.present,0),lt=k.groups.reduce((a,g)=>a+g.attendance.late,0),ab=k.groups.reduce((a,g)=>a+g.attendance.absent,0);
+ const pct=(x:number,t:number)=>t?Math.round(x/t*100):0;
+ return [{label:'بيحضر حصصه',value:pct(pr,pr+ab)},{label:'بيحضر في الميعاد',value:pct(pr-lt,pr)},{label:'بيسلّم واجباته',value:kidHomework(k)??0}];}
 
 /* ---------- 4. Rewards and badges ---------- */
 export function ParentRewards(){
@@ -174,55 +184,127 @@ function InvoiceLedger({g}:{g:Group}){
   <span className={p.payCol}><b>{egp(i.amount)}</b><em className={p.status} data-s={i.status}>{i.status==='paid'?'مدفوع':i.status==='overdue'?'متأخر':i.status==='partial'?`باقي ${i.amount-i.paid}`:'مستحق'}</em></span></li>)}</ul>:<Empty>مفيش فواتير</Empty>;
 }
 
-/* ---------- 6. Finance ---------- */
+/* ---------- 6. Finance (family account, like tutoring platforms: balance, open invoices, statement, allowance) ---------- */
+type Row={id:string;kid:Kid;g:Group;inv:Group['invoices'][number]};
+const openRows=(kids:Kid[])=>kids.flatMap(kid=>kid.groups.flatMap(g=>g.invoices.filter(i=>i.status!=='paid'&&i.status!=='waived'&&i.amount>i.paid).map(inv=>({id:inv.id,kid,g,inv})))).sort((a,b)=>(a.inv.status==='overdue'?0:1)-(b.inv.status==='overdue'?0:1)||a.inv.period.localeCompare(b.inv.period));
 export function ParentFinance(){
- const {data,kid:k,live,error,actions}=useParentData();
+ const {data,live,error,actions}=useParentData();
+ const [tab,setTab]=useState<'invoices'|'statement'|'allowance'>('invoices');
+ const [who,setWho]=useState('all');
  const a=useAct();
- const [amount,setAmount]=useState(100);
- const [rAmount,setRAmount]=useState(50);
- const [open,setOpen]=useState<string|null>(null);
- return <ParentShell title="المالية" emoji="💰" data={data} kid={k} live={live} error={error}>{k&&data&&<>
-  <div className={p.twoCol}>
-   <section className={p.wallet}><small>💳 رصيدك على معارج</small><b>{egp(data.wallet)}</b><small className={p.walletNote}>{live?'شحن الرصيد هيتفتح لما نربط بوابة دفع.':'نسخة تجريبية'}</small></section>
-   <section className={p.kidWallet}>
-    <div className={p.person}><KidPhoto kid={k} size={44}/><span className={p.rowMain}><b>رصيد {k.name.split(' ')[0]}</b><small>إجمالي {egp(k.money.balance)}</small></span></div>
-    <div className={p.split}><div><small>🔓 تقدر تسحبه</small><b>{egp(k.money.free)}</b></div><div data-k="lock"><small><Lock size={13}/> فلوس مكافآت</small><b>{egp(k.money.reward)}</b></div></div>
-   </section>
+ const kids=data?.children.filter(c=>who==='all'||c.id===who)??[];
+ const open=openRows(kids),due=open.reduce((s,r)=>s+r.inv.amount-r.inv.paid,0),late=open.filter(r=>r.inv.status==='overdue').reduce((s,r)=>s+r.inv.amount-r.inv.paid,0);
+ const upcoming=kids.reduce((s,c)=>s+(c.upcoming30??kidExpected(c)),0);
+ return <ParentShell title="المالية" emoji="💰" data={data} live={live} error={error} showKids={false}>{data&&<>
+  <div className={p.tiles4}>
+   <div className={p.tile} data-tone="violet"><span aria-hidden="true">💳</span><small>رصيدك</small><b>{egp(data.wallet)}</b></div>
+   <div className={p.tile} data-tone={due?'pink':'green'}><span aria-hidden="true">🧾</span><small>مستحق دلوقتي</small><b>{egp(due)}</b></div>
+   <div className={p.tile} data-tone={late?'pink':'gray'}><span aria-hidden="true">⏰</span><small>منه متأخر</small><b>{egp(late)}</b></div>
+   <div className={p.tile} data-tone="amber"><span aria-hidden="true">📆</span><small>متوقع خلال 30 يوم</small><b>{egp(upcoming)}</b></div>
   </div>
-  <Card title="حط أو اسحب فلوس" emoji="🔁" tone="green">
-   <div className={p.form}>
-    <label className={p.full}>المبلغ (ج.م)<input type="number" min={1} value={amount} onChange={e=>setAmount(Number(e.target.value))} dir="ltr"/></label>
-    <button type="button" className={p.primary} disabled={amount<=0||a.busy} onClick={()=>a.go(()=>actions.deposit(k.id,amount),`✅ اتحط ${amount} ج.م في رصيد ${k.name.split(' ')[0]}`)}><ArrowUpRight size={16}/>حط لـ{k.name.split(' ')[0]}</button>
-    <button type="button" className={p.secondary} disabled={amount<=0||a.busy} onClick={()=>a.go(()=>actions.withdraw(k.id,amount),`✅ اتسحب ${amount} ج.م لرصيدك`)}><ArrowDownLeft size={16}/>اسحب منه</button>
-   </div>{a.note}
-   <small className={p.muted}>تقدر تسحب لحد {egp(k.money.free)}. فلوس المكافآت ({egp(k.money.reward)}) مش بترجع غير لو {k.name.split(' ')[0]} وافق.</small>
-   {k.money.reward>0&&<details className={p.details}><summary>🔒 اطلب استرجاع من فلوس المكافآت</summary>
-    <div className={p.form}><label className={p.full}>المبلغ<input type="number" min={1} max={k.money.reward} value={rAmount} onChange={e=>setRAmount(Number(e.target.value))} dir="ltr"/></label>
-     <button type="button" className={p.secondary} disabled={rAmount<=0||a.busy} onClick={()=>a.go(()=>actions.requestReward(k.id,rAmount,''),`⏳ الطلب اتبعت لـ${k.name.split(' ')[0]} يوافق عليه`)}>ابعت الطلب</button></div></details>}
-   {k.withdrawals.length>0&&<ul className={p.rows}>{k.withdrawals.map(w=><li key={w.id}><span className={p.rowMain}><b>طلب استرجاع {egp(w.amount)}</b><small>{when(w.at)}</small></span><em className={p.status} data-s={w.status}>{w.status==='pending'?'مستني موافقته':w.status==='approved'?'وافق':'رفض'}</em></li>)}</ul>}
-  </Card>
-  <Card title="المتوقع يتسحب الشهر ده" emoji="📆" tone="amber"><p className={p.big}>{egp(kidExpected(k))}</p><ul className={p.rows}>{k.groups.map(g=><li key={g.id}><span className={p.rowMain}><b>{g.subject}</b><small>{g.teacher.name} · {g.monthSessions||g.schedule.length*4} حصص × {egp(g.price)}</small></span><b>{egp(g.price*(g.monthSessions||g.schedule.length*4))}</b></li>)}</ul>
-   {k.money.balance<kidExpected(k)&&<p className={p.warnLine}><AlertTriangle size={15}/> رصيده أقل من المتوقع بـ{egp(kidExpected(k)-k.money.balance)}</p>}</Card>
-  <Card title="الجهات اللي بيتعامل معاها" emoji="🧾" tone="blue"><ul className={p.rows}>{k.groups.map(g=>{const due=groupDue(g);return <li key={g.id} className={p.stack}>
-   <button type="button" className={p.dueRow} data-has={due>0} aria-expanded={open===g.id} onClick={()=>setOpen(v=>v===g.id?null:g.id)}><span className={p.rowMain}><b>{g.teacher.name}</b><small>{g.subject}{g.center?` · ${g.center}`:''}</small></span><span>{due>0?<>عليه {egp(due)}</>:'✅'}<ChevronLeft size={16}/></span></button>
-   {open===g.id&&<InvoiceLedger g={g}/>}</li>;})}</ul></Card>
-  <Card title="حركة رصيدك" emoji="📒" tone="gray">{data.ledger.length?<ul className={p.rows}>{data.ledger.map(l=><li key={l.id}><span className={p.person}><span className={p.moveIcon} data-dir={l.dir} aria-hidden="true">{l.dir==='in'?<ArrowDownLeft size={16}/>:<ArrowUpRight size={16}/>}</span><span className={p.rowMain}><b>{ledgerLabel(l)}</b><small>{when(l.at)}</small></span></span><b data-dir={l.dir}>{l.dir==='in'?'+':'−'}{egp(l.amount)}</b></li>)}</ul>:<Empty>مفيش حركات</Empty>}</Card>
+  <div className={p.payBar}>
+   <Link href="/parent/settings#pay" className={p.autoChip} data-on={data.settings.autopay}>{data.settings.autopay?'✅ الدفع التلقائي شغال':'⏸️ الدفع التلقائي مقفول'}</Link>
+   <button type="button" className={p.primary} disabled={!due||a.busy} onClick={()=>a.go(()=>actions.payAll(who==='all'?undefined:who),'✅ اتدفع اللي رصيدك يغطيه')}>ادفع كل المستحق من رصيدك</button>
+  </div>{a.note}
+  {data.wallet<due&&<p className={p.warnLine}><AlertTriangle size={15}/> رصيدك أقل من المستحق بـ{egp(due-data.wallet)}. {live?'الشحن هيتفتح مع بوابة الدفع.':''}</p>}
+  <div className={p.filter} role="tablist" aria-label="الابن">{[{id:'all',name:'كل الأبناء'},...data.children].map(c=><button key={c.id} type="button" role="tab" aria-selected={who===c.id} onClick={()=>setWho(c.id)}>{c.name.split(' ')[0]}</button>)}</div>
+  <div className={p.segTabs} role="tablist" aria-label="أقسام المالية">{([['invoices','🧾 الفواتير'],['statement','📒 كشف الحساب'],['allowance','👛 مصروف الأبناء']] as const).map(([id,l])=><button key={id} type="button" role="tab" aria-selected={tab===id} onClick={()=>setTab(id)}>{l}</button>)}</div>
+  {tab==='invoices'&&<Invoices kids={kids} open={open} actions={actions} wallet={data.wallet}/>}
+  {tab==='statement'&&<Statement kids={kids}/>}
+  {tab==='allowance'&&<Allowance data={data} kids={kids} actions={actions}/>}
  </>}</ParentShell>;
+}
+function Invoices({kids,open,actions,wallet}:{kids:Kid[];open:Row[];actions:ReturnType<typeof useParentData>['actions'];wallet:number}){
+ const a=useAct();const [showPaid,setShowPaid]=useState(false);
+ const paid=kids.flatMap(kid=>(kid.payments??[]).map(x=>({...x,kid})));
+ return <>
+  <Card title={`فواتير مفتوحة (${open.length})`} emoji="🧾" tone="pink">{open.length?<ul className={p.rows}>{open.map(r=>{const rest=r.inv.amount-r.inv.paid;return <li key={r.id} data-status={r.inv.status}>
+   <span className={p.person}><KidPhoto kid={r.kid} size={34}/><span className={p.rowMain}><b>{r.g.subject} · {r.kid.name.split(' ')[0]}</b><small>{r.g.teacher.name} · حصة {sessionDate(r.inv.period)}{r.inv.due?` · آخر ميعاد ${when(r.inv.due)}`:''}</small></span></span>
+   <span className={p.payCol}><b>{egp(rest)}</b><em className={p.status} data-s={r.inv.status}>{r.inv.status==='overdue'?'متأخر':r.inv.status==='partial'?'جزء اتدفع':'مستحق'}</em>
+    <button type="button" className={p.smallBtn} disabled={rest>wallet||a.busy} onClick={()=>a.go(()=>actions.payInvoice(r.kid.id,r.inv.id),'✅ اتدفعت')}>ادفع</button></span></li>;})}</ul>:<p className={p.okMsg}><CheckCircle2 size={16}/> مفيش فواتير مفتوحة</p>}{a.note}</Card>
+  <Card title={`اللي اتدفع (${paid.length})`} emoji="✅" tone="green" action={paid.length>5?<button type="button" className={p.linkBtn} onClick={()=>setShowPaid(v=>!v)}>{showPaid?'أقل':'الكل'}</button>:undefined}>
+   {paid.length?<ul className={p.rows}>{(showPaid?paid:paid.slice(0,5)).map((x,i)=><li key={x.invoice+i}><span className={p.rowMain}><b>{x.subject} · {x.kid.name.split(' ')[0]}</b><small>{x.teacher} · {payerLabel(x.by,x.kid.name)}{x.at?` · ${when(x.at)}`:''}</small></span><b>{egp(x.amount)}</b></li>)}</ul>:<Empty>لسه مفيش مدفوعات</Empty>}</Card>
+ </>;
+}
+const payerLabel=(by:string,name:string)=>by==='me'?'دفعتها من رصيدك':by==='child'?`دفعها ${name.split(' ')[0]} من رصيده`:by==='cash'?'اتدفعت كاش للمدرس':'اتدفعت';
+const sessionDate=(iso:string)=>{const d=new Date(iso);return isNaN(+d)?iso:d.toLocaleDateString('ar-EG',{day:'numeric',month:'long'});};
+// Monthly statement: what was owed at the start of the month, charges (sessions), payments, and what is owed at the end.
+function Statement({kids}:{kids:Kid[]}){
+ const months=Array.from({length:4},(_,i)=>{const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-i);return d.toISOString().slice(0,7);});
+ const [m,setM]=useState(months[0]);
+ const charges=kids.flatMap(kid=>kid.groups.flatMap(g=>g.invoices.map(i=>({at:i.period,amount:i.amount,text:`حصة ${g.subject} · ${kid.name.split(' ')[0]} · ${g.teacher.name}`}))));
+ const pays=kids.flatMap(kid=>(kid.payments??[]).map(x=>({at:(x.at||x.session||'').slice(0,10),amount:x.amount,text:`دفع ${x.subject} · ${kid.name.split(' ')[0]} · ${payerLabel(x.by,kid.name)}`})));
+ const before=(x:{at:string})=>x.at.slice(0,7)<m,inM=(x:{at:string})=>x.at.slice(0,7)===m;
+ const opening=charges.filter(before).reduce((s,x)=>s+x.amount,0)-pays.filter(before).reduce((s,x)=>s+x.amount,0);
+ const rows=[...charges.filter(inM).map(x=>({...x,sign:1})),...pays.filter(inM).map(x=>({...x,sign:-1}))].sort((a,b)=>a.at.localeCompare(b.at)||b.sign-a.sign);
+ let run=opening;const ch=rows.filter(r=>r.sign>0).reduce((s,r)=>s+r.amount,0),pa=rows.filter(r=>r.sign<0).reduce((s,r)=>s+r.amount,0);
+ return <Card title="كشف الحساب" emoji="📒" tone="gray" action={<select className={p.monthSel} value={m} onChange={e=>setM(e.target.value)} aria-label="الشهر">{months.map(x=><option key={x} value={x}>{new Date(x+'-01').toLocaleDateString('ar-EG',{month:'long',year:'numeric'})}</option>)}</select>}>
+  <dl className={p.stmt}><div><dt>مستحق أول الشهر</dt><dd>{egp(opening)}</dd></div><div><dt>+ حصص الشهر</dt><dd>{egp(ch)}</dd></div><div><dt>− المدفوع</dt><dd>{egp(pa)}</dd></div><div data-k="end"><dt>= مستحق آخر الشهر</dt><dd>{egp(opening+ch-pa)}</dd></div></dl>
+  {rows.length?<table className={p.table}><thead><tr><th>التاريخ</th><th>البيان</th><th>المبلغ</th><th>المستحق</th></tr></thead><tbody>{rows.map((r,i)=>{run+=r.sign*r.amount;return <tr key={i} data-sign={r.sign}><td>{when(r.at)}</td><td>{r.text}</td><td>{r.sign>0?'+':'−'}<bdi>{r.amount.toLocaleString('ar-EG')}</bdi></td><td><bdi>{run.toLocaleString('ar-EG')}</bdi></td></tr>;})}</tbody></table>:<Empty>مفيش حركة في الشهر ده</Empty>}
+ </Card>;
+}
+function Allowance({data,kids,actions}:{data:ParentData;kids:Kid[];actions:ReturnType<typeof useParentData>['actions']}){
+ return <>{kids.map(k=><AllowanceCard key={k.id} k={k} actions={actions}/>)}
+  <Card title="حركة رصيدك" emoji="📒" tone="gray">{data.ledger.length?<ul className={p.rows}>{data.ledger.slice(0,12).map(l=><li key={l.id}><span className={p.person}><span className={p.moveIcon} data-dir={l.dir} aria-hidden="true">{l.dir==='in'?<ArrowDownLeft size={16}/>:<ArrowUpRight size={16}/>}</span><span className={p.rowMain}><b>{ledgerLabel(l)}</b><small>{when(l.at)}</small></span></span><b data-dir={l.dir}>{l.dir==='in'?'+':'−'}{egp(l.amount)}</b></li>)}</ul>:<Empty>مفيش حركات</Empty>}</Card></>;
+}
+function AllowanceCard({k,actions}:{k:Kid;actions:ReturnType<typeof useParentData>['actions']}){
+ const a=useAct();const [amount,setAmount]=useState(100);const [rAmount,setRAmount]=useState(50);
+ const first=k.name.split(' ')[0],lim=k.rules?.monthly_limit??0,spent=k.spentThisMonth??0;
+ return <Card title={`مصروف ${first}`} emoji="👛" tone="green">
+  <div className={p.person}><KidPhoto kid={k} size={44}/><div className={p.split} style={{flex:1}}><div><small>🔓 تقدر تسحبه</small><b>{egp(k.money.free)}</b></div><div data-k="lock"><small><Lock size={13}/> فلوس مكافآت</small><b>{egp(k.money.reward)}</b></div></div></div>
+  <div className={p.limitRow}><small>صرف الشهر ده {egp(spent)}{lim?<> من حد {egp(lim)}</>:' · من غير حد'}{k.rules?.child_can_pay===false?' · الدفع من رصيده مقفول':''}</small>{lim>0&&<Meter value={Math.min(100,spent/lim*100)}/>}</div>
+  <div className={p.form}>
+   <label className={p.full}>المبلغ (ج.م)<input type="number" min={1} value={amount} onChange={e=>setAmount(Number(e.target.value))} dir="ltr"/></label>
+   <button type="button" className={p.primary} disabled={amount<=0||a.busy} onClick={()=>a.go(()=>actions.deposit(k.id,amount),`✅ اتحط ${amount} ج.م لـ${first}`)}><ArrowUpRight size={16}/>حط لـ{first}</button>
+   <button type="button" className={p.secondary} disabled={amount<=0||a.busy} onClick={()=>a.go(()=>actions.withdraw(k.id,amount),`✅ رجع ${amount} ج.م لرصيدك`)}><ArrowDownLeft size={16}/>اسحب منه</button>
+  </div>{a.note}
+  {k.money.reward>0&&<details className={p.details}><summary>🔒 اطلب ترجيع من فلوس المكافآت (محتاج موافقة {first})</summary>
+   <div className={p.form}><label className={p.full}>المبلغ<input type="number" min={1} max={k.money.reward} value={rAmount} onChange={e=>setRAmount(Number(e.target.value))} dir="ltr"/></label>
+    <button type="button" className={p.secondary} disabled={rAmount<=0||a.busy} onClick={()=>a.go(()=>actions.requestReward(k.id,rAmount,''),`⏳ الطلب اتبعت لـ${first}`)}>ابعت الطلب</button></div></details>}
+  {k.withdrawals.length>0&&<ul className={p.rows}>{k.withdrawals.map(w=><li key={w.id}><span className={p.rowMain}><b>طلب ترجيع {egp(w.amount)}</b><small>{when(w.at)}</small></span><em className={p.status} data-s={w.status}>{w.status==='pending'?'مستني موافقته':w.status==='approved'?'وافق':'رفض'}</em></li>)}</ul>}
+ </Card>;
 }
 function ledgerLabel(l:ParentData['ledger'][number]){
  if(l.kind==='top_up')return 'شحن رصيد';
  if(l.ref==='guardian_deposit')return `إيداع لـ${l.other??''}`;
  if(l.ref==='guardian_withdraw')return `سحب من ${l.other??''}`;
  if(l.ref==='reward_return')return `استرجاع مكافأة من ${l.other??''} (بموافقته)`;
+ if(l.kind==='payment')return `دفع حصة ${l.note??''}`;
  if(l.kind==='reward_funding')return `حجز مكافأة: ${l.note??''}`;
  if(l.ref==='reward_cancel')return `إلغاء مكافأة: ${l.note??''}`;
  return l.note??'حركة';
 }
 
-/* ---------- 7. My account: profile as others see it, edit, settings ---------- */
+/* ---------- 7. Settings ---------- */
 export function ParentSettings(){
- const {data,live,error,actions}=useParentData();
- return <ParentShell title="حسابي والإعدادات" emoji="👤" data={data} live={live} error={error} showKids={false}>{data&&<AccountBody data={data} live={live} actions={actions}/>}</ParentShell>;
+ const {data,live,error,actions,session}=useParentData();
+ return <ParentShell title="حسابي والإعدادات" emoji="⚙️" data={data} live={live} error={error} showKids={false}>{data&&<SettingsBody data={data} live={live} demo={!!session?.demo} actions={actions}/>}</ParentShell>;
+}
+function SettingsBody({data,live,demo,actions}:{data:ParentData;live:boolean;demo:boolean;actions:ReturnType<typeof useParentData>['actions']}){
+ const a=useAct();const s=data.settings;
+ const toggle=(k:'autopay'|'notify_absence'|'notify_grades'|'notify_payments'|'weekly_report',label:string,hint?:string)=><label className={p.toggle}><span><b>{label}</b>{hint&&<small>{hint}</small>}</span><input type="checkbox" checked={s[k]} onChange={e=>a.go(()=>actions.saveSettings({[k]:e.target.checked}),'✅ اتحفظ')}/></label>;
+ return <>
+  <Card title="حسابك" emoji="🔐" tone="violet">
+   <p className={p.accountLine}>{live&&!demo?<>داخل بـ<b dir="ltr">{data.email}</b></>:demo?<>إنت في <b>الحساب التجريبي المشترك</b> لولي الأمر. أي حد بيجرّب بيشوف نفس البيانات.</>:<>نسخة تجريبية على جهازك بس.</>}</p>
+   <div className={p.inlineBtns}>{(!live||demo)?<Link href="/login?next=/parent/settings" className={p.primary}>سجّل دخول أو اعمل حساب</Link>:<button type="button" className={p.ghostBtn} onClick={()=>{signOut();location.assign('/parent');}}><LogOut size={16}/>تسجيل خروج</button>}</div>
+  </Card>
+  <Card title="الدفع" emoji="💳" tone="amber" id="pay">
+   {toggle('autopay','الدفع التلقائي','أول ما المدرس يسجّل حصة لابنك، فلوسها تتدفع من رصيدك لو يكفي')}
+   <label className={p.field}>فكّرني قبل ميعاد الدفع بـ<select value={s.remind_days} onChange={e=>a.go(()=>actions.saveSettings({remind_days:Number(e.target.value)}),'✅ اتحفظ')}>{[0,1,2,3,5,7].map(n=><option key={n} value={n}>{n?`${n} أيام`:'من غير تذكير'}</option>)}</select></label>
+  </Card>
+  <Card title="التنبيهات" emoji="🔔" tone="blue">{toggle('notify_absence','لما ابني يغيب')}{toggle('notify_grades','لما درجة تنزل')}{toggle('notify_payments','الفواتير والدفع')}{toggle('weekly_report','تقرير أسبوعي')}</Card>
+  <Card title="قواعد مصروف كل ابن" emoji="👛" tone="green"><ul className={p.rows}>{data.children.map(c=><ChildRules key={c.id} c={c} actions={actions}/>)}</ul></Card>
+  <Card title="العرض" emoji="🖥️" tone="gray"><label className={p.field}>الابن اللي يظهر الأول<select value={s.default_child??''} onChange={e=>{pickKid(e.target.value);a.go(()=>actions.saveSettings({default_child:e.target.value||null}),'✅ اتحفظ');}}><option value="">الأول في القايمة</option>{data.children.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label></Card>
+  {a.note}
+  <AccountBody data={data} live={live} actions={actions}/>
+ </>;
+}
+function ChildRules({c,actions}:{c:Kid;actions:ReturnType<typeof useParentData>['actions']}){
+ const a=useAct();const [lim,setLim]=useState(c.rules?.monthly_limit??0);const [can,setCan]=useState(c.rules?.child_can_pay??true);
+ return <li className={p.stack}><span className={p.person}><KidPhoto kid={c} size={36}/><span className={p.rowMain}><b>{c.name}</b><small>صرف الشهر ده {egp(c.spentThisMonth??0)}</small></span></span>
+  <div className={p.form}><label>أقصى صرف في الشهر (0 = من غير حد)<input type="number" min={0} value={lim} onChange={e=>setLim(Number(e.target.value))} dir="ltr"/></label>
+   <label className={p.toggle}><span><b>يدفع حصصه من رصيده</b></span><input type="checkbox" checked={can} onChange={e=>setCan(e.target.checked)}/></label>
+   <button type="button" className={p.secondary} disabled={a.busy} onClick={()=>a.go(()=>actions.setRules(c.id,{monthly_limit:lim,child_can_pay:can}),'✅ اتحفظ')}>احفظ قواعد {c.name.split(' ')[0]}</button></div>{a.note}</li>;
 }
 function AccountBody({data,live,actions}:{data:ParentData;live:boolean;actions:ReturnType<typeof useParentData>['actions']}){
  const [f,setF]=useState<Me>(data.me);const a=useAct();const b=useAct();const [phone,setPhone]=useState('');
@@ -245,9 +327,9 @@ function AccountBody({data,live,actions}:{data:ParentData;live:boolean;actions:R
   </div>{a.note}</Card>
   <Card title="الأبناء المربوطين" emoji="👨‍👩‍👧" tone="green"><ul className={p.rows}>{data.children.map(c=><li key={c.id}><span className={p.person}><KidPhoto kid={c} size={36}/><span className={p.rowMain}><b>{c.name}</b><small>{c.stage}{c.school?` · ${c.school}`:''}</small></span></span><span className={p.okTag}>مربوط</span></li>)}</ul>
    <div className={p.form}><label className={p.full}>اربط ابن برقم موبايله<input value={phone} onChange={e=>setPhone(e.target.value)} dir="ltr" inputMode="tel" placeholder="01xxxxxxxxx"/></label><button type="button" className={p.secondary} disabled={!phone.trim()||b.busy} onClick={()=>b.go(()=>actions.linkChild(phone.trim()),'⏳ اتبعت طلب الربط، ابنك هيوافق من حسابه')}>ابعت طلب ربط</button></div>{b.note}</Card>
-  {live&&<button type="button" className={p.ghostBtn} onClick={()=>{signOut();location.assign('/login?next=/parent');}}><LogOut size={16}/>تسجيل خروج</button>}
  </>;
 }
+
 export function ProfileCard({me,kids}:{me:Me;kids?:{id:string;name:string;avatar?:string}[]}){
  const age=me.birthYear?new Date().getFullYear()-me.birthYear:null;
  return <div className={p.profile}>
