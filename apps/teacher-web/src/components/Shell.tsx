@@ -50,16 +50,19 @@ export function Shell({ children }: { children: ReactNode }) {
 
   return (
     <div className="app">
-      <aside className="side">
-        <div className="brand">مدرسين معارج<small>لوحة المدرس</small></div>
-        <nav className="nav" aria-label="التنقل">
-          {NAV.map(({ href, label, icon: Icon }) => {
-            const on = href === "/" ? path === "/" : path.startsWith(href);
-            return <Link key={href} href={href} className={on ? "on" : ""}><Icon size={18} aria-hidden />{label}</Link>;
-          })}
-        </nav>
-        <div className="me">{me.name}<br /><button onClick={signOut}>تسجيل الخروج</button></div>
-      </aside>
+      <div className="topline" />
+      <header className="top">
+        <div className="top-in">
+          <div className="brand"><i aria-hidden />مدرسين معارج</div>
+          <nav className="nav" aria-label="التنقل">
+            {NAV.map(({ href, label, icon: Icon }) => {
+              const on = href === "/" ? path === "/" : path.startsWith(href);
+              return <Link key={href} href={href} className={on ? "on" : ""}><Icon size={16} aria-hidden />{label}</Link>;
+            })}
+          </nav>
+          <div className="me"><i aria-hidden>{me.name.replace(/^أ\.\s*/, "").slice(0, 1)}</i>{me.name}<button onClick={signOut}>خروج</button></div>
+        </div>
+      </header>
       <main className="main">
         {demo && <div className="demo">وضع تجريبي: البيانات دي عينة، ومفيش حاجة بتتحفظ.</div>}
         {children}

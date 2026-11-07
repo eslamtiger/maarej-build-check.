@@ -15,19 +15,20 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="page-head">
+      <section className="hero">
         <div>
           <div className="lbl">{fmtDay(new Date().toISOString())}</div>
           <h1>أهلاً {d.teacherName}</h1>
+          <p>{d.sessions.length ? `عندك ${num(d.sessions.length)} حصص جاية` : "مفيش حصص جاية"}{d.groups.some((g) => g.pending) ? " وفيه طلبات انضمام مستنياك." : "."}</p>
+          <div className="hero-actions">
+            <Link className="btn p" href="/attendance/">سجّل الحضور</Link>
+            <Link className="btn" href="/groups/">مجموعة جديدة</Link>
+          </div>
         </div>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <Link className="btn" href="/groups/">مجموعة جديدة</Link>
-          <Link className="btn p" href="/attendance/">سجّل الحضور</Link>
-        </div>
-      </div>
+        <div className="big"><span className="lbl">إيراد الأسبوع</span><b>{egp(d.weekRevenue)}</b><span className="lbl">من أول السبت</span></div>
+      </section>
 
       <div className="grid kpis">
-        <div className="card kpi"><span className="lbl">إيراد الأسبوع</span><b>{egp(d.weekRevenue)}</b><span className="lbl">من أول السبت</span></div>
         <div className="card kpi">
           <span className="lbl">إيراد الشهر</span><b>{egp(d.monthRevenue)}</b>
           <div className="bar ok" aria-hidden><i style={{ width: `${collectedPct}%` }} /></div>
@@ -35,11 +36,11 @@ export default function Dashboard() {
         </div>
         <div className="card kpi"><span className="lbl">لسه ما اتدفعش</span><b style={{ color: d.outstanding ? "var(--bad)" : undefined }}>{egp(d.outstanding)}</b><span className="lbl">{num(d.unpaidStudents)} طالب</span></div>
         <div className="card kpi"><span className="lbl">رصيد محفظتك</span><b>{egp(d.walletBalance)}</b><Link className="lbl" href="/wallet/">فتح المحفظة</Link></div>
+        <div className="card kpi"><span className="lbl">الطلاب</span><b>{num(students)}</b><span className="lbl">في {num(d.groups.length)} مجموعات</span></div>
       </div>
 
       <div className="grid kpis" style={{ marginTop: 14 }}>
-        <div className="card kpi"><span className="lbl">الطلاب</span><b>{num(students)}</b><span className="lbl">في {num(d.groups.length)} مجموعات</span></div>
-        <div className="card kpi"><span className="lbl">متوسط الحضور</span><b>{pct(avgAtt)}</b><span className="lbl">آخر ٦٠ يوم</span></div>
+        <div className="card kpi"><span className="lbl">متوسط الحضور</span><b>{pct(avgAtt)}</b><span className="lbl">آخر 60 يوم</span></div>
         <div className="card kpi"><span className="lbl">بادجات الأسبوع</span><b>{num(d.badgesThisWeek)}</b><Link className="lbl" href="/badges/">امنح بادج</Link></div>
         <div className="card kpi"><span className="lbl">مكافآت محجوزة</span><b>{egp(d.rewardsHeldAmount)}</b><span className="lbl">{num(d.rewardsHeldCount)} مكافأة مستنية الصرف</span></div>
       </div>

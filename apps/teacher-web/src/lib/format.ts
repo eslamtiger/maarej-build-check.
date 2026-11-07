@@ -1,11 +1,11 @@
-const nf = new Intl.NumberFormat("ar-EG", { maximumFractionDigits: 0 });
+const nf = new Intl.NumberFormat("ar-EG-u-nu-latn", { maximumFractionDigits: 0 });
 export const egp = (n: number) => `${nf.format(Math.round(n))} ج.م`;
 export const num = (n: number) => nf.format(n);
-export const pct = (n: number | null) => (n === null ? "—" : `${nf.format(Math.round(n))}٪`);
+export const pct = (n: number | null) => (n === null ? "—" : `${nf.format(Math.round(n))}%`);
 
-const day = new Intl.DateTimeFormat("ar-EG", { weekday: "long", day: "numeric", month: "long", timeZone: "Africa/Cairo" });
-const time = new Intl.DateTimeFormat("ar-EG", { hour: "numeric", minute: "2-digit", timeZone: "Africa/Cairo" });
-const short = new Intl.DateTimeFormat("ar-EG", { day: "numeric", month: "short", timeZone: "Africa/Cairo" });
+const day = new Intl.DateTimeFormat("ar-EG-u-nu-latn", { weekday: "long", day: "numeric", month: "long", timeZone: "Africa/Cairo" });
+const time = new Intl.DateTimeFormat("ar-EG-u-nu-latn", { hour: "numeric", minute: "2-digit", timeZone: "Africa/Cairo" });
+const short = new Intl.DateTimeFormat("ar-EG-u-nu-latn", { day: "numeric", month: "short", timeZone: "Africa/Cairo" });
 export const fmtDay = (iso: string) => day.format(new Date(iso));
 export const fmtTime = (iso: string) => time.format(new Date(iso));
 export const fmtShort = (iso: string) => short.format(new Date(iso));

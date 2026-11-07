@@ -35,9 +35,6 @@ export default function Login() {
         <div className="sticker">
           <h1>مدرسين معارج</h1>
           <p>لوحة المدرس</p>
-          <div className="rule"><b>المادة</b>كل مجموعاتك</div>
-          <div className="rule"><b>الطلاب</b>حضور وواجبات ودرجات</div>
-          <div className="rule"><b>الحساب</b>فاتورة لكل حصة</div>
         </div>
         <ul>
           <li><i />الحصص والحضور في مكان واحد</li>
