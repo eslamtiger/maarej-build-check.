@@ -31,10 +31,10 @@ export default function Login() {
 
   return (
     <div className="login">
-      <section className="cover" aria-label="عن كراسة">
+      <section className="cover" aria-label="عن مدرسين معارج">
         <div className="sticker">
-          <h1>كراسة</h1>
-          <p>دفتر المدرس في معارج</p>
+          <h1>مدرسين معارج</h1>
+          <p>لوحة المدرس</p>
           <div className="rule"><b>المادة</b>كل مجموعاتك</div>
           <div className="rule"><b>الطلاب</b>حضور وواجبات ودرجات</div>
           <div className="rule"><b>الحساب</b>فاتورة لكل حصة</div>
@@ -47,7 +47,7 @@ export default function Login() {
       </section>
       <div className="sheet-wrap">
         <form className="sheet" onSubmit={submit}>
-          <h2>{mode === "in" ? "افتح الكراسة" : "ابدأ كراسة جديدة"}</h2>
+          <h2>{mode === "in" ? "تسجيل الدخول" : "حساب مدرس جديد"}</h2>
           <div className="tabs" role="tablist">
             <button type="button" role="tab" aria-selected={mode === "in"} className={`tab ${mode === "in" ? "on" : ""}`} onClick={() => setMode("in")}>تسجيل دخول</button>
             <button type="button" role="tab" aria-selected={mode === "up"} className={`tab ${mode === "up" ? "on" : ""}`} onClick={() => setMode("up")}>حساب مدرس جديد</button>

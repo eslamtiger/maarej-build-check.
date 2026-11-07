@@ -4,7 +4,7 @@ import "./globals.css";
 import { Shell } from "@/components/Shell";
 
 export const metadata: Metadata = {
-  title: "كراسة | لوحة المدرس",
+  title: "مدرسين معارج | لوحة المدرس",
   description: "لوحة المدرس في معارج: المجموعات والحضور والمدفوعات والبادجات والمحفظة.",
 };
 

@@ -51,7 +51,7 @@ export function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="app">
       <aside className="side">
-        <div className="brand">كراسة<small>لوحة المدرس · معارج</small></div>
+        <div className="brand">مدرسين معارج<small>لوحة المدرس</small></div>
         <nav className="nav" aria-label="التنقل">
           {NAV.map(({ href, label, icon: Icon }) => {
             const on = href === "/" ? path === "/" : path.startsWith(href);
