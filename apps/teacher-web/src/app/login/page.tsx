@@ -30,27 +30,45 @@ export default function Login() {
   }
 
   return (
-    <div className="auth">
-      <h1 style={{ fontSize: 28, marginBottom: 4 }}>كراسة</h1>
-      <p className="lbl" style={{ marginBottom: 16 }}>لوحة المدرس في معارج</p>
-      <form className="card form" onSubmit={submit}>
-        <div className="tabs" role="tablist">
-          <button type="button" className={`tab ${mode === "in" ? "on" : ""}`} onClick={() => setMode("in")}>تسجيل دخول</button>
-          <button type="button" className={`tab ${mode === "up" ? "on" : ""}`} onClick={() => setMode("up")}>حساب مدرس جديد</button>
+    <div className="login">
+      <section className="cover" aria-label="عن كراسة">
+        <div className="sticker">
+          <h1>كراسة</h1>
+          <p>دفتر المدرس في معارج</p>
+          <div className="rule"><b>المادة</b>كل مجموعاتك</div>
+          <div className="rule"><b>الطلاب</b>حضور وواجبات ودرجات</div>
+          <div className="rule"><b>الحساب</b>فاتورة لكل حصة</div>
         </div>
-        {mode === "up" && (
-          <>
-            <label className="field">الاسم<input className="inp" required value={f.name} onChange={set("name")} autoComplete="name" /></label>
-            <label className="field">رقم الموبايل<input className="inp" required inputMode="tel" value={f.phone} onChange={set("phone")} autoComplete="tel" dir="ltr" /></label>
-          </>
-        )}
-        <label className="field">الإيميل<input className="inp" type="email" required value={f.email} onChange={set("email")} autoComplete="email" dir="ltr" /></label>
-        <label className="field">كلمة السر<input className="inp" type="password" required minLength={6} value={f.password} onChange={set("password")} autoComplete={mode === "in" ? "current-password" : "new-password"} dir="ltr" /></label>
-        <button className="btn p" disabled={busy || !hasBackend}>{mode === "in" ? "دخول" : "إنشاء الحساب"}</button>
-      </form>
-      <p style={{ marginTop: 14, textAlign: "center" }}>
-        <button className="btn" onClick={() => { setDemo(true); router.replace("/"); }}>جرّب بالبيانات التجريبية</button>
-      </p>
+        <ul>
+          <li><i />الحصص والحضور في مكان واحد</li>
+          <li><i />مين دفع ومين لسه، وكل فاتورة لحصة</li>
+          <li><i />بادجات ومكافآت لطلابك من رصيدك أو كاش</li>
+        </ul>
+      </section>
+      <div className="sheet-wrap">
+        <form className="sheet" onSubmit={submit}>
+          <h2>{mode === "in" ? "افتح الكراسة" : "ابدأ كراسة جديدة"}</h2>
+          <div className="tabs" role="tablist">
+            <button type="button" role="tab" aria-selected={mode === "in"} className={`tab ${mode === "in" ? "on" : ""}`} onClick={() => setMode("in")}>تسجيل دخول</button>
+            <button type="button" role="tab" aria-selected={mode === "up"} className={`tab ${mode === "up" ? "on" : ""}`} onClick={() => setMode("up")}>حساب مدرس جديد</button>
+          </div>
+          {mode === "up" && (
+            <>
+              <label className="field">الاسم<input className="inp" required value={f.name} onChange={set("name")} autoComplete="name" /></label>
+              <label className="field">رقم الموبايل<input className="inp" required inputMode="tel" value={f.phone} onChange={set("phone")} autoComplete="tel" dir="ltr" /></label>
+            </>
+          )}
+          <label className="field">الإيميل<input className="inp" type="email" required value={f.email} onChange={set("email")} autoComplete="email" dir="ltr" /></label>
+          <label className="field">كلمة السر<input className="inp" type="password" required minLength={6} value={f.password} onChange={set("password")} autoComplete={mode === "in" ? "current-password" : "new-password"} dir="ltr" /></label>
+          <div className="actions">
+            <button className="btn p" disabled={busy || !hasBackend}>{mode === "in" ? "دخول" : "إنشاء الحساب"}</button>
+          </div>
+          <div className="demo-link">
+            <span className="lbl">عايز تشوف الشكل الأول؟</span>
+            <button type="button" className="btn sm" onClick={() => { setDemo(true); router.replace("/"); }}>جرّب بالبيانات التجريبية</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
